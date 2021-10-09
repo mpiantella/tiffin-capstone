@@ -1,0 +1,13 @@
+// title Job Seeker Sign Up
+
+
+actor JobSeeker
+
+JobSeeker->ViewJob: 
+activate EditJob
+EditJob->Review: 
+deactivate EditJob
+activate Review
+JobSeeker<--Review: Save/Cancel
+deactivate Review
+
