@@ -1,0 +1,12 @@
+title Content Creator
+
+
+actor ContentCreator
+
+ContentCreator->CreateEvent: Create something
+activate CreateEvent
+CreateEvent->Review: Enter Details
+deactivate CreateEvent
+Review->Publish: 
+boundary UserProfile
+Publish-> UserProfile:
