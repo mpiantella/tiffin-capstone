@@ -1,8 +1,8 @@
 // title Job Seeker Sign Up
 
-actor JobSeeker
+actor ContentCreator
 
-JobSeeker->Sign-Up: First Time User
+ContentCreator->Sign-Up: First Time User
 activate Sign-Up
 Sign-Up->LinkedIn: Register User
 
@@ -12,7 +12,7 @@ deactivate LinkedIn
 
 break Error
 Sign-Up->Sign-Up: Failure
-Sign-Up-->JobSeeker: Login Failed - display error
+Sign-Up-->ContentCreator: Login Failed - display error
 end Error
 
 Sign-Up->UserInfo:
