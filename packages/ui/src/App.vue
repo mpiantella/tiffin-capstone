@@ -1,24 +1,25 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <v-toolbar-title>Vuetify Dashboard</v-toolbar-title>
+      <v-toolbar-title>Remote Brilliance</v-toolbar-title>
       <v-spacer></v-spacer>
-      **<v-btn
+      <v-btn
         v-for="link in links"
         :key="`${link.label}-header-link`"
         text
         rounded
         :to="link.url"
       >
-        {{ link.label }} </v-btn
-      >**
+        {{ link.label }}
+      </v-btn>
+      <v-btn @click="toggleTheme" text rounded>Toggle Themes</v-btn>
     </v-app-bar>
     <v-content>
       <router-view></router-view>
     </v-content>
     <v-footer color="primary lighten-1" padless>
       <v-layout justify-center wrap>
-        **<v-btn
+        <v-btn
           v-for="link in links"
           :key="`${link.label}-footer-link`"
           color="white"
@@ -27,10 +28,10 @@
           class="my-2"
           :to="link.url"
         >
-          {{ link.label }} </v-btn
-        >**
+          {{ link.label }}
+        </v-btn>
         <v-flex primary lighten-2 py-4 text-center white--text xs12>
-          {{ new Date().getFullYear() }} — <strong>Vuetify Dashboard</strong>
+          {{ new Date().getFullYear() }} — <strong>Remote Brilliance</strong>
         </v-flex>
       </v-layout>
     </v-footer>
@@ -51,8 +52,21 @@ export default {
           label: "Login",
           url: "/login",
         },
+        {
+          label: "SignUp",
+          url: "/signup",
+        },
+        {
+          label: "Dashboard",
+          url: "/dashboard",
+        },
       ],
     };
+  },
+  methods: {
+    toggleTheme() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    },
   },
 };
 </script>
