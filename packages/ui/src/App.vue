@@ -6,8 +6,8 @@
         <img class="mr-2" :src="require('./assets/logo.svg')" height="60" />
       </v-btn>
       <v-toolbar-title class="redFont"
-        ><h2>Remote Brilliance</h2></v-toolbar-title
-      >
+        ><img class="mr-2" :src="require('./assets/long-logo.svg')" height="60"
+      /></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
         color="primary"
@@ -54,7 +54,7 @@ export default {
       topBar: [
         {
           label: "Job Seekers",
-          url: "/jobseekers",
+          url: "/jobseeker",
         },
         {
           label: "Login",
