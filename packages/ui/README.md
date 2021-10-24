@@ -35,3 +35,8 @@ yarn run lint
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+# Auth 
+
+This is using Cognito for authentication
+Pool-Id:  us-east-1_laoNihSYI
