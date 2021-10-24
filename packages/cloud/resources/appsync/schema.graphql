@@ -1,0 +1,85 @@
+# Entity Types
+type Job {
+  title: String!
+  category: String!
+  type: String!
+  isFullyRemote: String
+  howtoApply: String
+  description: String
+  companyName: String
+  companyHQ: String
+  companyStatement: String
+  logo: String
+  companyWebsiteURL: String
+  email: String
+  companyDescription: String
+}
+# extend type JobApplication Job {
+# }
+
+# User
+type Address {
+  address1: String
+  address2: String
+  city: String!
+  state: String!
+  zipCode: String!
+  country: String
+}
+
+type User {
+  firstName: String
+  lastName: String
+  phone: String
+  altPhone: String
+  email: String
+  address: Address
+  workAddress: Address
+}
+
+# type JobSeekerProfile {
+#   userId: String!
+#   currentRole: String!
+#   summary: String
+#   experience: [Experience] # TODO
+#   education: [Education] # TODO
+#   licenses: [Licenses] # TODO
+#   certifications: [Certifications] # TODO
+#   recommendations: [Recommendations] # TODO
+#   skills: [Skills] # TODO
+#   endorsements: [Endorsements] # TODO
+#   }
+
+type getJobSeeker {
+  id: String
+}
+
+# Events
+type Event {
+  id: ID!
+  name: String
+  description: String
+  status: EventStatus
+  comments: [Comment]
+}
+
+type Comment {
+  id: ID!
+  content: String
+}
+
+# Enumeration
+enum EventStatus {
+  created
+  open
+  done
+}
+
+type JobsEngine {
+  getJobSeeker(id: String!): User
+}
+
+schema {
+  query: JobsEngine
+  # mutation: Mutation
+}
