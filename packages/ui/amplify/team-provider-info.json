@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-remotebrilliance-dev-222730-authRole",
+      "UnauthRoleArn": "arn:aws:iam::762379509945:role/amplify-remotebrilliance-dev-222730-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::762379509945:role/amplify-remotebrilliance-dev-222730-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-remotebrilliance-dev-222730-deployment",
+      "UnauthRoleName": "amplify-remotebrilliance-dev-222730-unauthRole",
+      "StackName": "amplify-remotebrilliance-dev-222730",
+      "StackId": "arn:aws:cloudformation:us-east-1:762379509945:stack/amplify-remotebrilliance-dev-222730/1c1a9710-353b-11ec-9cd9-0ae89eacb98f",
+      "AmplifyAppId": "d2bw03fyq2k8ol"
+    },
+    "categories": {
+      "auth": {
+        "remotebrilliance2b2012b2": {}
+      }
+    }
+  }
+}
