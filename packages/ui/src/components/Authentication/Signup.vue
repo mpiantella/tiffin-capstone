@@ -4,7 +4,19 @@
       <v-col>
         <h1>Sign Up</h1>
         <v-form ref="signUpForm" v-model="formValidity">
-          <v-text-field label="Name" type="name" v-model="name"></v-text-field>
+          <v-text-field
+            label="Username"
+            type="name"
+            v-model="username"
+            prepend-icon="mdi-account-circle"
+          ></v-text-field>
+          <v-text-field
+            :type="showPassword ? 'text' : 'password'"
+            label="Password"
+            prepend-icon="mdi-lock"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="showPassword = !showPassword"
+          />
           <v-text-field
             label="Email"
             type="email"
@@ -69,23 +81,25 @@
 <script>
 export default {
   data: () => ({
-    activePicker: null,
-    date: null,
-    menu: false,
-    formValidity: false,
+    activePicker: null, // del
+    date: null, // del
+    menu: false, // del
+    formValidity: false, //to-do
     isAgreeToTerms: false,
+    username: "",
+    password: "",
+    email: "", // optional
+    phoneNumber: "",
+    // move rules elsewhere
     agreeToTermsRules: [
       (value) =>
         !!value ||
         "You must agree to the terms and conditions to sign up for an account.",
     ],
-    email: "",
-    name: "",
     emailRules: [
       (value) => !!value || "Email is required.",
       (value) =>
         value.indexOf("@") !== 0 || "Email should have a valid username",
-      // more rules
     ],
   }),
   watch: {
@@ -108,23 +122,4 @@ export default {
     },
   },
 };
-
-import { Auth } from "aws-amplify";
-
-async function signUp() {
-  try {
-    const { user } = await Auth.signUp({
-      username,
-      password,
-      attributes: {
-        email, // optional
-        phone_number, // optional - E.164 number convention
-        // other custom attributes
-      },
-    });
-    console.log(user);
-  } catch (error) {
-    console.log("error signing up:", error);
-  }
-}
 </script>

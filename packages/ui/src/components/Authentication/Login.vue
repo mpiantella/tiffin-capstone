@@ -19,17 +19,23 @@
     <v-card-actions>
       <v-btn color="success">Register</v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="info">Login</v-btn>
+      <!-- <v-btn color="info">Login</v-btn>
+      :disabled="!formValidity" -->
+      <v-btn class="mr-4" type="submit" color="success">Login</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
+import UserInfoStore from "../../auth/user-info-store";
+
 export default {
   name: "LoginPage",
   data() {
     return {
       showPassword: false,
+      userPoolId: process.env.VUE_APP_COGNITO_USERPOOL_ID,
+      userInfo: UserInfoStore.state.cognitoInfo,
     };
   },
 };
