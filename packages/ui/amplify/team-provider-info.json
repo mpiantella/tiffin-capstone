@@ -10,6 +10,11 @@
       "StackName": "amplify-remotebrilliance-dev-82553",
       "StackId": "arn:aws:cloudformation:us-east-1:762379509945:stack/amplify-remotebrilliance-dev-82553/08b87ec0-3721-11ec-ba1e-127761627647",
       "AmplifyAppId": "d3fax8znnd7i1l"
+    },
+    "categories": {
+      "auth": {
+        "remotebrilliance8870317a": {}
+      }
     }
   }
 }
