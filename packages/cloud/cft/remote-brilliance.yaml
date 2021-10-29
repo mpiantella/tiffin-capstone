@@ -68,15 +68,7 @@ Resources:
         ExternalId: !Sub ${ApiName}-external
         SnsCallerArn: !GetAtt SNSRole.Arn
       Schema:
-        - Name: name
-          AttributeDataType: String
-          Mutable: true
-          Required: true
         - Name: email
-          AttributeDataType: String
-          Mutable: false
-          Required: true
-        - Name: phone_number
           AttributeDataType: String
           Mutable: false
           Required: true
@@ -152,12 +144,6 @@ Outputs:
   UserProfileTableName:
     Description: The name of the DynamoDB Table
     Value: !Ref UserProfile
-#   # AppSyncLogGroup:
-#   #   Type: AWS::Logs::LogGroup
-#   #   Properties:
-#   #     LogGroupName: !Sub "/aws/appsync/apis/${RemoteBrillianceAppSync.ApiId}"
-#   #     RetentionInDays: 90
-
 #   # AppSyncApiKey:
 #   #   Type: AWS::AppSync::ApiKey
 #   #   Properties:
