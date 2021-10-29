@@ -1,49 +1,4 @@
-
-schema {
-    query: Query
-    mutation: Mutation
-    subscription: Subscription
-}
- type Query {
-    # user 
-  getUser(id: ID!): User
-  listUsers(
-    filter: TableUserFilterInput
-    limit: Int
-    nextToken: String
-  ): UserConnection
-}
- # UserEntity
-type Mutation {
-  createUser(input: CreateUserInput!): User
-  deleteUser(input: DeleteUserInput!): User
-  updateUser(input: UpdateUserInput!): User
-}
-
-type Subscription {
-  onCreateUser(
-    email: String
-    firstName: String
-    id: ID
-    lastName: String
-    phone: String
-  ): User @aws_subscribe(mutations: ["createUser"])
-  onDeleteUser(
-    email: String
-    firstName: String
-    id: ID
-    lastName: String
-    phone: String
-  ): User @aws_subscribe(mutations: ["deleteUser"])
-  onUpdateUser(
-    email: String
-    firstName: String
-    id: ID
-    lastName: String
-    phone: String
-  ): User @aws_subscribe(mutations: ["updateUser"])
-}
- # Entity Types
+# Entity Types
 # [ ] JobSeeker
 # 1. Profile 2. Applications
 # [ ]  JobCreator
@@ -151,33 +106,4 @@ enum EventStatus {
   created
   open
   done
-} # UserEntity
-type Mutation {
-  createUser(input: CreateUserInput!): User
-  deleteUser(input: DeleteUserInput!): User
-  updateUser(input: UpdateUserInput!): User
-}
-
-type Subscription {
-  onCreateUser(
-    email: String
-    firstName: String
-    id: ID
-    lastName: String
-    phone: String
-  ): User @aws_subscribe(mutations: ["createUser"])
-  onDeleteUser(
-    email: String
-    firstName: String
-    id: ID
-    lastName: String
-    phone: String
-  ): User @aws_subscribe(mutations: ["deleteUser"])
-  onUpdateUser(
-    email: String
-    firstName: String
-    id: ID
-    lastName: String
-    phone: String
-  ): User @aws_subscribe(mutations: ["updateUser"])
 }

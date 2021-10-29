@@ -10,10 +10,12 @@
     "url": "git+https://github.com/mpiantella/tiffin-capstone.git"
   },
   "scripts": {
-    "deploy": "npm run sync:schema && npm run cft:deploy",
+
+    "deploy": "npm run schema:cp && npm run cft:deploy",
     "cft:validate": "./cft/validate-stack.sh",
     "cft:deploy": "./cft/deploy-cft.sh",
-    "sync:schema": "aws s3 sync ./resources/appsync s3://remote-brilliance-cloud"
+    "schema:gen": "node ./resources/appsync/schema/index.js",
+    "schema:cp": "aws s3 cp resources/appsync/schema.graphql s3://remote-brilliance-cloud"
   },
   "bugs": {
     "url": "https://github.com/mpiantella/tiffin-capstone/issues"

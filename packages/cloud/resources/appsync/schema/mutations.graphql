@@ -1,0 +1,30 @@
+# UserEntity
+type Mutation {
+  createUser(input: CreateUserInput!): User
+  deleteUser(input: DeleteUserInput!): User
+  updateUser(input: UpdateUserInput!): User
+}
+
+type Subscription {
+  onCreateUser(
+    email: String
+    firstName: String
+    id: ID
+    lastName: String
+    phone: String
+  ): User @aws_subscribe(mutations: ["createUser"])
+  onDeleteUser(
+    email: String
+    firstName: String
+    id: ID
+    lastName: String
+    phone: String
+  ): User @aws_subscribe(mutations: ["deleteUser"])
+  onUpdateUser(
+    email: String
+    firstName: String
+    id: ID
+    lastName: String
+    phone: String
+  ): User @aws_subscribe(mutations: ["updateUser"])
+}

@@ -1,0 +1,100 @@
+# end of User Input definiton
+
+input CreateUserInput {
+  address: String
+  cognitoId: ID!
+  email: String
+  firstName: String
+  lastName: String
+  phone: String
+  registered: Boolean
+  username: String!
+  workAddress: String
+}
+
+input DeleteUserInput {
+  id: ID!
+}
+
+input TableUserFilterInput {
+  address: TableStringFilterInput
+  cognitoId: TableIDFilterInput
+  email: TableStringFilterInput
+  firstName: TableStringFilterInput
+  id: TableIDFilterInput
+  lastName: TableStringFilterInput
+  phone: TableStringFilterInput
+  registered: TableBooleanFilterInput
+  username: TableStringFilterInput
+  workAddress: TableStringFilterInput
+}
+
+input UpdateUserInput {
+  address: String
+  cognitoId: ID
+  email: String
+  firstName: String
+  id: ID!
+  lastName: String
+  phone: String
+  registered: Boolean
+  username: String
+  workAddress: String
+}
+
+# generic filters
+
+input TableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input TableFloatFilterInput {
+  between: [Float]
+  contains: Float
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+  notContains: Float
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableIntFilterInput {
+  between: [Int]
+  contains: Int
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+  notContains: Int
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
