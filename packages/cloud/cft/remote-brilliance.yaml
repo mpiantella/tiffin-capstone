@@ -14,11 +14,14 @@ Parameters:
   RBS3Bucket:
     Type: String
     Default: remote-brilliance-cloud
-  enableDynamoDBTableEncryption:
+  EnableDynamoDBTableEncryption:
     Type: String
     Description: This is used to specify if the DynamoDB tables should be encrypted.
     Default: true
     AllowedValues: [true, false]
+  CognitoUserPoolId:
+    Type: String
+    Default: us-east-1_zFDe35WRr
   dynamoDBTableBillingMode:
     Type: String
     Description: This is used to configure the billing mode on the DynamoDB tables.
@@ -95,7 +98,7 @@ Resources:
         ReadCapacityUnits: "5"
         WriteCapacityUnits: "5"
       SSESpecification:
-        SSEEnabled: { "Ref": "enableDynamoDBTableEncryption" }
+        SSEEnabled: { "Ref": "EnableDynamoDBTableEncryption" }
 
   User:
     Type: "AWS::DynamoDB::Table"
@@ -110,7 +113,7 @@ Resources:
         ReadCapacityUnits: "5"
         WriteCapacityUnits: "5"
       SSESpecification:
-        SSEEnabled: { "Ref": "enableDynamoDBTableEncryption" }
+        SSEEnabled: { "Ref": "EnableDynamoDBTableEncryption" }
 
   AppSyncApiKey:
     Type: AWS::AppSync::ApiKey
@@ -139,7 +142,7 @@ Resources:
     Type: AWS::AppSync::GraphQLSchema
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
-      DefinitionS3Location: !Sub "s3://${RBS3Bucket}/schema-latest.graphql"
+      DefinitionS3Location: !Sub "s3://${RBS3Bucket}/schema.graphql"
 
   UserProfileDataSource:
     Type: AWS::AppSync::DataSource

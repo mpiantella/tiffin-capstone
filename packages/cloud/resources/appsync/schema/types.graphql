@@ -1,10 +1,3 @@
-#  Types
-# [x] JobSeeker # 1. User 2. Applications 3. Activities
-# [x]  JobCreator # 1. User 2. Jobs 3. Billing 4. Subscription. 5. Applications
-# [x]  ContentCreator # 1. User 2. Content 3. Activity
-# [x]  Activities
-# Start User defs
-
 # comment - nested
 type Comment {
   title: String
@@ -110,7 +103,7 @@ type Billing {
   address: Address!
   paymentmethod: String!
   creditcard: String!
-  details: String!
+  details: String
 }
 
 # subscription - nested
@@ -119,6 +112,11 @@ type Subscription {
   userId: String!
   billing: Billing
   active: Boolean
+}
+
+type SubscriptionConnection {
+  items: [Subscription]
+  nextToken: String
 }
 
 # user - main

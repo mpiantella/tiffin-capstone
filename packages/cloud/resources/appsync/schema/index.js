@@ -15,13 +15,15 @@ function loadFile() {
     try {
         const queriesSchema = fs.readFileSync(`${__dirname}/queries.graphql`, 'utf8');
         const mutationsSchema = fs.readFileSync(`${__dirname}/mutations.graphql`, 'utf8');
+        const subscriptionSchema = fs.readFileSync(`${__dirname}/subscriptions.graphql`, 'utf8');
+
+        //types
         const typesSchema = fs.readFileSync(`${__dirname}/types.graphql`, 'utf8');
         const inputSchema = fs.readFileSync(`${__dirname}/input.graphql`, 'utf8');
 
-        const schema = `${rootSchema} ${queriesSchema} ${mutationsSchema} ${typesSchema} ${inputSchema}`
+        const schema = `${rootSchema}\n${queriesSchema}\n${mutationsSchema}\n${typesSchema}\n${inputSchema}`
 
-        console.log(schema)
-        return schema;
+        writeSchema(schema);
     } catch (err) {
         console.error(err)
     }
@@ -29,6 +31,7 @@ function loadFile() {
 
 function writeSchema(schema) {
     try {
+        console.log(schema)
         fs.writeFileSync(
             `${process.env.PWD}/resources/appsync/schema.graphql`, schema
         )
@@ -39,5 +42,5 @@ function writeSchema(schema) {
     }
 }
 
-const appendedSchemas = loadFile()
-writeSchema(appendedSchemas)
+// do it all
+loadFile()

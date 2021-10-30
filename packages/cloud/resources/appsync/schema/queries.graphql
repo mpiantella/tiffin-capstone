@@ -28,5 +28,5 @@ type Query {
     filter: TableSubscriptionsFilterInput
     limit: Int
     nextToken: String
-  ): SubscriptionsConnection
+  ): SubscriptionConnection
 }
