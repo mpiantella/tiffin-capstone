@@ -1,59 +1,35 @@
-# Entity Types
-# [ ] JobSeeker
-# 1. Profile 2. Applications
-# [ ]  JobCreator
-# 1. Profile 2. Jobs 3. Billing 4. Subscription
-# [ ]   ContentCreator
-# 1. Profile 2. Content 3. Activity
-# [ ]  Activities
+#  Types
+# [x] JobSeeker # 1. User 2. Applications 3. Activities
+# [x]  JobCreator # 1. User 2. Jobs 3. Billing 4. Subscription. 5. Applications
+# [x]  ContentCreator # 1. User 2. Content 3. Activity
+# [x]  Activities
 # Start User defs
 
-type User {
-  address: String
-  cognitoId: ID!
-  email: String
-  firstName: String
-  id: ID!
-  lastName: String
-  phone: String
-  registered: Boolean
-  username: String!
-  workAddress: String
-
-  # conversations(after: String, first: Int): UserConverstationsConnection
-  # jobApplications(after: String, first: Int): JobApplicationsConnection
-  # Get a users messages by querying a GSI on the Messages table.
-  # messages(after: String, first: Int): MessageConnection# The username
+# comment - nested
+type Comment {
+  title: String
+  content: String
 }
 
-type UserConnection {
-  items: [User]
+# activity - main
+type Activity {
+  id: ID!
+  userId: String!
+  name: String!
+  description: String
+  status: ActivityStatus
+  endDate: String
+  startDate: String
+  comments: [Comment]
+}
+
+type ActivityConnection {
+  items: [Activity]
   nextToken: String
 }
 
-# End User defs
-#  Job Seeker
-type Job {
-  title: String!
-  category: String!
-  type: String!
-  isFullyRemote: String
-  howtoApply: String
-  description: String
-  companyName: String
-  companyHQ: String
-  companyStatement: String
-  logo: String
-  companyWebsiteURL: String
-  email: String
-  companyDescription: String
-} #
-type JobApplication {
-  id: ID!
-}
-
+## address - nested
 type Address {
-  id: ID!
   address1: String!
   address2: String
   city: String!
@@ -62,48 +38,122 @@ type Address {
   country: String
 }
 
-type JobSeekerProfile {
-  Id: ID!
-  userId: String!
+# profileEvent - nested
+type ProfileEvent {
+  title: String!
+  content: String
+  area: String
+  startDate: String
+  endDate: String
+  other: String
+}
+
+# profile - nested
+type Profile {
   currentRole: String!
   summary: String
-  experience: [String] # Experience TODO
-  education: [String] # [Education]# TODO
-  licenses: [String] # [Licenses]# TODO
-  certifications: [String] # Certifications TODO
-  recommendations: [String] # Recommendations TODO
-  skills: [String] # Skills TODO
-  endorsements: [String] # Endorsements TODO#
-}
-type Applications {
-  Id: ID!
-  JobSeekerid: String # to reference a FK do I use this
-  JobId: String
-  StartDate: String # DateTime
-  EndDate: String # DateTime
+  experience: [ProfileEvent]
+  education: [ProfileEvent]
+  licenses: [ProfileEvent]
+  certifications: [ProfileEvent]
+  recommendations: [ProfileEvent]
+  skills: [String]
+  endorsements: [String]
 }
 
-type getJobSeeker {
-  id: String
+# job - main
+type Job {
+  id: ID!
+  userId: String!
+  title: String!
+  description: String
+  category: String!
+  type: String!
+  isFullyRemote: String
+  howtoApply: String
+  companyDescription: String
+  companyHQ: String
+  companyName: String
+  companyStatement: String
+  companyWebsiteURL: String
+  logo: String
+  startDate: String
+  endDate: String
+  applicants: [String] # userId array
 }
 
-# Events
-type Event {
+type JobConnection {
+  items: [Job]
+  nextToken: String
+}
+
+# main - list of subscriptions
+type SubscriptionType {
   id: ID!
   name: String
   description: String
-  status: EventStatus
-  comments: [Comment]
+  frequency: SubscriptionFrequency
+  price: Float # maybe enum with sets prices
 }
 
-type Comment {
+type SubscriptionTypeConnection {
+  items: [SubscriptionType]
+  nextToken: String
+}
+
+# billing - nested
+type Billing {
+  subscriptionId: String!
+  firstname: String!
+  lastname: String!
+  middlename: String
+  address: Address!
+  paymentmethod: String!
+  creditcard: String!
+  details: String!
+}
+
+# subscription - nested
+type Subscription {
+  subscriptionsId: String!
+  userId: String!
+  billing: Billing
+  active: Boolean
+}
+
+# user - main
+type User {
   id: ID!
-  content: String
+  cognitoid: ID!
+  address: Address!
+  email: String
+  username: String!
+  firstName: String
+  lastName: String
+  phone: String
+  registered: Boolean
+  subcribed: Boolean
+  profile: Profile
+  activities: [Activity] # changes to activity are updates here
+  applications: [String] # jobId array
+  subscription: Subscription # only job creators have this
+}
+
+type UserConnection {
+  items: [User]
+  nextToken: String
 }
 
 # Enumeration
-enum EventStatus {
+enum ActivityStatus {
   created
   open
   done
+}
+
+enum SubscriptionFrequency {
+  weekly
+  monthly
+  quarterly
+  yearly
 }

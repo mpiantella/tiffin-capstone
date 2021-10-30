@@ -16,7 +16,7 @@ function loadFile() {
         const queriesSchema = fs.readFileSync(`${__dirname}/queries.graphql`, 'utf8');
         const mutationsSchema = fs.readFileSync(`${__dirname}/mutations.graphql`, 'utf8');
         const typesSchema = fs.readFileSync(`${__dirname}/types.graphql`, 'utf8');
-        const inputSchema = fs.readFileSync(`${__dirname}/mutations.graphql`, 'utf8');
+        const inputSchema = fs.readFileSync(`${__dirname}/input.graphql`, 'utf8');
 
         const schema = `${rootSchema} ${queriesSchema} ${mutationsSchema} ${typesSchema} ${inputSchema}`
 
