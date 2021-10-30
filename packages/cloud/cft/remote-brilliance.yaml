@@ -25,61 +25,61 @@ Parameters:
     Default: PAY_PER_REQUEST
 
 Resources:
-  SNSRole:
-    Type: AWS::IAM::Role
-    Description: "An IAM Role to allow Cognito to send SNS messages"
-    Properties:
-      RoleName: !Sub ${ApiName}-cognito-sns-role
-      ManagedPolicyArns:
-        - Ref: CognitoSNSPolicy
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Action:
-              - sts:AssumeRole
-            Principal:
-              Service:
-                - cognito-idp.amazonaws.com
-    DependsOn:
-      - CognitoSNSPolicy
+  # SNSRole:
+  #   Type: AWS::IAM::Role
+  #   Description: "An IAM Role to allow Cognito to send SNS messages"
+  #   Properties:
+  #     RoleName: !Sub ${ApiName}-cognito-sns-role
+  #     ManagedPolicyArns:
+  #       - Ref: CognitoSNSPolicy
+  #     AssumeRolePolicyDocument:
+  #       Version: 2012-10-17
+  #       Statement:
+  #         - Effect: Allow
+  #           Action:
+  #             - sts:AssumeRole
+  #           Principal:
+  #             Service:
+  #               - cognito-idp.amazonaws.com
+  #   DependsOn:
+  #     - CognitoSNSPolicy
 
-  #Cognito Related Resources
-  CognitoSNSPolicy:
-    Type: AWS::IAM::ManagedPolicy
-    Properties:
-      Description: Managed policy to allow Amazon Cognito to access SNS
-      PolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Action: sns:publish
-            Resource: "*"
+  # #Cognito Related Resources
+  # CognitoSNSPolicy:
+  #   Type: AWS::IAM::ManagedPolicy
+  #   Properties:
+  #     Description: Managed policy to allow Amazon Cognito to access SNS
+  #     PolicyDocument:
+  #       Version: 2012-10-17
+  #       Statement:
+  #         - Effect: Allow
+  #           Action: sns:publish
+  #           Resource: "*"
 
-  UserPool:
-    Type: "AWS::Cognito::UserPool"
-    Description: "A Cognito user pool for authenticating users"
-    Properties:
-      UserPoolName: !Sub ${ApiName}-user-pool
-      AutoVerifiedAttributes:
-        - phone_number
-      MfaConfiguration: "ON"
-      SmsConfiguration:
-        ExternalId: !Sub ${ApiName}-external
-        SnsCallerArn: !GetAtt SNSRole.Arn
-      Schema:
-        - Name: email
-          AttributeDataType: String
-          Mutable: false
-          Required: true
+  # UserPool:
+  #   Type: "AWS::Cognito::UserPool"
+  #   Description: "A Cognito user pool for authenticating users"
+  #   Properties:
+  #     UserPoolName: !Sub ${ApiName}-user-pool
+  #     AutoVerifiedAttributes:
+  #       - phone_number
+  #     MfaConfiguration: "ON"
+  #     SmsConfiguration:
+  #       ExternalId: !Sub ${ApiName}-external
+  #       SnsCallerArn: !GetAtt SNSRole.Arn
+  #     Schema:
+  #       - Name: email
+  #         AttributeDataType: String
+  #         Mutable: false
+  #         Required: true
 
-  UserPoolClient:
-    Type: "AWS::Cognito::UserPoolClient"
-    Description: "App Client used by AWS AppSync"
-    Properties:
-      ClientName: !Sub ${ApiName}-appsync-client
-      GenerateSecret: false
-      UserPoolId: !Ref UserPool
+  # UserPoolClient:
+  #   Type: "AWS::Cognito::UserPoolClient"
+  #   Description: "App Client used by AWS AppSync"
+  #   Properties:
+  #     ClientName: !Sub ${ApiName}-appsync-client
+  #     GenerateSecret: false
+  #     UserPoolId: !Ref UserPool
 
   # Data Source Resources
   UserProfile:
@@ -97,16 +97,39 @@ Resources:
       SSESpecification:
         SSEEnabled: { "Ref": "enableDynamoDBTableEncryption" }
 
+  User:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+      SSESpecification:
+        SSEEnabled: { "Ref": "enableDynamoDBTableEncryption" }
+
+  AppSyncApiKey:
+    Type: AWS::AppSync::ApiKey
+    Properties:
+      Description: "Basic OpenWeatherMap API Key"
+      Expires: 1640995200 # Jan 24 2022
+      ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
+
   RemoteBrillianceAppSync:
     Type: AWS::AppSync::GraphQLApi
     Description: "Remote Brilliance Endpoints"
     Properties:
       Name: !Sub ${ApiName}
-      AuthenticationType: "AMAZON_COGNITO_USER_POOLS"
-      UserPoolConfig:
-        UserPoolId: !Ref UserPoolClient
-        AwsRegion: !Sub ${AWS::Region}
-        DefaultAction: "ALLOW"
+      AuthenticationType: "API_KEY"
+      # AuthenticationType: "AMAZON_COGNITO_USER_POOLS"
+      # UserPoolConfig:
+      #   UserPoolId: !Ref UserPoolClient
+      #   AwsRegion: !Sub ${AWS::Region}
+      #   DefaultAction: "ALLOW"
       LogConfig:
         CloudWatchLogsRoleArn: !Sub ${AppSyncPushToCloudWatchLogs}
         ExcludeVerboseContent: False
@@ -116,7 +139,8 @@ Resources:
     Type: AWS::AppSync::GraphQLSchema
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
-      DefinitionS3Location: !Sub "s3://${RBS3Bucket}/schema.graphql"
+      DefinitionS3Location: !Sub "s3://${RBS3Bucket}/schema-latest.graphql"
+
   UserProfileDataSource:
     Type: AWS::AppSync::DataSource
     Properties:
@@ -128,6 +152,44 @@ Resources:
       ServiceRoleArn: !Sub ${AppSyncRole}
       Type: AMAZON_DYNAMODB
 
+  UserDataSource:
+    Type: AWS::AppSync::DataSource
+    Properties:
+      Name: "UserDataSource"
+      ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
+      DynamoDBConfig:
+        TableName: !Ref User
+        AwsRegion: !Ref "AWS::Region"
+      ServiceRoleArn: !Sub ${AppSyncRole}
+      Type: AMAZON_DYNAMODB
+
+  AppSyncResolverCreateUser:
+    Type: "AWS::AppSync::Resolver"
+    Properties:
+      ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
+      TypeName: "Mutation"
+      FieldName: "createUser"
+      DataSourceName: !GetAtt UserDataSource.Name
+      RequestMappingTemplate: |
+        {
+            "version" : "2017-02-28",
+            "operation" : "PutItem",
+            "key" : {
+                ## If object "id" should come from GraphQL arguments,
+                ## change to $util.dynamodb.toDynamoDBJson($ctx.args.id)
+                "id": $util.dynamodb.toDynamoDBJson($util.autoId()),
+            },
+            "attributeValues" : {
+              "id": { "S" : "${context.arguments.input.id}" },
+              "cognitoId": { "S" : "${context.arguments.input.cognitoId}" },
+              "email": { "S" : "${context.arguments.input.email}" },
+              "username": { "S" : "${context.arguments.input.username}" },
+              "phone": { "S" : "${context.arguments.input.phone}" }
+            }
+        }
+      ResponseMappingTemplate: |
+        $util.toJson($ctx.result)
+
 Outputs:
   GraphQLApiEndpoint:
     Description: The URL to the GraphQL Endpoint
@@ -135,18 +197,12 @@ Outputs:
   GraphQLApiId:
     Description: The API ID of the GraphQL API
     Value: !GetAtt RemoteBrillianceAppSync.ApiId
-  CognitoUserPoolId:
-    Description: The Pool ID of the Cognito User Pool
-    Value: !Ref UserPool
-  CognitoUserPoolClientId:
-    Description: The Client ID for AWS AppSync Auth
-    Value: !Ref UserPoolClient
+  # CognitoUserPoolId:
+  #   Description: The Pool ID of the Cognito User Pool
+  #   Value: !Ref UserPool
+  # CognitoUserPoolClientId:
+  #   Description: The Client ID for AWS AppSync Auth
+  #   Value: !Ref UserPoolClient
   UserProfileTableName:
     Description: The name of the DynamoDB Table
     Value: !Ref UserProfile
-#   # AppSyncApiKey:
-#   #   Type: AWS::AppSync::ApiKey
-#   #   Properties:
-#   #     Description: "Basic OpenWeatherMap API Key"
-#   #     Expires: 1640995200 # Jan 24 2022
-#   #     ApiId: !GetAtt RemoteBrillianceAppSync.ApiId

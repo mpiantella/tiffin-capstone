@@ -1,49 +1,157 @@
-# end of User Input definiton
+# activity
+input CreateActivityInput {
+  userId: String!
+  name: String!
+  description: String
+  status: String
+  endDate: String
+  startDate: String
+  comments: [Comment]
+}
 
+input DeleteActivityInput {
+  id: ID!
+}
+
+input UpdateActivityInput {
+  id: ID!
+  userId: String
+  name: String
+  description: String
+  status: String
+  endDate: String
+  startDate: String
+  comments: [Comment]
+}
+
+input TableActivityFilterInput {
+  id: TableIDFilterInput
+  userId: TableStringFilterInput
+  name: TableStringFilterInput
+  description: TableStringFilterInput
+  startDate: TableStringFilterInput
+  endDate: TableStringFilterInput
+  status: TableStringFilterInput
+}
+
+# job
+input CreateJobInput {
+  userId: String!
+  title: String!
+  description: String
+  category: String!
+  type: String!
+  isFullyRemote: String
+  howtoApply: String
+  companyDescription: String
+  companyHQ: String
+  companyName: String
+  companyStatement: String
+  companyWebsiteURL: String
+  logo: String
+  startDate: String
+  endDate: String
+  applicants: [String] # won't need this when creating
+}
+
+input UpdateJobInput {
+  id: ID!
+  userId: String
+  title: String
+  description: String
+  category: String
+  type: String
+  isFullyRemote: String
+  howtoApply: String
+  companyDescription: String
+  companyHQ: String
+  companyName: String
+  companyStatement: String
+  companyWebsiteURL: String
+  logo: String
+  startDate: String
+  endDate: String
+  applicants: [String]
+}
+
+input DeleteJobInput {
+  id: ID!
+}
+
+input TableJobFilterInput {
+  id: TableIDFilterInput
+  userId: TableStringFilterInput
+  title: TableStringFilterInput
+  description: TableStringFilterInput
+  category: TableStringFilterInput
+  type: TableStringFilterInput
+  isFullyRemote: TableStringFilterInput
+  howtoApply: TableStringFilterInput
+  companyDescription: TableStringFilterInput
+  companyHQ: TableStringFilterInput
+  companyName: TableStringFilterInput
+  companyStatement: TableStringFilterInput
+  companyWebsiteURL: TableStringFilterInput
+  logo: TableStringFilterInput
+  startDate: TableStringFilterInput
+  endDate: TableStringFilterInput
+  applicants: TableStringFilterInput
+}
+
+# user
 input CreateUserInput {
-  address: String
-  cognitoId: ID!
+  cognitoid: ID!
+  address: Address
   email: String
+  username: String!
   firstName: String
   lastName: String
   phone: String
   registered: Boolean
-  username: String!
-  workAddress: String
+  subcribed: Boolean
+  profile: Profile
+  activities: [Activity] # not required
+  applications: [String] # not required
+  subscription: Subscription # not required
 }
 
+input UpdateUserInput {
+  id: ID!
+  cognitoid: ID
+  address: Address
+  email: String
+  username: String
+  firstName: String
+  lastName: String
+  phone: String
+  registered: Boolean
+  subcribed: Boolean
+  profile: Profile
+  activities: [Activity]
+  applications: [String]
+  subscription: Subscription
+}
 input DeleteUserInput {
   id: ID!
 }
 
 input TableUserFilterInput {
-  address: TableStringFilterInput
-  cognitoId: TableIDFilterInput
-  email: TableStringFilterInput
-  firstName: TableStringFilterInput
   id: TableIDFilterInput
+  cognitoid: TableIDFilterInput
+  email: TableStringFilterInput
+  username: TableStringFilterInput
+  firstName: TableStringFilterInput
   lastName: TableStringFilterInput
   phone: TableStringFilterInput
   registered: TableBooleanFilterInput
-  username: TableStringFilterInput
-  workAddress: TableStringFilterInput
+  subcribed: TableBooleanFilterInput
+  # profile: Profile
+  # activities: [Activity]
+  # applications: [String]
+  # subscription: Subscription
 }
 
-input UpdateUserInput {
-  address: String
-  cognitoId: ID
-  email: String
-  firstName: String
-  id: ID!
-  lastName: String
-  phone: String
-  registered: Boolean
-  username: String
-  workAddress: String
-}
-
-# generic filters
-
+# other
 input TableBooleanFilterInput {
   eq: Boolean
   ne: Boolean
