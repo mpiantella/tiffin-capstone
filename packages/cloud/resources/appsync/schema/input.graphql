@@ -1,5 +1,15 @@
 # activity
 
+input InputActivity {
+  id: ID!
+  userId: String!
+  name: String!
+  description: String
+  status: String
+  endDate: String
+  startDate: String
+}
+
 input CommentInput {
   body: String
   title: String
@@ -13,7 +23,6 @@ input CreateActivityInput {
   status: String
   endDate: String
   startDate: String
-  comments: [CommentInput]
 }
 
 input DeleteActivityInput {
@@ -58,7 +67,6 @@ input CreateJobInput {
   logo: String
   startDate: String
   endDate: String
-  applicants: [String] # won't need this when creating
 }
 
 input UpdateJobInput {
@@ -141,17 +149,6 @@ input InputComment {
   content: String
 }
 
-input InputActivity {
-  id: ID!
-  userId: String!
-  name: String!
-  description: String
-  status: String
-  endDate: String
-  startDate: String
-  comments: [InputComment]
-}
-
 input InputBilling {
   subscriptionId: String!
   firstname: String!
@@ -172,7 +169,6 @@ input InputSubscription {
 
 input CreateUserInput {
   cognitoid: ID!
-  address: InputAddress
   email: String
   username: String!
   firstName: String
@@ -180,10 +176,6 @@ input CreateUserInput {
   phone: String
   registered: Boolean
   subcribed: Boolean
-  profile: InputProfile
-  activities: [InputActivity]
-  applications: [String]
-  subscription: InputSubscription
 }
 
 input UpdateUserInput {
@@ -197,9 +189,9 @@ input UpdateUserInput {
   phone: String
   registered: Boolean
   subcribed: Boolean
-  profile: InputProfile
   activities: [InputActivity]
   applications: [String]
+  profile: InputProfile
   subscription: InputSubscription
 }
 
@@ -217,15 +209,6 @@ input TableUserFilterInput {
   phone: TableStringFilterInput
   registered: TableBooleanFilterInput
   subcribed: TableBooleanFilterInput
-}
-
-# Subscriptions
-input TableSubscriptionsFilterInput {
-  description: TableStringFilterInput
-  frequency: TableStringFilterInput
-  id: TableIDFilterInput
-  name: TableStringFilterInput
-  price: TableFloatFilterInput
 }
 
 # other

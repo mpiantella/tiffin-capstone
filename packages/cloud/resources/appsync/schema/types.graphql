@@ -114,11 +114,6 @@ type Subscription {
   active: Boolean
 }
 
-type SubscriptionConnection {
-  items: [Subscription]
-  nextToken: String
-}
-
 # user - main
 type User {
   id: ID!

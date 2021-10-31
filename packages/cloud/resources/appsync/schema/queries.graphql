@@ -24,9 +24,9 @@ type Query {
   ): UserConnection
 
   # subscriptions
-  listSubscriptions(
-    filter: TableSubscriptionsFilterInput
-    limit: Int
-    nextToken: String
-  ): SubscriptionConnection
+  # listSubscriptions(
+  #   filter: TableSubscriptionsFilterInput
+  #   limit: Int
+  #   nextToken: String
+  # ): SubscriptionConnection
 }
