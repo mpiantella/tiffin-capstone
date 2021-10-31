@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Tasks from '@/components/Tasks' // remove
 
 Vue.use(Router)
 
 export default new Router({
 	mode: 'history',
 	base: process.env.BASE_URL,
-	routes: [
-		{
+	routes: [{
 			path: '/',
 			name: 'home',
 			component: Home
@@ -32,21 +32,27 @@ export default new Router({
 			path: "/jobseeker",
 			name: "jobseeker",
 			component: () => import('./views/JobSeeker.vue')
-        },
+		},
 		{
 			path: "/levelup",
 			name: "levelup",
 			component: () => import('./views/LevelUp.vue')
-        },
-        {
+		},
+		{
 			path: "/jobcreator",
 			name: "jobcreator",
 			component: () => import('./views/JobCreator.vue')
-        },
-        {
+		},
+		{
 			path: "/contentcreator",
 			name: "contentcreator",
 			component: () => import('./views/ContentCreator.vue')
-        },
+		},
+		// remove
+		{
+			path: '/tasks',
+			name: 'tasks',
+			component: Tasks
+		}
 	]
 })

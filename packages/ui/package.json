@@ -12,9 +12,13 @@
 	"dependencies": {
 		"@aws-amplify/ui-vue": "^1.1.15",
 		"aws-amplify": "^4.3.3",
+		"aws-appsync": "^4.1.4",
 		"axios": "^0.23.0",
 		"core-js": "^2.6.5",
+		"graphql-tag": "^2.12.5",
+		"uuid": "^8.3.2",
 		"vue": "^2.6.10",
+		"vue-apollo": "^3.0.8",
 		"vue-router": "^3.0.3",
 		"vuetify": "^2.0.0"
 	},

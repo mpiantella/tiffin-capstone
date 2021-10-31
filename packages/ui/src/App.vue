@@ -52,6 +52,7 @@ export default {
   name: "App",
   data() {
     return {
+      hydrated: false,
       topBar: [
         {
           label: "Job Seekers",
@@ -93,6 +94,10 @@ export default {
         },
       ],
     };
+  },
+  async mounted() {
+    await this.$apollo.provider.defaultClient.hydrated();
+    this.hydrated = true;
   },
   methods: {
     toggleTheme() {
