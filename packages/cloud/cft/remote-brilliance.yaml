@@ -78,7 +78,7 @@ Resources:
   AppSyncApiKey:
     Type: AWS::AppSync::ApiKey
     Properties:
-      Description: "Basic OpenWeatherMap API Key"
+      Description: "Basic API Key"
       Expires: 1640995200 # Jan 24 2022
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
 
@@ -154,14 +154,10 @@ Resources:
             "key" : {
                 "id": $util.dynamodb.toDynamoDBJson($util.autoId()),
             },
-            "attributeValues" : {
-              "id": { "S" : "${context.arguments.input.id}" },
-              "userId": { "S" : "${context.arguments.input.userId}" },
-              "name": { "S" : "${context.arguments.input.name}" }
-            }
+            "attributeValues" : $util.dynamodb.toMapValuesJson(${context.arguments.input})
         }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result)
 
   # this might be better in a lambda
   AppSyncResolverUpdateActivity:
@@ -176,7 +172,7 @@ Resources:
             "version" : "2017-02-28",
             "operation" : "UpdateItem",
             "key" : {
-                "id": $util.dynamodb.toDynamoDBJson($ctx.args.id),
+                "id": $util.dynamodb.toDynamoDBJson($context.arguments.id),
             },
             "update" : {
                 "expression" : "SET title = :title, description = :description",
@@ -187,7 +183,7 @@ Resources:
             }
         }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result)
 
   AppSyncResolverDeleteActivity:
     Type: "AWS::AppSync::Resolver"
@@ -201,11 +197,11 @@ Resources:
             "version" : "2017-02-28",
             "operation" : "DeleteItem",
             "key" : {
-                "id" : { "S" : "${ctx.args.id}" }
+                "id" : { "S" : "${context.arguments.input.id}" }
             }
         }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result)
 
   AppSyncResolverGetActivity:
     Type: "AWS::AppSync::Resolver"
@@ -222,13 +218,13 @@ Resources:
                 "expression": "id = :id",
                 "expressionValues" : {
                     ":id" : {
-                        "S" : "${context.source.id}"
+                        "S" : "${context.arguments.id}"
                     }
                 }
             }
           }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result.items[0])
 
   AppSyncResolverListActivities:
     Type: "AWS::AppSync::Resolver"
@@ -240,7 +236,7 @@ Resources:
       RequestMappingTemplate: |
         { "version" : "2017-02-28", "operation" : "Scan" }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result.items)
 
   # Job
   AppSyncResolverCreateJob:
@@ -257,14 +253,10 @@ Resources:
             "key" : {
                 "id": $util.dynamodb.toDynamoDBJson($util.autoId()),
             },
-            "attributeValues" : {
-              "id": { "S" : "${context.arguments.input.id}" },
-              "userId": { "S" : "${context.arguments.input.cognitoId}" },
-              "name": { "S" : "${context.arguments.input.email}" }
-            }
+            "attributeValues" : $util.dynamodb.toMapValuesJson(${context.arguments.input})
         }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result)
   # this might be better in a lambda
   AppSyncResolverUpdateJob:
     Type: "AWS::AppSync::Resolver"
@@ -278,7 +270,7 @@ Resources:
             "version" : "2017-02-28",
             "operation" : "UpdateItem",
             "key" : {
-                "id": $util.dynamodb.toDynamoDBJson($ctx.args.id),
+                "id": $util.dynamodb.toDynamoDBJson($context.arguments.id),
             },
             "update" : {
                 "expression" : "SET username = :username, email = :email",
@@ -289,7 +281,7 @@ Resources:
             }
         }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result.items[0])
 
   AppSyncResolverDeleteJob:
     Type: "AWS::AppSync::Resolver"
@@ -303,11 +295,11 @@ Resources:
             "version" : "2017-02-28",
             "operation" : "DeleteItem",
             "key" : {
-                "id" : { "S" : "${ctx.args.id}" }
+                "id" : { "S" : "${context.arguments.input.id}" }
             }
         }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result)
 
   AppSyncResolverGetJob:
     Type: "AWS::AppSync::Resolver"
@@ -324,13 +316,13 @@ Resources:
                 "expression": "id = :id",
                 "expressionValues" : {
                     ":id" : {
-                        "S" : "${context.source.id}"
+                        "S" : "${context.arguments.id}"
                     }
                 }
             }
           }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result.items[0])
 
   AppSyncResolverListJobs:
     Type: "AWS::AppSync::Resolver"
@@ -342,7 +334,7 @@ Resources:
       RequestMappingTemplate: |
         { "version" : "2017-02-28", "operation" : "Scan" }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result.items)
 
   # User
   AppSyncResolverCreateUser:
@@ -359,16 +351,10 @@ Resources:
             "key" : {
                 "id": $util.dynamodb.toDynamoDBJson($util.autoId()),
             },
-            "attributeValues" : {
-              "id": { "S" : "${context.arguments.input.id}" },
-              "cognitoId": { "S" : "${context.arguments.input.cognitoid}" },
-              "email": { "S" : "${context.arguments.input.email}" },
-              "username": { "S" : "${context.arguments.input.username}" },
-              "phone": { "S" : "${context.arguments.input.phone}" }
-            }
+            "attributeValues" : $util.dynamodb.toMapValuesJson(${context.arguments.input})
         }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result)
   # this might be better in a lambda
   AppSyncResolverUpdateUser:
     Type: "AWS::AppSync::Resolver"
@@ -382,7 +368,7 @@ Resources:
             "version" : "2017-02-28",
             "operation" : "UpdateItem",
             "key" : {
-                "id": $util.dynamodb.toDynamoDBJson($ctx.args.id),
+                "id": $util.dynamodb.toDynamoDBJson($context.arguments.id),
             },
             "update" : {
                 "expression" : "SET title = :title, description = :description",
@@ -393,7 +379,7 @@ Resources:
             }
         }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result.items[0])
 
   AppSyncResolverDeleteUser:
     Type: "AWS::AppSync::Resolver"
@@ -407,11 +393,11 @@ Resources:
             "version" : "2017-02-28",
             "operation" : "DeleteItem",
             "key" : {
-                "id" : { "S" : "${ctx.args.id}" }
+                "id" : { "S" : "${context.arguments.id}" }
             }
         }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result)
 
   AppSyncResolverGetUser:
     Type: "AWS::AppSync::Resolver"
@@ -428,13 +414,13 @@ Resources:
                 "expression": "id = :id",
                 "expressionValues" : {
                     ":id" : {
-                        "S" : "${context.source.id}"
+                        "S" : "${context.arguments.id}"
                     }
                 }
             }
           }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result.items[0])
 
   AppSyncResolverListUsers:
     Type: "AWS::AppSync::Resolver"
@@ -446,7 +432,7 @@ Resources:
       RequestMappingTemplate: |
         { "version" : "2017-02-28", "operation" : "Scan" }
       ResponseMappingTemplate: |
-        $util.toJson($ctx.result)
+        $util.toJson($context.result.items)
 
 Outputs:
   GraphQLApiEndpoint:

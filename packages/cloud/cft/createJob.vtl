@@ -1,0 +1,54 @@
+## Read more: https://docs.aws.amazon.com/appsync/latest/devguide/resolver-context-reference.html#utility-helpers-in-util
+
+#set ($update = {
+"expression" : "set #name = :name remove #skills",
+  "expressionNames" : {
+    "#name": "name",
+    "#skills": "skills"
+  },
+  "expressionValues" : {
+    ":name" : $utils.dynamodb.toDynamoDBJson($context.arguments.name)
+  }
+})
+    
+
+#if (!$util.isNullOrEmpty($context.arguments.skills))
+  #set ($update = {
+    "expression" : "set #name = :name set #skills = $skill",
+    "expressionNames" : {
+        "#name": "name",
+        "#skills": "skills"
+    },
+    "expressionValues" : {
+        ":name" : $utils.dynamodb.toDynamoDBJson($context.arguments.name),
+        ":skills" :$utils.dynamodb.toStringSetJson($context.arguments.skills),
+    }
+  })
+#end
+
+
+{
+            "version" : "2017-02-28",
+            "operation" : "PutItem",
+            "key" : {
+                "id": $util.dynamodb.toDynamoDBJson($util.autoId()),
+            },
+            "attributeValues" : {
+              "id": { "S" : "${context.arguments.input.id}" },
+              "userId": { "S" : "${context.arguments.input.userId}" },
+              "title": { "S" : "${context.arguments.input.title}" },
+              "category": { "S" : "${context.arguments.input.category}" },
+              "type": { "S" : "${context.arguments.input.type}" },
+              "description": { "S" : "${context.arguments.input.description}" },
+              "isFullyRemote": { "S" : "${context.arguments.input.isFullyRemote}" },
+              "howtoApply": { "S" : "${context.arguments.input.howtoApply}" },
+              "companyDescription": { "S" : "${context.arguments.input.companyDescription}" },
+              "companyHQ": { "S" : "${context.arguments.input.companyHQ}" },
+              "companyName": { "S" : "${context.arguments.input.companyName}" },
+              "companyStatement": { "S" : "${context.arguments.input.companyStatement}" },
+              "companyWebsiteURL": { "S" : "${context.arguments.input.companyWebsiteURL}" },
+              "logo": { "S" : "${context.arguments.input.logo}" },
+              "startDate": { "S" : "${context.arguments.input.startDate}" },
+              "endDate": { "S" : "${context.arguments.input.endDate}" }
+            }
+        }

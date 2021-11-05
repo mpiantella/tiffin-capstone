@@ -115,9 +115,9 @@ type Job {
   id: ID!
   userId: String!
   title: String!
-  description: String
   category: String!
   type: String!
+  description: String
   isFullyRemote: String
   howtoApply: String
   companyDescription: String
@@ -276,7 +276,6 @@ input CreateJobInput {
   logo: String
   startDate: String
   endDate: String
-  # applicants: [String]
 }
 
 input UpdateJobInput {
@@ -379,7 +378,6 @@ input InputSubscription {
 
 input CreateUserInput {
   cognitoid: ID!
-  address: InputAddress
   email: String
   username: String!
   firstName: String
@@ -387,7 +385,6 @@ input CreateUserInput {
   phone: String
   registered: Boolean
   subcribed: Boolean
-  profile: InputProfile
 }
 
 input UpdateUserInput {
