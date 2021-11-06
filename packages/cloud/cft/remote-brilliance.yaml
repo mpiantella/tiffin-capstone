@@ -266,7 +266,7 @@ Resources:
       RequestMappingTemplate: |
         { "version" : "2017-02-28", "operation" : "Scan" }
       ResponseMappingTemplate: |
-        $util.toJson($context.result.items)
+        $util.toJson($context.result)
 
   # Job
   AppSyncResolverCreateJob:
@@ -364,7 +364,7 @@ Resources:
       RequestMappingTemplate: |
         { "version" : "2017-02-28", "operation" : "Scan" }
       ResponseMappingTemplate: |
-        $util.toJson($context.result.items)
+        $util.toJson($context.result)
 
   # User
   AppSyncResolverCreateUser:
@@ -462,7 +462,7 @@ Resources:
       RequestMappingTemplate: |
         { "version" : "2017-02-28", "operation" : "Scan" }
       ResponseMappingTemplate: |
-        $util.toJson($context.result.items)
+        $util.toJson($context.result)
 
 Outputs:
   GraphQLApiEndpoint:
