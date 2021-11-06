@@ -6,7 +6,7 @@ const documentClient = new AWS.DynamoDB.DocumentClient({
     sslEnabled: true
 });
 
-const jobTable = process.env.JOB_TABLE_NAME || "Remote-Brilliance-Tiffin-Job-9OG0AAHE5MUG";
+const userTable = process.env.USER_TABLE_NAME || "Remote-Brilliance-Tiffin-User-9OG0AAHE5MUG";
 
 exports.handler = async (event) => {
     const input = (event.arguments || {}).input;
@@ -15,30 +15,40 @@ exports.handler = async (event) => {
         throw new Error("Provide input in the correct format")
     }
     let params = {
-        TableName: jobTable,
+        TableName: userTable,
         Item: {
             id: input.id,
-            userId: input.userId,
-            title: input.title,
-            description: input.description,
-            category: input.category,
-            type: input.type,
-            isFullyRemote: input.isFullyRemote,
-            howtoApply: input.howtoApply,
-            companyDescription: input.companyDescription,
-            companyHQ: input.companyHQ,
-            companyName: input.companyName,
-            companyStatement: input.companyStatement,
-            companyWebsiteURL: input.companyWebsiteURL,
-            logo: input.logo, // use proper format
-            startDate: input.startDate, // use proper format
-            endDate: input.endDate, // use proper format
+            cognitoid: input.cognitoid,
+            email: input.email,
+            username: input.username,
+            firstName: input.firstName,
+            lastName: input.lastName,
+            phone: input.phone,
+            registered: input.registered,
+            subcribed: input.subcribed
         }
     };
 
-    if (input.applicants) {
-        params.Item.applicants = input.applicants;
+    if (input.address) {
+        params.Item.address = input.address;
     }
+
+    if (input.profile) {
+        params.Item.profile = input.profile;
+    }
+
+    if (input.activities) {
+        params.Item.activities = input.activities;
+    }
+
+    if (input.applications) {
+        params.Item.applications = input.applications;
+    }
+
+    if (input.subscription) {
+        params.Item.subscription = input.subscription;
+    }
+
 
     let data = await documentClient.put(params).promise()
         .catch((err) => {

@@ -19,25 +19,16 @@ exports.handler = async (event) => {
         Item: {
             id: input.id,
             userId: input.userId,
-            title: input.title,
+            name: input.name,
             description: input.description,
-            category: input.category,
-            type: input.type,
-            isFullyRemote: input.isFullyRemote,
-            howtoApply: input.howtoApply,
-            companyDescription: input.companyDescription,
-            companyHQ: input.companyHQ,
-            companyName: input.companyName,
-            companyStatement: input.companyStatement,
-            companyWebsiteURL: input.companyWebsiteURL,
-            logo: input.logo, // use proper format
-            startDate: input.startDate, // use proper format
-            endDate: input.endDate, // use proper format
+            status: input.status,
+            endDate: input.endDate,
+            startDate: input.startDate,
         }
     };
 
-    if (input.applicants) {
-        params.Item.applicants = input.applicants;
+    if (input.comments) {
+        params.Item.comments = input.comments;
     }
 
     let data = await documentClient.put(params).promise()
