@@ -37,9 +37,9 @@ Resources:
     Properties:
       FunctionName: UpdateJobLambdaDataSource
       Handler: updateJobFunction.handler
-      # Environment:
-      #   Variables:
-      #     JOB_TABLE_NAME: !Ref Job
+      Environment:
+        Variables:
+          JOB_TABLE_NAME: !Ref Job
       Role: !Sub ${LambdaDDBAndCWRole}
       Code:
         S3Bucket: !Sub ${RBS3Bucket}
@@ -152,7 +152,7 @@ Resources:
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       Name: "UpdateJobLambdaDataSource"
-      ServiceRoleArn: !Sub ${AppSyncRole}
+      ServiceRoleArn: !Sub ${LambdaDDBAndCWRole}
       Type: AWS_LAMBDA
       LambdaConfig:
         LambdaFunctionArn: !GetAtt UpdateJobFunction.Arn

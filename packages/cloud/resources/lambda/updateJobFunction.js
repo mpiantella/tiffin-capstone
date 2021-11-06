@@ -8,7 +8,7 @@ const documentClient = new AWS.DynamoDB.DocumentClient({
 
 const jobTable = process.env.JOB_TABLE_NAME || "Remote-Brilliance-Tiffin-Job-9OG0AAHE5MUG";
 
-exports.handler = (event) => {
+exports.handler = async (event) => {
     const input = (event.arguments || {}).input;
     console.log('input', input)
     if (!input) {
@@ -44,10 +44,10 @@ exports.handler = (event) => {
         .catch((err) => {
             throw err;
         });
-    console.log('data => ', JSON.stringify(data));
+
     return {
         context: {
-            result: (data || {}).items
+            result: data
         }
     }
 };
