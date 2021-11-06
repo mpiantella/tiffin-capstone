@@ -11,6 +11,9 @@ Parameters:
   AppSyncPushToCloudWatchLogs:
     Type: String
     Default: arn:aws:iam::762379509945:role/AppSyncPushToCloudWatchLogs
+  LambdaDDBAndCWRole:
+    Type: String
+    Default: arn:aws:iam::762379509945:role/LambdaDDBAndCW
   RBS3Bucket:
     Type: String
     Default: remote-brilliance-cloud
@@ -28,6 +31,23 @@ Parameters:
     Default: PAY_PER_REQUEST
 
 Resources:
+  # Lambda
+  UpdateJobFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: UpdateJobLambdaDataSource
+      Handler: updateJobFunction.handler
+      # Environment:
+      #   Variables:
+      #     JOB_TABLE_NAME: !Ref Job
+      Role: !Sub ${LambdaDDBAndCWRole}
+      Code:
+        S3Bucket: !Sub ${RBS3Bucket}
+        S3Key: updateJobFunction.zip
+      Runtime: nodejs14.x
+      Timeout: 50
+      TracingConfig:
+        Mode: Active
   # Data Source Resources
   Activity:
     Type: "AWS::DynamoDB::Table"
@@ -127,6 +147,16 @@ Resources:
       ServiceRoleArn: !Sub ${AppSyncRole}
       Type: AMAZON_DYNAMODB
 
+  UpdateJobLambdaDataSource:
+    Type: AWS::AppSync::DataSource
+    Properties:
+      ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
+      Name: "UpdateJobLambdaDataSource"
+      ServiceRoleArn: !Sub ${AppSyncRole}
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn: !GetAtt UpdateJobFunction.Arn
+
   UserDataSource:
     Type: AWS::AppSync::DataSource
     Properties:
@@ -141,7 +171,7 @@ Resources:
   # AppSync Resolver
   # Activity
   AppSyncResolverCreateActivity:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Mutation
@@ -161,7 +191,7 @@ Resources:
 
   # this might be better in a lambda
   AppSyncResolverUpdateActivity:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Mutation
@@ -186,7 +216,7 @@ Resources:
         $util.toJson($context.result)
 
   AppSyncResolverDeleteActivity:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Mutation
@@ -204,7 +234,7 @@ Resources:
         $util.toJson($context.result)
 
   AppSyncResolverGetActivity:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Query
@@ -227,7 +257,7 @@ Resources:
         $util.toJson($context.result.items[0])
 
   AppSyncResolverListActivities:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Query
@@ -240,7 +270,7 @@ Resources:
 
   # Job
   AppSyncResolverCreateJob:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Mutation
@@ -259,32 +289,32 @@ Resources:
         $util.toJson($context.result)
   # this might be better in a lambda
   AppSyncResolverUpdateJob:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Mutation
       FieldName: updateJob
-      DataSourceName: !GetAtt JobDataSource.Name
-      RequestMappingTemplate: |
-        {
-            "version" : "2017-02-28",
-            "operation" : "UpdateItem",
-            "key" : {
-                "id": $util.dynamodb.toDynamoDBJson($context.arguments.id),
-            },
-            "update" : {
-                "expression" : "SET username = :username, email = :email",
-                "expressionValues": {
-                    ":title" : { "S": "${context.arguments.username}"},
-                    ":email" : { "S": "${context.arguments.email}"}
-                }
-            }
-        }
+      DataSourceName: !GetAtt UpdateJobLambdaDataSource.Name
+      # RequestMappingTemplate: |
+      #   {
+      #       "version" : "2017-02-28",
+      #       "operation" : "UpdateItem",
+      #       "key" : {
+      #           "id": $util.dynamodb.toDynamoDBJson($context.arguments.id),
+      #       },
+      #       "update" : {
+      #           "expression" : "SET username = :username, email = :email",
+      #           "expressionValues": {
+      #               ":title" : { "S": "${context.arguments.username}"},
+      #               ":email" : { "S": "${context.arguments.email}"}
+      #           }
+      #       }
+      #   }
       ResponseMappingTemplate: |
         $util.toJson($context.result.items[0])
 
   AppSyncResolverDeleteJob:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Mutation
@@ -302,7 +332,7 @@ Resources:
         $util.toJson($context.result)
 
   AppSyncResolverGetJob:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Query
@@ -325,7 +355,7 @@ Resources:
         $util.toJson($context.result.items[0])
 
   AppSyncResolverListJobs:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Query
@@ -338,7 +368,7 @@ Resources:
 
   # User
   AppSyncResolverCreateUser:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Mutation
@@ -357,7 +387,7 @@ Resources:
         $util.toJson($context.result)
   # this might be better in a lambda
   AppSyncResolverUpdateUser:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Mutation
@@ -382,7 +412,7 @@ Resources:
         $util.toJson($context.result.items[0])
 
   AppSyncResolverDeleteUser:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Mutation
@@ -400,7 +430,7 @@ Resources:
         $util.toJson($context.result)
 
   AppSyncResolverGetUser:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Query
@@ -423,7 +453,7 @@ Resources:
         $util.toJson($context.result.items[0])
 
   AppSyncResolverListUsers:
-    Type: "AWS::AppSync::Resolver"
+    Type: AWS::AppSync::Resolver
     Properties:
       ApiId: !GetAtt RemoteBrillianceAppSync.ApiId
       TypeName: Query

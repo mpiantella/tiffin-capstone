@@ -15,7 +15,10 @@
     "cft:deploy": "./cft/deploy-cft.sh",
     "cft:schema": "npm run schema:gen && npm run schema:cp",
     "schema:gen": "node ./resources/appsync/schema/index.js",
-    "schema:cp": "aws s3 cp resources/appsync/schema.graphql s3://remote-brilliance-cloud"
+    "schema:cp": "aws s3 cp resources/appsync/schema.graphql s3://remote-brilliance-cloud",
+    "lambda:zip:job": "cd resources/lambda && zip updateJobFunction.zip updateJobFunction.js",
+    "lambda:cp:job": "pwd && aws s3 cp resources/lambda/updateJobFunction.zip s3://remote-brilliance-cloud",
+    "deploy:lambda": "npm run lambda:zip:job && npm run lambda:cp:job"
   },
   "bugs": {
     "url": "https://github.com/mpiantella/tiffin-capstone/issues"
