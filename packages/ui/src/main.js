@@ -42,6 +42,6 @@ Vue.use(Vuelidate)
 new Vue({
 	vuetify,
 	router,
-	provide: appsyncProvider.apolloProvider(),
+	provide: appsyncProvider.provide(),
 	render: h => h(App)
 }).$mount('#app')
