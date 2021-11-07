@@ -66,9 +66,9 @@ type Activity {
   userId: String!
   name: String!
   description: String
+  content: String
   status: ActivityStatus
-  endDate: String
-  startDate: String
+  date: String
   comments: [Comment]
 }
 
@@ -214,9 +214,9 @@ input InputActivity {
   userId: String!
   name: String!
   description: String
+  content: String
   status: String
-  endDate: String
-  startDate: String
+  date: String
 }
 
 input CommentInput {
@@ -229,9 +229,9 @@ input CreateActivityInput {
   userId: String!
   name: String!
   description: String
+  content: String
   status: String
-  endDate: String
-  startDate: String
+  date: String
 }
 
 input DeleteActivityInput {
@@ -243,9 +243,9 @@ input UpdateActivityInput {
   userId: String
   name: String
   description: String
+  content: String
   status: String
-  endDate: String
-  startDate: String
+  date: String
   comments: [CommentInput]
 }
 
@@ -254,8 +254,8 @@ input TableActivityFilterInput {
   userId: TableStringFilterInput
   name: TableStringFilterInput
   description: TableStringFilterInput
-  startDate: TableStringFilterInput
-  endDate: TableStringFilterInput
+  content: TableStringFilterInput
+  data: TableStringFilterInput
   status: TableStringFilterInput
 }
 

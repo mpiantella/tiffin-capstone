@@ -20,10 +20,10 @@ exports.handler = async (event) => {
             id: input.id,
             userId: input.userId,
             name: input.name,
+            content: input.content, // 500 characters
             description: input.description,
             status: input.status,
-            endDate: input.endDate,
-            startDate: input.startDate,
+            date: input.date
         }
     };
 

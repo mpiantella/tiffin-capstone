@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row class="pt-10">
       <v-col>
         <amplify-authenticator>
           <div>
@@ -16,11 +16,6 @@
 <script>
 export default {
   name: "LoginPage",
-  // data() {
-  //   return {
-  //     showPassword: false,
-  //   };
-  // },
 };
 </script>
 

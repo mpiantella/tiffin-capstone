@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row class="pt-10">
       <v-col>
         <h1>Sign Up</h1>
         <div>

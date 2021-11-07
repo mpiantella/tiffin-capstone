@@ -26,5 +26,5 @@ export default gql `
     lastName
     username
   }
-  }
+}
 `

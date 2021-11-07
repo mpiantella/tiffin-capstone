@@ -24,7 +24,8 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <router-view></router-view>
+      <router-view />
+      <!-- </router-view> -->
     </v-main>
     <v-footer color="primary lighten-1" padless>
       <v-layout justify-center wrap>
@@ -90,7 +91,7 @@ export default {
         },
         {
           label: "Content Creator",
-          url: "/contentcreator",
+          url: "/content",
         },
       ],
     };

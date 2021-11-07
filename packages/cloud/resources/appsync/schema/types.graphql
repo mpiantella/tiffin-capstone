@@ -10,9 +10,9 @@ type Activity {
   userId: String!
   name: String!
   description: String
+  content: String
   status: ActivityStatus
-  endDate: String
-  startDate: String
+  date: String
   comments: [Comment]
 }
 
