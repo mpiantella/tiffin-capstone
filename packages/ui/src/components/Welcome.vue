@@ -83,7 +83,7 @@ export default {
         },
         {
           label: "Level Up",
-          url: "/levelup",
+          url: "/contents",
           icon: "mdi-bookshelf",
         },
         {
@@ -93,7 +93,7 @@ export default {
         },
         {
           label: "Content Creator",
-          url: "/contents",
+          url: "/contentcreate",
           icon: "mdi-pen",
         },
       ],

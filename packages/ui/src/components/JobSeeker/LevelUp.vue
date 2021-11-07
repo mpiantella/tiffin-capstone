@@ -2,7 +2,7 @@
 
 <template>
   <v-container>
-    <v-row class="pt-10"><h1>Activity Creator</h1></v-row>
+    <v-row class="pt-10"><h1>Your Level Up List</h1></v-row>
     <v-row>
       <v-col cols="12">
         <div id="app">
@@ -75,15 +75,6 @@
             </v-col>
           </v-row>
           <!-- end date -->
-          <v-row>
-            <v-col>
-              <vue-editor
-                v-model="content"
-                placeholder="Add content here"
-                :counter="1000"
-              ></vue-editor>
-            </v-col>
-          </v-row>
           <v-row class="pt-2">
             <v-col>
               <v-btn
@@ -107,14 +98,11 @@
 /* eslint-disable no-console */
 import CreateActivity from "../../apis/CreateActivity";
 import ListActivities from "../../apis/ListActivities";
-import { VueEditor } from "vue2-editor";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, alpha } from "vuelidate/lib/validators";
 
 export default {
-  components: {
-    VueEditor,
-  },
+  components: {},
 
   mixins: [validationMixin],
 

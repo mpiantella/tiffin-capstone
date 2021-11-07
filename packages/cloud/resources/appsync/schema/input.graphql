@@ -10,12 +10,6 @@ input InputActivity {
   date: String
 }
 
-input CommentInput {
-  body: String
-  title: String
-  userId: String
-}
-
 input CreateActivityInput {
   userId: String!
   name: String!
@@ -27,6 +21,12 @@ input CreateActivityInput {
 
 input DeleteActivityInput {
   id: ID!
+}
+
+input CommentInput {
+  body: String
+  title: String
+  userId: String
 }
 
 input UpdateActivityInput {

@@ -1,6 +1,13 @@
 import gql from 'graphql-tag'
-
+/**
+ */
 export default gql `
+  input CommentInput {
+    body: String
+    title: String
+    userId: String
+  }
+  
   mutation updateActivity(
     $id: String!
     $name: String!,
@@ -9,6 +16,7 @@ export default gql `
     $content: String
     $status: String
     $date: String
+    $comment: [CommentInput]
     ) {
       updateActivity(
       input: {
@@ -19,6 +27,7 @@ export default gql `
         content: $content
         status: $status
         date: $date
+        comment: $comment
       }
     ) {
       id
@@ -28,6 +37,11 @@ export default gql `
       content
       status
       userId
+      comment {
+        body
+        title
+        userId 
+      }
     }
   }
 `

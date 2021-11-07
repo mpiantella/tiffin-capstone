@@ -2,7 +2,7 @@
 
 <template>
   <v-container>
-    <v-row class="pt-10"><h1>Activity Creator</h1></v-row>
+    <v-row class="pt-10"><h1>Job Creator</h1></v-row>
     <v-row>
       <v-col cols="12">
         <div id="app">
@@ -77,24 +77,12 @@
           <!-- end date -->
           <v-row>
             <v-col>
-              <vue-editor
-                v-model="content"
-                placeholder="Add content here"
-                :counter="1000"
-              ></vue-editor>
+              <!-- add more fields -->
             </v-col>
           </v-row>
           <v-row class="pt-2">
             <v-col>
-              <v-btn
-                class="redFont"
-                elevation="2"
-                depressed
-                raised
-                rounded
-                @click="createActivity()"
-                >Create Content</v-btn
-              >
+              <!-- Action Buttons-->
             </v-col>
           </v-row>
         </div>
@@ -105,8 +93,8 @@
 
 <script>
 /* eslint-disable no-console */
-import CreateActivity from "../../apis/CreateActivity";
-import ListActivities from "../../apis/ListActivities";
+import CreateJob from "../../apis/CreateJob";
+import ListJobs from "../../apis/ListJobs";
 import { VueEditor } from "vue2-editor";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, alpha } from "vuelidate/lib/validators";
@@ -180,8 +168,8 @@ export default {
   },
 
   methods: {
-    createActivity() {
-      const activity = {
+    createJob() {
+      const job = {
         userId: this.userId,
         name: this.name,
         description: this.description,
@@ -192,19 +180,19 @@ export default {
 
       this.$apollo
         .mutate({
-          mutation: CreateActivity,
-          variables: activity,
-          update: (store, { data: { createActivity } }) => {
-            const data = store.readQuery({ query: ListActivities });
-            data.listActivities.items.push(createActivity);
-            store.writeQuery({ query: ListActivities, data });
-            this.$router.push({ name: "contents" });
+          mutation: CreateJob,
+          variables: job,
+          update: (store, { data: { createJob } }) => {
+            const data = store.readQuery({ query: ListJobs });
+            data.listActivities.items.push(createJob);
+            store.writeQuery({ query: ListJobs, data });
+            this.$router.push({ name: "jobseeker" });
           },
           optimisticResponse: {
             __typename: "Mutation",
-            createActivity: {
-              __typename: "Activity",
-              ...activity,
+            createJob: {
+              __typename: "Job",
+              ...job,
             },
           },
         })

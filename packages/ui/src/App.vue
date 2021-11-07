@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-app-bar app color="secondary" dark>
-      <!-- <v-app-bar-nav-icon color="primary"></v-app-bar-nav-icon> -->
       <v-btn fab large plain to="/">
         <img class="mr-2" :src="require('./assets/logo.svg')" height="60" />
       </v-btn>
@@ -83,15 +82,11 @@ export default {
         },
         {
           label: "Level-Up",
-          url: "/levelup",
+          url: "/contents",
         },
         {
           label: "Job Creator",
           url: "/jobcreator",
-        },
-        {
-          label: "Content Creator",
-          url: "/contents",
         },
       ],
     };

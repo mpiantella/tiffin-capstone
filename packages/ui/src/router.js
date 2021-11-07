@@ -31,7 +31,11 @@ export default new Router({
 		{
 			path: "/jobseeker",
 			name: "jobseeker",
-			component: () => import('./components/JobSeeker/Dashboard.vue')
+			component: () => import('./components/JobSeeker/Main.vue'),
+			children: [{
+				path: 'jslevelup',
+				component: () => import('./components/JobSeeker/LevelUp.vue')
+			}]
 		},
 		{
 			path: '/contents',
@@ -47,25 +51,15 @@ export default new Router({
 			path: '/content/:id',
 			name: 'contentdashboard',
 			component: () => import('./components/ContentCreator/Dashboard.vue'),
-			children: [
-				// {
-				// 	path: 'delete',
-				// 	component: () => import('./components/ContentCreator/Delete.vue')
-				// },
-				{
-					path: 'update',
-					component: () => import('./components/ContentCreator/Update.vue')
-				}
-			]
-		},
-		{
-			path: '/levelup',
-			component: () => import('./components/ContentCreator/LevelUp.vue')
+			children: [{
+				path: 'update',
+				component: () => import('./components/ContentCreator/Update.vue')
+			}]
 		},
 		{
 			path: "/jobcreator",
 			name: "jobcreator",
-			component: () => import('./components/JobCreator/Dashboard.vue')
+			component: () => import('./components/JobCreator/Main.vue')
 		}
 	]
 })

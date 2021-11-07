@@ -5,12 +5,11 @@
         <h1>{{ activity.name }}</h1>
       </v-col>
       <v-col cols="4" class="text-right">
-        <v-btn class="ml-2 mt-5" outlined rounded small @click="goBack()">
+        <v-btn class="ml-2 mt-5" rounded small @click="goBack()">
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
         <v-btn
           class="ml-2 mt-5"
-          outlined
           rounded
           small
           @click="deleteActivity(activity)"
@@ -19,7 +18,6 @@
         </v-btn>
         <v-btn
           class="ml-2 mt-5"
-          outlined
           rounded
           small
           @click="updateActivity(activity)"
@@ -47,12 +45,25 @@
     <v-row>
       <v-col cols="12"><p v-html="activity.content"></p> </v-col>
     </v-row>
+    <v-row>
+      <v-col cols="12">
+        <v-btn
+          class="ml-2 mt-5"
+          outlined
+          rounded
+          small
+          @click="register(activity)"
+        >
+          Register
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <script>
-import GetActivity from "../../queries/GetActivity";
-import ListActivities from "../../queries/ListActivities";
-import DeleteActivity from "../../mutations/DeleteActivity";
+import GetActivity from "../../apis/GetActivity";
+import ListActivities from "../../apis/ListActivities";
+import DeleteActivity from "../../apis/DeleteActivity";
 
 export default {
   data() {
@@ -91,10 +102,13 @@ export default {
       }
     },
     updateActivity(activity) {
-      console.log(activity);
+      // TODO
     },
     goBack() {
       this.$router.push({ name: "contents" });
+    },
+    register() {
+      // TODO
     },
   },
 
