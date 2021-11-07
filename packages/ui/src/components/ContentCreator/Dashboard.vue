@@ -1,63 +1,114 @@
 <template>
-  <v-container>
-    <v-divider></v-divider>
-    <v-row class="pt-10"><h1>Content Creator</h1></v-row>
+  <v-container class="pt-10">
     <v-row>
-      <v-col cols="12" v-for="(activity, i) in listActivities.items" :key="i">
-        <v-card :color="activity.name">
-          <div class="d-flex flex-no-wrap justify-space-between">
-            <div>
-              <v-card-title
-                class="text-h5"
-                v-text="activity.name"
-              ></v-card-title>
-
-              <v-card-subtitle v-text="activity.description"></v-card-subtitle>
-
-              <v-card-actions>
-                <v-btn class="ml-2 mt-5" outlined rounded small>
-                  Read More
-                </v-btn>
-                <v-btn class="ml-2 mt-5" outlined rounded small> Delete </v-btn>
-              </v-card-actions>
-            </div>
-            <!-- 
-            <v-avatar class="ma-3" size="125" tile>
-              <v-img :src="item.src"></v-img>
-            </v-avatar> -->
-          </div>
-        </v-card>
+      <v-col cols="8">
+        <h1>{{ activity.name }}</h1>
+      </v-col>
+      <v-col cols="4" class="text-right">
+        <v-btn class="ml-2 mt-5" outlined rounded small @click="goBack()">
+          <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-btn
+          class="ml-2 mt-5"
+          outlined
+          rounded
+          small
+          @click="deleteActivity(activity)"
+        >
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+        <v-btn
+          class="ml-2 mt-5"
+          outlined
+          rounded
+          small
+          @click="updateActivity(activity)"
+        >
+          <v-icon>mdi-update</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
-    <v-row class="pt-2">
-      <v-col>
-        <v-btn
-          class="redFont"
-          elevation="2"
-          depressed
-          raised
-          rounded
-          to="/contentcreate"
-          >Create Content</v-btn
-        >
+    <v-row>
+      <v-col cols="12">
+        <div>
+          <h2>
+            {{ activity.description }}
+          </h2>
+          <!-- <h4>Date: {{ activity.date }}</h4>
+          <h4>Status: {{ activity.status }}</h4>
+          <h4>: {{ activity.userId }}</h4> -->
+          <br />
+          <div><b>Date</b>: {{ activity.date }}</div>
+          <div><b>Status</b>: {{ activity.status }}</div>
+          <div><b>Event Host</b>: {{ activity.userId }}</div>
+        </div>
       </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12"><p v-html="activity.content"></p> </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
+import GetActivity from "../../queries/GetActivity";
 import ListActivities from "../../queries/ListActivities";
+import DeleteActivity from "../../mutations/DeleteActivity";
+
 export default {
   data() {
     return {
-      // activity: {},
-      activityName: "",
-      listActivities: [],
+      activity: {},
+      activities: [],
     };
   },
+  methods: {
+    deleteActivity(activity) {
+      if (confirm("Do you really want to delete this activity?")) {
+        this.$apollo
+          .mutate({
+            mutation: DeleteActivity,
+            variables: {
+              id: activity.id,
+            },
+            update: (store, { data: { deleteActivity } }) => {
+              const data = store.readQuery({ query: ListActivities });
+              data.listActivities.items = data.listActivities.items.filter(
+                (activity) => activity.id !== deleteActivity.id
+              );
+              store.writeQuery({ query: ListActivities, data });
+              this.$router.push({ name: "contents" });
+            },
+            optimisticResponse: {
+              __typename: "Mutation",
+              deleteActivity: {
+                __typename: "Activity",
+                ...activity,
+              },
+            },
+          })
+          .then((data) => console.log(data))
+          .catch((error) => console.error(error));
+      }
+    },
+    updateActivity(activity) {
+      console.log(activity);
+    },
+    goBack() {
+      this.$router.push({ name: "contents" });
+    },
+  },
+
   apollo: {
     // how to store in local store
-    listActivities: {
-      query: () => ListActivities,
+    activity: {
+      // id should be passed through the - saved in the store or something
+      query: () => GetActivity,
+      variables() {
+        return {
+          id: this.$route.params.id,
+        };
+      },
+      update: (data) => data.getActivity,
     },
   },
 };

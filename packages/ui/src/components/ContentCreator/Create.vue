@@ -104,8 +104,9 @@
 </template>
 
 <script>
-/* eslint-disable */
+/* eslint-disable no-console */
 import CreateActivity from "../../mutations/CreateActivity";
+import ListActivities from "../../queries/ListActivities";
 import { VueEditor } from "vue2-editor";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, alpha } from "vuelidate/lib/validators";
@@ -194,9 +195,10 @@ export default {
           mutation: CreateActivity,
           variables: activity,
           update: (store, { data: { createActivity } }) => {
-            // const data = store.readQuery({ query: ListActivities })
-            // data.ListActivities.items.push(createActivity)
-            // store.writeQuery({ query: ListActivities, data })
+            const data = store.readQuery({ query: ListActivities });
+            data.listActivities.items.push(createActivity);
+            store.writeQuery({ query: ListActivities, data });
+            this.$router.push({ name: "contents" });
           },
           optimisticResponse: {
             __typename: "Mutation",
@@ -211,11 +213,6 @@ export default {
     },
     save(date) {
       this.$refs.menu.save(date);
-    },
-  },
-  apollo: {
-    activies: {
-      update: (data) => data,
     },
   },
 };

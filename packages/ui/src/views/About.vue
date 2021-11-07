@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-row class="pt-10">
+  <v-container class="pt-10">
+    <v-row>
       <v-col cols="12">
         <div class="about">
           <h1>About</h1>
@@ -14,6 +14,7 @@
             a device that connects to the internet, and the persistence to do
             it.
           </p>
+          <br />
           <h2>Mission Statement</h2>
           <p>
             The main goal of this tool is to help women help themselves find a

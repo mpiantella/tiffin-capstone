@@ -93,7 +93,7 @@ export default {
         },
         {
           label: "Content Creator",
-          url: "/content",
+          url: "/contents",
           icon: "mdi-pen",
         },
       ],

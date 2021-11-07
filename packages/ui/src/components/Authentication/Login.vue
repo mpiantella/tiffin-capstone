@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-row class="pt-10">
+  <v-container class="pt-10">
+    <v-row>
       <v-col>
         <amplify-authenticator>
           <div>

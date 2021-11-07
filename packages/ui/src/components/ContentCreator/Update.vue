@@ -1,8 +1,8 @@
 
 
 <template>
-  <v-container>
-    <v-row class="pt-10"><h1>Activity Creator</h1></v-row>
+  <v-container class="pt-10">
+    <v-row><h1>Activity Creator</h1></v-row>
     <v-row>
       <v-col cols="12">
         <div id="app">
@@ -108,9 +108,8 @@
 </template>
 
 <script>
-/**
-  
- */
+/* eslint-disable no-console */
+
 import { VueEditor } from "vue2-editor";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, alpha } from "vuelidate/lib/validators";

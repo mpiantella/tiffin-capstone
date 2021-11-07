@@ -32,24 +32,31 @@ export default new Router({
 			path: "/jobseeker",
 			name: "jobseeker",
 			component: () => import('./components/JobSeeker/Dashboard.vue')
-			// children: [{
-			// 	path: "create",
-			// 	component: () => import('./components/ContentCreator/Create.vue')
-			// },
-			// {
-			// 	path: 'read|update',
-			// 	component: () => import('./components/ContentCreator/LevelUp.vue')
-			// }]
 		},
 		{
-			path: '/content',
-			name: 'content',
-			component: () => import('./components/ContentCreator/Dashboard.vue')
+			path: '/contents',
+			name: 'contents',
+			component: () => import('./components/ContentCreator/Main.vue')
 		},
 		{
 			path: '/contentcreate',
 			// props: true,
 			component: () => import('./components/ContentCreator/Create.vue')
+		},
+		{
+			path: '/content/:id',
+			name: 'contentdashboard',
+			component: () => import('./components/ContentCreator/Dashboard.vue'),
+			children: [
+				// {
+				// 	path: 'delete',
+				// 	component: () => import('./components/ContentCreator/Delete.vue')
+				// },
+				{
+					path: 'update',
+					component: () => import('./components/ContentCreator/Update.vue')
+				}
+			]
 		},
 		{
 			path: '/levelup',
