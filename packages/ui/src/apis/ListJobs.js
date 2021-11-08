@@ -8,7 +8,6 @@ export default gql `
         userId
         title
         description
-        applicants
         category
         companyDescription
         companyHQ

@@ -12,7 +12,7 @@
           depressed
           raised
           rounded
-          to="/contentcreate"
+          to="/jobcreate"
           >Create a Job</v-btn
         >
       </v-col>
@@ -23,16 +23,18 @@
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
               <v-card-title class="text-h5" v-text="job.title"> </v-card-title>
-              <v-card-subtitle v-text="job.description"></v-card-subtitle>
+              <v-card-subtitle v-text="job.category"></v-card-subtitle>
               <v-card-text>
-                <div><b>Date</b>: {{ job.startDate }}</div>
-                <div><b>Status</b>: {{ job.status }}</div>
+                <div><b>Start Date</b>: {{ job.startDate }}</div>
+                <div><b>End Date</b>: {{ job.endDate }}</div>
+                <div><b>is Fully Remote?</b>: {{ job.isFullyRemote }}</div>
               </v-card-text>
             </div>
             <v-card-actions justify-space-around>
               <v-btn class="ml-2 mt-5" outlined rounded @click="readJob(job.id)"
                 >Read More
               </v-btn>
+              <v-btn class="ml-2 mt-5" outlined rounded>Apply </v-btn>
             </v-card-actions>
           </div>
         </v-card>
@@ -53,7 +55,7 @@ export default {
   methods: {
     readJob(id) {
       const params = { id: id };
-      this.$router.push({ name: "jobdashboard", params });
+      this.$router.push({ name: "jobview", params });
     },
   },
   apollo: {

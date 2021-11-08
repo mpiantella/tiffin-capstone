@@ -1,5 +1,3 @@
-
-
 <template>
   <v-container>
     <v-row class="pt-10"><h1>Activity Creator</h1></v-row>
@@ -61,7 +59,7 @@
                     readonly
                     v-bind="attrs"
                     v-on="on"
-                    :error-messages="descriptionErrors"
+                    :error-messages="dateErrors"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -75,6 +73,7 @@
             </v-col>
           </v-row>
           <!-- end date -->
+          <!-- view editor starts -->
           <v-row>
             <v-col>
               <vue-editor
@@ -84,6 +83,7 @@
               ></vue-editor>
             </v-col>
           </v-row>
+          <!-- view editor ends -->
           <v-row class="pt-2">
             <v-col>
               <v-btn

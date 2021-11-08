@@ -40,23 +40,13 @@ input UpdateActivityInput {
   comments: [CommentInput]
 }
 
-input TableActivityFilterInput {
-  id: TableIDFilterInput
-  userId: TableStringFilterInput
-  name: TableStringFilterInput
-  description: TableStringFilterInput
-  content: TableStringFilterInput
-  data: TableStringFilterInput
-  status: TableStringFilterInput
-}
-
 # job
 input CreateJobInput {
-  userId: String!
   title: String!
-  description: String
   category: String!
   type: String!
+  userId: String!
+  description: String
   isFullyRemote: String
   howtoApply: String
   companyDescription: String
@@ -91,26 +81,6 @@ input UpdateJobInput {
 
 input DeleteJobInput {
   id: ID!
-}
-
-input TableJobFilterInput {
-  id: TableIDFilterInput
-  userId: TableStringFilterInput
-  title: TableStringFilterInput
-  description: TableStringFilterInput
-  category: TableStringFilterInput
-  type: TableStringFilterInput
-  isFullyRemote: TableStringFilterInput
-  howtoApply: TableStringFilterInput
-  companyDescription: TableStringFilterInput
-  companyHQ: TableStringFilterInput
-  companyName: TableStringFilterInput
-  companyStatement: TableStringFilterInput
-  companyWebsiteURL: TableStringFilterInput
-  logo: TableStringFilterInput
-  startDate: TableStringFilterInput
-  endDate: TableStringFilterInput
-  applicants: TableStringFilterInput
 }
 
 # user
@@ -199,18 +169,6 @@ input DeleteUserInput {
   id: ID!
 }
 
-input TableUserFilterInput {
-  id: TableIDFilterInput
-  cognitoid: TableIDFilterInput
-  email: TableStringFilterInput
-  username: TableStringFilterInput
-  firstName: TableStringFilterInput
-  lastName: TableStringFilterInput
-  phone: TableStringFilterInput
-  registered: TableBooleanFilterInput
-  subcribed: TableBooleanFilterInput
-}
-
 # other
 input TableBooleanFilterInput {
   eq: Boolean
@@ -265,4 +223,46 @@ input TableStringFilterInput {
   lt: String
   ne: String
   notContains: String
+}
+
+input TableActivityFilterInput {
+  id: TableIDFilterInput
+  userId: TableStringFilterInput
+  name: TableStringFilterInput
+  description: TableStringFilterInput
+  content: TableStringFilterInput
+  data: TableStringFilterInput
+  status: TableStringFilterInput
+}
+
+input TableJobFilterInput {
+  id: TableIDFilterInput
+  userId: TableStringFilterInput
+  title: TableStringFilterInput
+  description: TableStringFilterInput
+  category: TableStringFilterInput
+  type: TableStringFilterInput
+  isFullyRemote: TableStringFilterInput
+  howtoApply: TableStringFilterInput
+  companyDescription: TableStringFilterInput
+  companyHQ: TableStringFilterInput
+  companyName: TableStringFilterInput
+  companyStatement: TableStringFilterInput
+  companyWebsiteURL: TableStringFilterInput
+  logo: TableStringFilterInput
+  startDate: TableStringFilterInput
+  endDate: TableStringFilterInput
+  applicants: TableStringFilterInput
+}
+
+input TableUserFilterInput {
+  id: TableIDFilterInput
+  cognitoid: TableIDFilterInput
+  email: TableStringFilterInput
+  username: TableStringFilterInput
+  firstName: TableStringFilterInput
+  lastName: TableStringFilterInput
+  phone: TableStringFilterInput
+  registered: TableBooleanFilterInput
+  subcribed: TableBooleanFilterInput
 }

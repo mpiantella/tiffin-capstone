@@ -1,8 +1,6 @@
-
-
 <template>
-  <v-container>
-    <v-row class="pt-10"><h1>Job Creator</h1></v-row>
+  <v-container class="pt-10">
+    <v-row><h1>Job Creator - TODO - UPDATE</h1></v-row>
     <v-row>
       <v-col cols="12">
         <div id="app">
@@ -11,7 +9,7 @@
               <v-text-field
                 v-model="name"
                 :error-messages="nameErrors"
-                :counter="30"
+                :counter="20"
                 label="name"
                 required
                 @input="$v.name.$touch()"
@@ -24,14 +22,13 @@
               <v-text-field
                 v-model="description"
                 :error-messages="descriptionErrors"
-                :counter="50"
+                :counter="30"
                 label="description"
                 required
                 @input="$v.description.$touch()"
                 @blur="$v.description.$touch()"
               ></v-text-field> </v-col
           ></v-row>
-
           <v-row>
             <v-col>
               <v-select
@@ -67,7 +64,13 @@
                 <v-date-picker
                   v-model="date"
                   :active-picker.sync="activePicker"
-                  max="2025-01-01"
+                  :max="
+                    new Date(
+                      Date.now() - new Date().getTimezoneOffset() * 60000
+                    )
+                      .toISOString()
+                      .substr(0, 10)
+                  "
                   min="1950-01-01"
                   @change="save"
                 ></v-date-picker>
@@ -77,12 +80,23 @@
           <!-- end date -->
           <v-row>
             <v-col>
-              <!-- add more fields -->
+              <vue-editor
+                v-model="content"
+                placeholder="Add content here"
+              ></vue-editor>
             </v-col>
           </v-row>
           <v-row class="pt-2">
             <v-col>
-              <!-- Action Buttons-->
+              <v-btn
+                class="redFont"
+                elevation="2"
+                depressed
+                raised
+                rounded
+                @click="saveContent"
+                >Create Content</v-btn
+              >
             </v-col>
           </v-row>
         </div>
@@ -93,8 +107,7 @@
 
 <script>
 /* eslint-disable no-console */
-import CreateJob from "../../apis/CreateJob";
-import ListJobs from "../../apis/ListJobs";
+
 import { VueEditor } from "vue2-editor";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, alpha } from "vuelidate/lib/validators";
@@ -103,14 +116,13 @@ export default {
   components: {
     VueEditor,
   },
-
   mixins: [validationMixin],
 
   validations: {
-    name: { required, maxLength: maxLength(30) },
-    description: { required, maxLength: maxLength(50) },
+    name: { required, maxLength: maxLength(20) },
+    description: { required, maxLength: maxLength(30) },
     status: { required, alpha },
-    content: { required, maxLength: maxLength(1000) },
+    content: { required, maxLength: maxLength(500) },
     date: { required },
   },
 
@@ -119,7 +131,7 @@ export default {
     description: "",
     userId: "mpiantella", // TODO: get from cognito-state
     content: "",
-    status: "created",
+    status: "",
     statusEnum: ["created", "open", "done"],
     date: null,
     activePicker: null,
@@ -168,36 +180,9 @@ export default {
   },
 
   methods: {
-    createJob() {
-      const job = {
-        userId: this.userId,
-        name: this.name,
-        description: this.description,
-        content: this.content,
-        status: this.status,
-        date: this.date,
-      };
-
-      this.$apollo
-        .mutate({
-          mutation: CreateJob,
-          variables: job,
-          update: (store, { data: { createJob } }) => {
-            const data = store.readQuery({ query: ListJobs });
-            data.listActivities.items.push(createJob);
-            store.writeQuery({ query: ListJobs, data });
-            this.$router.push({ name: "jobseeker" });
-          },
-          optimisticResponse: {
-            __typename: "Mutation",
-            createJob: {
-              __typename: "Job",
-              ...job,
-            },
-          },
-        })
-        .then((data) => console.log(data))
-        .catch((error) => console.error("error!!!: ", error));
+    saveContent: () => {
+      // You have the content to save
+      console.log(this.content);
     },
     save(date) {
       this.$refs.menu.save(date);

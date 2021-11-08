@@ -1,5 +1,3 @@
-
-
 <template>
   <v-container class="pt-10">
     <v-row><h1>Activity Creator</h1></v-row>
@@ -16,8 +14,9 @@
                 required
                 @input="$v.name.$touch()"
                 @blur="$v.name.$touch()"
-              ></v-text-field> </v-col
-          ></v-row>
+              ></v-text-field>
+            </v-col>
+          </v-row>
 
           <v-row>
             <v-col>
@@ -29,8 +28,9 @@
                 required
                 @input="$v.description.$touch()"
                 @blur="$v.description.$touch()"
-              ></v-text-field> </v-col
-          ></v-row>
+              ></v-text-field>
+            </v-col>
+          </v-row>
           <v-row>
             <v-col>
               <v-select

@@ -17,28 +17,25 @@
         >
       </v-col>
     </v-row>
+
     <v-row>
       <v-col cols="12" v-for="(job, i) in jobs" :key="i">
         <v-card :color="job.name">
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
               <v-card-title class="text-h5" v-text="job.title"> </v-card-title>
-              <v-card-subtitle v-text="job.description"></v-card-subtitle>
+              <v-card-subtitle v-text="job.category"></v-card-subtitle>
               <v-card-text>
-                <div><b>Date</b>: {{ job.startDate }}</div>
-                <div><b>Status</b>: {{ job.status }}</div>
+                <div><b>Start Date</b>: {{ job.startDate }}</div>
+                <div><b>End Date</b>: {{ job.endDate }}</div>
+                <div><b>is Fully Remote?</b>: {{ job.isFullyRemote }}</div>
               </v-card-text>
             </div>
             <v-card-actions justify-space-around>
               <v-btn class="ml-2 mt-5" outlined rounded @click="readJob(job.id)"
                 >Read More
               </v-btn>
-              <v-btn class="ml-2 mt-5" outlined rounded @click="readJob(job.id)"
-                >Apply
-              </v-btn>
-              <v-btn class="ml-2 mt-5" outlined rounded @click="readJob(job.id)"
-                >Bookmark
-              </v-btn>
+              <v-btn class="ml-2 mt-5" outlined rounded>Apply </v-btn>
             </v-card-actions>
           </div>
         </v-card>

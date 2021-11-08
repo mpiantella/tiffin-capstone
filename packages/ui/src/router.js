@@ -59,7 +59,23 @@ export default new Router({
 		{
 			path: "/jobcreator",
 			name: "jobcreator",
-			component: () => import('./components/JobCreator/Main.vue')
-		}
+			component: () => import('./components/JobCreator/Main.vue'),
+		},
+		{
+			path: '/jobcreate',
+			name: 'jobcreate',
+			component: () => import('./components/JobCreator/Create.vue')
+		},
+		{
+			path: '/job/:id',
+			name: 'jobview',
+			component: () => import('./components/JobCreator/Dashboard.vue'),
+			children: [{
+				path: 'update',
+				name: 'jobupdate',
+				component: () => import('./components/JobCreator/Update.vue')
+			}]
+		},
+
 	]
 })
