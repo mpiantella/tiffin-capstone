@@ -3,17 +3,32 @@
 
 const awsmobile = {
     "aws_project_region": "us-east-1",
-    "aws_cognito_identity_pool_id": "us-east-1:636e4c81-f200-4e34-85c3-15463ce248f4",
+    "aws_cognito_identity_pool_id": "us-east-1:4db5b7f1-cb87-4b75-8620-74f03dc1c2f4",
     "aws_cognito_region": "us-east-1",
     "aws_user_pools_id": "us-east-1_u8q4dBepc",
-    "aws_user_pools_web_client_id": "remotee63b5329_app_clientWeb",
-    "oauth": {},
+    "aws_user_pools_web_client_id": "299n5hmmidpnuobaeukvo4jj0i",
+    "oauth": {
+        "domain": "remotebrilliance-dev.auth.us-east-1.amazoncognito.com",
+        "scope": [
+            "phone",
+            "email",
+            "openid",
+            "profile",
+            "aws.cognito.signin.user.admin"
+        ],
+        "redirectSignIn": "https://remotebrilliance.link/",
+        "redirectSignOut": "https://remotebrilliance.link/",
+        "responseType": "code"
+    },
     "federationTarget": "COGNITO_USER_POOLS",
     "aws_cognito_login_mechanisms": [
         "PREFERRED_USERNAME"
     ],
     "aws_cognito_signup_attributes": [
-        "EMAIL"
+        "EMAIL",
+        "FAMILY_NAME",
+        "NAME",
+        "PHONE_NUMBER"
     ],
     "aws_cognito_mfa_configuration": "OFF",
     "aws_cognito_mfa_types": [
@@ -21,7 +36,9 @@ const awsmobile = {
     ],
     "aws_cognito_password_protection_settings": {
         "passwordPolicyMinLength": 8,
-        "passwordPolicyCharacters": []
+        "passwordPolicyCharacters": [
+            "REQUIRES_UPPERCASE"
+        ]
     },
     "aws_cognito_verification_mechanisms": [
         "EMAIL"

@@ -18,7 +18,7 @@ import appSyncConfig from './AppSync';
 
 Amplify.configure(awsconfig);
 Auth.configure(awsconfig)
-//Amplify.Logger.LOG_LEVEL = 'DEBUG';
+Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
 //apollo configs
 const config = {
