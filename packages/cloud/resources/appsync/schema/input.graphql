@@ -160,7 +160,7 @@ input UpdateUserInput {
   phone: String
   registered: Boolean
   subcribed: Boolean
-  activities: [InputActivity]
+  activities: [UpdateActivityInput]
   applications: [String]
   profile: InputProfile
   subscription: InputSubscription

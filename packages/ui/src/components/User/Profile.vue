@@ -30,7 +30,9 @@
     <v-row>
       <v-col>
         <v-card elevation="2" class="pa-4 mx-auto" outlined>
-          <h3 v-if="user">{{ user.username }}'s profile</h3>
+          <h3 v-if="user">
+            {{ user.firstName }} {{ user.lastName }}'s profile
+          </h3>
           <br />
           <div><b>Email</b> {{ user.email }}</div>
           <br />
@@ -39,92 +41,101 @@
         </v-card>
 
         <div class="pt-10">
-          <v-form ref="form" v-model="valid" lazy-validation>
-            <v-expansion-panels v-model="panel" :disabled="disabled" multiple>
-              <!-- Start of Address -->
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  Address
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-row>
-                    <v-col>
-                      <v-text-field
-                        v-model="address.address1"
-                        :error-messages="address1Errors"
-                        :counter="50"
-                        label="Address 1"
-                        required
-                        @input="$v.address.address1.$touch()"
-                        @blur="$v.address.address1.$touch()"
-                      ></v-text-field>
+          <v-expansion-panels v-model="panel" :disabled="disabled" multiple>
+            <!-- Start of Address -->
+            <v-row>
+              <v-col class="12">
+                <v-form
+                  ref="formAddress"
+                  v-model="validAddress"
+                  lazy-validation
+                >
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>
+                      Address
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      <v-row>
+                        <v-col>
+                          <v-text-field
+                            v-model="address.address1"
+                            :error-messages="address1Errors"
+                            :counter="50"
+                            label="Address 1"
+                            required
+                            @input="$v.address.address1.$touch()"
+                            @blur="$v.address.address1.$touch()"
+                          ></v-text-field>
 
-                      <v-text-field
-                        v-model="address.address2"
-                        label="Address 2"
-                      ></v-text-field>
+                          <v-text-field
+                            v-model="address.address2"
+                            label="Address 2"
+                          ></v-text-field>
 
-                      <v-text-field
-                        v-model="address.city"
-                        :error-messages="cityErrors"
-                        :counter="20"
-                        label="City"
-                        required
-                        @input="$v.address.city.$touch()"
-                        @blur="$v.address.city.$touch()"
-                      ></v-text-field>
+                          <v-text-field
+                            v-model="address.city"
+                            :error-messages="cityErrors"
+                            :counter="20"
+                            label="City"
+                            required
+                            @input="$v.address.city.$touch()"
+                            @blur="$v.address.city.$touch()"
+                          ></v-text-field>
 
-                      <v-text-field
-                        v-model="address.state"
-                        :error-messages="stateErrors"
-                        :counter="20"
-                        label="State"
-                        required
-                        @input="$v.address.state.$touch()"
-                        @blur="$v.address.state.$touch()"
-                      ></v-text-field>
+                          <v-text-field
+                            v-model="address.state"
+                            :error-messages="stateErrors"
+                            :counter="20"
+                            label="State"
+                            required
+                            @input="$v.address.state.$touch()"
+                            @blur="$v.address.state.$touch()"
+                          ></v-text-field>
 
-                      <v-text-field
-                        v-model="address.zipCode"
-                        :error-messages="zipCodeErrors"
-                        :counter="10"
-                        label="Zip Code"
-                        required
-                        @input="$v.address.zipCode.$touch()"
-                        @blur="$v.address.zipCode.$touch()"
-                      ></v-text-field>
+                          <v-text-field
+                            v-model="address.zipCode"
+                            :error-messages="zipCodeErrors"
+                            :counter="10"
+                            label="Zip Code"
+                            required
+                            @input="$v.address.zipCode.$touch()"
+                            @blur="$v.address.zipCode.$touch()"
+                          ></v-text-field>
 
-                      <v-text-field
-                        v-model="address.country"
-                        :error-messages="countryErrors"
-                        :counter="20"
-                        label="Country"
-                        required
-                        @input="$v.address.country.$touch()"
-                        @blur="$v.address.country.$touch()"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-              <!-- End of Address -->
+                          <v-text-field
+                            v-model="address.country"
+                            :error-messages="countryErrors"
+                            :counter="20"
+                            label="Country"
+                            required
+                            @input="$v.address.country.$touch()"
+                            @blur="$v.address.country.$touch()"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-form>
+              </v-col>
+            </v-row>
+            <!-- End of Address -->
 
-              <!-- Start of Profile -->
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  Profile
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-text-field
-                    v-model="profile.currentRole"
-                    :error-messages="currentRoleErrors"
-                    :counter="20"
-                    label="Country"
-                    required
-                    @input="$v.profile.currentRole.$touch()"
-                    @blur="$v.profile.currentRole.$touch()"
-                  ></v-text-field>
-                  <!-- currentRole: "", // required!
+            <!-- Start of Profile -->
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                Profile
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-text-field
+                  v-model="profile.currentRole"
+                  :error-messages="currentRoleErrors"
+                  :counter="20"
+                  label="Country"
+                  required
+                  @input="$v.profile.currentRole.$touch()"
+                  @blur="$v.profile.currentRole.$touch()"
+                ></v-text-field>
+                <!-- currentRole: "", // required!
                     summary: "",
                     experience: [], // profileEvent
                     education: [], // profileEvent
@@ -133,122 +144,121 @@
                     recommendations: [],
                     skills: [],
                     endorsements: [],}-->
-                  <v-text-field
-                    v-model="profile.summary"
-                    label="Summary"
-                    required
-                  ></v-text-field>
+                <v-text-field
+                  v-model="profile.summary"
+                  label="Summary"
+                  required
+                ></v-text-field>
 
-                  <v-text-field
-                    v-model="profile.experience"
-                    label="Experience"
-                    required
-                  ></v-text-field>
+                <v-text-field
+                  v-model="profile.experience"
+                  label="Experience"
+                  required
+                ></v-text-field>
 
-                  <v-text-field
-                    v-model="profile.education"
-                    label="Education"
-                    required
-                  ></v-text-field>
+                <v-text-field
+                  v-model="profile.education"
+                  label="Education"
+                  required
+                ></v-text-field>
 
-                  <v-text-field
-                    v-model="profile.licenses"
-                    label="Licenses"
-                    required
-                  ></v-text-field>
+                <v-text-field
+                  v-model="profile.licenses"
+                  label="Licenses"
+                  required
+                ></v-text-field>
 
-                  <v-text-field
-                    v-model="profile.certifications"
-                    label="Certifications"
-                    required
-                  ></v-text-field>
+                <v-text-field
+                  v-model="profile.certifications"
+                  label="Certifications"
+                  required
+                ></v-text-field>
 
-                  <v-text-field
-                    v-model="profile.recommendations"
-                    label="Recommendations"
-                    required
-                  ></v-text-field>
+                <v-text-field
+                  v-model="profile.recommendations"
+                  label="Recommendations"
+                  required
+                ></v-text-field>
 
-                  <v-text-field
-                    v-model="profile.skills"
-                    label="Skills"
-                    required
-                  ></v-text-field>
+                <v-text-field
+                  v-model="profile.skills"
+                  label="Skills"
+                  required
+                ></v-text-field>
 
-                  <v-text-field
-                    v-model="profile.endorsements"
-                    label="Endorsements"
-                    required
-                  ></v-text-field>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-              <!-- End of Profile -->
+                <v-text-field
+                  v-model="profile.endorsements"
+                  label="Endorsements"
+                  required
+                ></v-text-field>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <!-- End of Profile -->
 
-              <!-- Start of Activities -->
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  Activities
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <!-- activities -->
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-              <!-- End of Activities -->
+            <!-- Start of Activities -->
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                Activities
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <!-- activities -->
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <!-- End of Activities -->
 
-              <!-- Start of Applications -->
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  Applications
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-text-field
-                    v-model="applications"
-                    label="Applications"
-                  ></v-text-field>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-              <!-- End of Applications -->
+            <!-- Start of Applications -->
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                Applications
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-text-field
+                  v-model="applications"
+                  label="Applications"
+                ></v-text-field>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <!-- End of Applications -->
 
-              <!-- Start of Subscription -->
-              <v-expansion-panel>
-                <v-expansion-panel-header>
-                  Subscription
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <!-- 
+            <!-- Start of Subscription -->
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                Subscription
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <!-- 
                   subscriptionsId: String!
                   userId: String!
                   billing: Billing
                   active: Boolean
                 -->
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-              <!-- End of Subscription -->
-            </v-expansion-panels>
-            <v-row class="pt-4">
-              <v-col cols="12">
-                <v-btn
-                  class="redFont mr-4"
-                  elevation="2"
-                  depressed
-                  raised
-                  rounded
-                  @click="updateUser()"
-                >
-                  Update Profile
-                </v-btn>
-                <v-btn
-                  class="redFont mr-4"
-                  elevation="2"
-                  depressed
-                  raised
-                  rounded
-                  @click="cancel()"
-                  >Cancel</v-btn
-                >
-              </v-col>
-            </v-row>
-          </v-form>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <!-- End of Subscription -->
+          </v-expansion-panels>
+          <v-row class="pt-4">
+            <v-col cols="12">
+              <v-btn
+                class="redFont mr-4"
+                elevation="2"
+                depressed
+                raised
+                rounded
+                @click="updateUser()"
+              >
+                Update Profile
+              </v-btn>
+              <v-btn
+                class="redFont mr-4"
+                elevation="2"
+                depressed
+                raised
+                rounded
+                @click="cancel()"
+                >Cancel</v-btn
+              >
+            </v-col>
+          </v-row>
         </div>
       </v-col>
     </v-row>
@@ -256,9 +266,10 @@
 </template>
 
 <script>
+import UpdateUser from "../../apis/UpdateUser";
 import { mapGetters, mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
-import { required, maxLength, email } from "vuelidate/lib/validators";
+import { required, maxLength } from "vuelidate/lib/validators";
 
 export default {
   mixins: [validationMixin],
@@ -280,10 +291,10 @@ export default {
     ...mapGetters(["getUser"]),
     user: {
       get() {
-        console.log;
-        return this.$store.address.state.user;
+        return this.$store.state.user;
       },
     },
+    // address
     address1Errors() {
       const errors = [];
       if (!this.$v.address.address1.$dirty) return errors;
@@ -325,6 +336,7 @@ export default {
       !this.$v.address.country.required && errors.push("Country is required.");
       return errors;
     },
+    // profile
     currentRoleErrors() {
       const errors = [];
       if (!this.$v.profile.currentRole.$dirty) return errors;
@@ -377,10 +389,11 @@ export default {
         content: "",
         status: "",
         date: "",
-        comments: [], //Comment
+        // comments: [], //Comment
       },
+      applications: [],
       // valid
-      valid: false,
+      validAddress: false,
       disabled: false,
       panel: [],
     };
@@ -396,8 +409,9 @@ export default {
     },
     updateUser() {
       const user = {
-        cognitoid: "bfbb9639-9c05-4868-b2e1-bd56edaf416f",
+        id: "99e6f2fb-377e-4efd-bb88-945e7efa55bc",
         email: this.user.email,
+        cognitoid: this.user.cognitoid,
         username: this.user.username,
         firstName: this.user.firstName,
         lastName: this.user.lastName,
@@ -409,32 +423,36 @@ export default {
         address: this.address,
         profile: this.profile,
         activities: this.activities,
-        applications: this.applications,
+        applications: this.applications.split(","),
         subscription: this.subscription,
       };
 
       console.log(JSON.stringify(user));
-      if (this.validate()) {
+      console.log("formAddress: ", this.$refs.formAddress.validate());
+      if (this.$refs.formAddress.validate()) {
         this.$apollo
           .mutate({
-            mutation: CreateUser,
+            mutation: UpdateUser,
             variables: user,
-            update: (store, { data: { createUser } }) => {
+            update: (store, { data: { updateUser } }) => {
               // const data = store.readQuery({
               //   query: GetUser,
-              //   variables: createUser.id,
+              //   variables: updateUser.id,
               // });
-              // data.GetUser.update(createUser);
+              // data.GetUser.update(updateUser);
               // store.writeQuery({ query: GetUser,  });
-              console.log("\t\t\t" + JSON.stringify(createUser, null, 2));
-              this.$router.push({
-                name: "jobseekers",
-                params: { id: createUser.id },
-              });
+              console.log(
+                "\t\t\tthis.$apollo.mutate.updateUser" +
+                  JSON.stringify(updateUser, null, 2)
+              );
+              // this.$router.push({
+              //   name: "profile",
+              //   params: { id: updateUser.id },
+              // });
             },
             optimisticResponse: {
               __typename: "Mutation",
-              createUser: {
+              updateUser: {
                 __typename: "User",
                 ...user,
               },
@@ -450,9 +468,7 @@ export default {
       // no
       this.isEdit = false;
     },
-    validate() {
-      this.$refs.form.validate();
-    },
   },
 };
+// apollo get user
 </script>

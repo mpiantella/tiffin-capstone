@@ -94,7 +94,6 @@ type ProfileEvent {
   area: String
   startDate: String
   endDate: String
-  other: String
 }
 
 # profile - nested
@@ -103,9 +102,9 @@ type Profile {
   summary: String
   experience: [ProfileEvent]
   education: [ProfileEvent]
-  licenses: [ProfileEvent]
-  certifications: [ProfileEvent]
-  recommendations: [ProfileEvent]
+  licenses: [String]
+  certifications: [String]
+  recommendations: [String]
   skills: [String]
   endorsements: [String]
 }
@@ -195,9 +194,8 @@ type UserConnection {
 
 # Enumeration
 enum ActivityStatus {
-  created
   open
-  done
+  closed
 }
 
 enum SubscriptionFrequency {
@@ -219,12 +217,6 @@ input InputActivity {
   date: String
 }
 
-input CommentInput {
-  body: String
-  title: String
-  userId: String
-}
-
 input CreateActivityInput {
   userId: String!
   name: String!
@@ -238,6 +230,12 @@ input DeleteActivityInput {
   id: ID!
 }
 
+input CommentInput {
+  body: String
+  title: String
+  userId: String
+}
+
 input UpdateActivityInput {
   id: ID!
   userId: String
@@ -249,23 +247,13 @@ input UpdateActivityInput {
   comments: [CommentInput]
 }
 
-input TableActivityFilterInput {
-  id: TableIDFilterInput
-  userId: TableStringFilterInput
-  name: TableStringFilterInput
-  description: TableStringFilterInput
-  content: TableStringFilterInput
-  data: TableStringFilterInput
-  status: TableStringFilterInput
-}
-
 # job
 input CreateJobInput {
-  userId: String!
   title: String!
-  description: String
   category: String!
   type: String!
+  userId: String!
+  description: String
   isFullyRemote: String
   howtoApply: String
   companyDescription: String
@@ -300,26 +288,6 @@ input UpdateJobInput {
 
 input DeleteJobInput {
   id: ID!
-}
-
-input TableJobFilterInput {
-  id: TableIDFilterInput
-  userId: TableStringFilterInput
-  title: TableStringFilterInput
-  description: TableStringFilterInput
-  category: TableStringFilterInput
-  type: TableStringFilterInput
-  isFullyRemote: TableStringFilterInput
-  howtoApply: TableStringFilterInput
-  companyDescription: TableStringFilterInput
-  companyHQ: TableStringFilterInput
-  companyName: TableStringFilterInput
-  companyStatement: TableStringFilterInput
-  companyWebsiteURL: TableStringFilterInput
-  logo: TableStringFilterInput
-  startDate: TableStringFilterInput
-  endDate: TableStringFilterInput
-  applicants: TableStringFilterInput
 }
 
 # user
@@ -385,6 +353,7 @@ input CreateUserInput {
   phone: String
   registered: Boolean
   subcribed: Boolean
+  applications: [String]
 }
 
 input UpdateUserInput {
@@ -398,7 +367,7 @@ input UpdateUserInput {
   phone: String
   registered: Boolean
   subcribed: Boolean
-  activities: [InputActivity]
+  activities: [UpdateActivityInput]
   applications: [String]
   profile: InputProfile
   subscription: InputSubscription
@@ -406,18 +375,6 @@ input UpdateUserInput {
 
 input DeleteUserInput {
   id: ID!
-}
-
-input TableUserFilterInput {
-  id: TableIDFilterInput
-  cognitoid: TableIDFilterInput
-  email: TableStringFilterInput
-  username: TableStringFilterInput
-  firstName: TableStringFilterInput
-  lastName: TableStringFilterInput
-  phone: TableStringFilterInput
-  registered: TableBooleanFilterInput
-  subcribed: TableBooleanFilterInput
 }
 
 # other
@@ -474,4 +431,46 @@ input TableStringFilterInput {
   lt: String
   ne: String
   notContains: String
+}
+
+input TableActivityFilterInput {
+  id: TableIDFilterInput
+  userId: TableStringFilterInput
+  name: TableStringFilterInput
+  description: TableStringFilterInput
+  content: TableStringFilterInput
+  data: TableStringFilterInput
+  status: TableStringFilterInput
+}
+
+input TableJobFilterInput {
+  id: TableIDFilterInput
+  userId: TableStringFilterInput
+  title: TableStringFilterInput
+  description: TableStringFilterInput
+  category: TableStringFilterInput
+  type: TableStringFilterInput
+  isFullyRemote: TableStringFilterInput
+  howtoApply: TableStringFilterInput
+  companyDescription: TableStringFilterInput
+  companyHQ: TableStringFilterInput
+  companyName: TableStringFilterInput
+  companyStatement: TableStringFilterInput
+  companyWebsiteURL: TableStringFilterInput
+  logo: TableStringFilterInput
+  startDate: TableStringFilterInput
+  endDate: TableStringFilterInput
+  applicants: TableStringFilterInput
+}
+
+input TableUserFilterInput {
+  id: TableIDFilterInput
+  cognitoid: TableIDFilterInput
+  email: TableStringFilterInput
+  username: TableStringFilterInput
+  firstName: TableStringFilterInput
+  lastName: TableStringFilterInput
+  phone: TableStringFilterInput
+  registered: TableBooleanFilterInput
+  subcribed: TableBooleanFilterInput
 }

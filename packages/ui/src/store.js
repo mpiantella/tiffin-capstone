@@ -34,16 +34,14 @@ export default new Vuex.Store({
       return Auth.currentAuthenticatedUser()
         .then((data) => {
           let user = null
-          console.log(JSON.stringify(data.attributes, null, 2));
           if (data && data.username) {
             user = {
-              // add cognitoid
               username: data.username,
+              cognitoid: data.attributes.sub,
               phone: data.attributes.phone_number,
               email: data.attributes.email,
-              // add to new stack
-              firstName: data.name || "",
-              firstName: data.family_name || ""
+              firstName: data.attributes.name,
+              lastName: data.attributes.family_name
             };
           }
           commit('setUser', user);
