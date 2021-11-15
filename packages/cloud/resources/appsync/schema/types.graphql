@@ -38,7 +38,6 @@ type ProfileEvent {
   area: String
   startDate: String
   endDate: String
-  other: String
 }
 
 # profile - nested
@@ -47,9 +46,9 @@ type Profile {
   summary: String
   experience: [ProfileEvent]
   education: [ProfileEvent]
-  licenses: [ProfileEvent]
-  certifications: [ProfileEvent]
-  recommendations: [ProfileEvent]
+  licenses: [String]
+  certifications: [String]
+  recommendations: [String]
   skills: [String]
   endorsements: [String]
 }
@@ -139,9 +138,8 @@ type UserConnection {
 
 # Enumeration
 enum ActivityStatus {
-  created
   open
-  done
+  closed
 }
 
 enum SubscriptionFrequency {

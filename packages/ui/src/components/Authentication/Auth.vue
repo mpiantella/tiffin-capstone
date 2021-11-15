@@ -24,7 +24,7 @@ export default {
   name: "AuthStateApp",
   created() {
     this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
-      console.log(authState);
+      console.log("Auth Template: authState: ", authState);
       this.authState = authState;
       this.user = authData;
       AmplifyStore.commit("setUser", authData);

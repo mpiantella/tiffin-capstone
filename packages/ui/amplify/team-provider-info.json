@@ -1,19 +1,19 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-remotebrilliance-dev-82553-authRole",
-      "UnauthRoleArn": "arn:aws:iam::762379509945:role/amplify-remotebrilliance-dev-82553-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::762379509945:role/amplify-remotebrilliance-dev-82553-authRole",
+      "AuthRoleName": "amplify-remotebrilliance-dev-230540-authRole",
+      "UnauthRoleArn": "arn:aws:iam::762379509945:role/amplify-remotebrilliance-dev-230540-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::762379509945:role/amplify-remotebrilliance-dev-230540-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-remotebrilliance-dev-82553-deployment",
-      "UnauthRoleName": "amplify-remotebrilliance-dev-82553-unauthRole",
-      "StackName": "amplify-remotebrilliance-dev-82553",
-      "StackId": "arn:aws:cloudformation:us-east-1:762379509945:stack/amplify-remotebrilliance-dev-82553/08b87ec0-3721-11ec-ba1e-127761627647",
-      "AmplifyAppId": "d3fax8znnd7i1l"
+      "DeploymentBucketName": "amplify-remotebrilliance-dev-230540-deployment",
+      "UnauthRoleName": "amplify-remotebrilliance-dev-230540-unauthRole",
+      "StackName": "amplify-remotebrilliance-dev-230540",
+      "StackId": "arn:aws:cloudformation:us-east-1:762379509945:stack/amplify-remotebrilliance-dev-230540/4d3ed830-45c9-11ec-bab9-128c6aa54d31",
+      "AmplifyAppId": "dy5xi79s7r3qi"
     },
     "categories": {
       "auth": {
-        "remotebrilliance8870317a": {}
+        "remotebrill": {}
       }
     }
   }
