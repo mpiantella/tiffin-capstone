@@ -146,6 +146,7 @@ input CreateUserInput {
   phone: String
   registered: Boolean
   subcribed: Boolean
+  applications: [String]
 }
 
 input UpdateUserInput {

@@ -2,10 +2,9 @@ import gql from 'graphql-tag'
 
 export default gql `
   mutation createUser(
-    $id: ID!
     $cognitoid: ID!
     $email: String
-    $username: String
+    $username: String!
     $firstName: String
     $lastName: String
     $phone: String
@@ -14,7 +13,6 @@ export default gql `
   ) {
       createUser(
       input: {
-        id: $id
         cognitoid: $cognitoid
         email: $email
         username: $username
@@ -27,7 +25,6 @@ export default gql `
     ) {
         id
         cognitoid
-        address
         email
         username
         firstName
@@ -35,7 +32,6 @@ export default gql `
         phone
         registered
         subcribed
-        profile
       }
     }
 `

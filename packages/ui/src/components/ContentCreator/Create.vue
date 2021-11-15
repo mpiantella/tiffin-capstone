@@ -4,99 +4,110 @@
     <v-row>
       <v-col cols="12">
         <div id="app">
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="name"
-                :error-messages="nameErrors"
-                :counter="30"
-                label="name"
-                required
-                @input="$v.name.$touch()"
-                @blur="$v.name.$touch()"
-              ></v-text-field> </v-col
-          ></v-row>
+          <v-form ref="form" v-model="valid" lazy-validation>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="name"
+                  :error-messages="nameErrors"
+                  :counter="30"
+                  label="name"
+                  required
+                  @input="$v.name.$touch()"
+                  @blur="$v.name.$touch()"
+                ></v-text-field> </v-col
+            ></v-row>
 
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="description"
-                :error-messages="descriptionErrors"
-                :counter="50"
-                label="description"
-                required
-                @input="$v.description.$touch()"
-                @blur="$v.description.$touch()"
-              ></v-text-field> </v-col
-          ></v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="description"
+                  :error-messages="descriptionErrors"
+                  :counter="50"
+                  label="description"
+                  required
+                  @input="$v.description.$touch()"
+                  @blur="$v.description.$touch()"
+                ></v-text-field> </v-col
+            ></v-row>
 
-          <v-row>
-            <v-col>
-              <v-select
-                :items="statusEnum"
-                v-model="status"
-                label="status"
-              ></v-select>
-            </v-col>
-          </v-row>
-          <!-- start date  
+            <v-row>
+              <v-col>
+                <v-select
+                  :items="statusEnum"
+                  v-model="status"
+                  label="status"
+                ></v-select>
+              </v-col>
+            </v-row>
+            <!-- start date  
           https://vuetifyjs.com/en/components/date-pickers/#dialog-and-menu-->
-          <v-row
-            ><v-col>
-              <v-menu
-                ref="menu"
-                v-model="menu"
-                :close-on-content-click="false"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
+            <v-row
+              ><v-col>
+                <v-menu
+                  ref="menu"
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="date"
+                      label="Event Date"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                      :error-messages="dateErrors"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
                     v-model="date"
-                    label="Event Date"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                    :error-messages="dateErrors"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="date"
-                  :active-picker.sync="activePicker"
-                  max="2025-01-01"
-                  min="1950-01-01"
-                  @change="save"
-                ></v-date-picker>
-              </v-menu>
-            </v-col>
-          </v-row>
-          <!-- end date -->
-          <!-- view editor starts -->
-          <v-row>
-            <v-col>
-              <vue-editor
-                v-model="content"
-                placeholder="Add content here"
-                :counter="1000"
-              ></vue-editor>
-            </v-col>
-          </v-row>
-          <!-- view editor ends -->
-          <v-row class="pt-2">
-            <v-col>
-              <v-btn
-                class="redFont"
-                elevation="2"
-                depressed
-                raised
-                rounded
-                @click="createActivity()"
-                >Create Content</v-btn
-              >
-            </v-col>
-          </v-row>
+                    :active-picker.sync="activePicker"
+                    max="2025-01-01"
+                    min="1950-01-01"
+                    @change="save"
+                  ></v-date-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
+            <!-- end date -->
+            <!-- view editor starts -->
+            <v-row>
+              <v-col>
+                <vue-editor
+                  v-model="content"
+                  placeholder="Add content here"
+                  :counter="1000"
+                ></vue-editor>
+              </v-col>
+            </v-row>
+            <!-- view editor ends -->
+            <v-row class="pt-2">
+              <v-col>
+                <v-btn
+                  class="redFont"
+                  elevation="2"
+                  depressed
+                  raised
+                  rounded
+                  @click="createActivity()"
+                  >Create Content
+                </v-btn>
+                <v-btn
+                  class="redFont"
+                  elevation="2"
+                  depressed
+                  raised
+                  rounded
+                  @click="cancel()"
+                  >Cancel
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
         </div>
       </v-col>
     </v-row>
@@ -136,6 +147,8 @@ export default {
     date: null,
     activePicker: null,
     menu: false,
+    // flags
+    valid: false,
   }),
 
   watch: {
@@ -181,6 +194,7 @@ export default {
 
   methods: {
     createActivity() {
+      // TODO - validation check and prevent creation if valid not set
       const activity = {
         userId: this.userId,
         name: this.name,
@@ -189,30 +203,43 @@ export default {
         status: this.status,
         date: this.date,
       };
-
-      this.$apollo
-        .mutate({
-          mutation: CreateActivity,
-          variables: activity,
-          update: (store, { data: { createActivity } }) => {
-            const data = store.readQuery({ query: ListActivities });
-            data.listActivities.items.push(createActivity);
-            store.writeQuery({ query: ListActivities, data });
-            this.$router.push({ name: "contents" });
-          },
-          optimisticResponse: {
-            __typename: "Mutation",
-            createActivity: {
-              __typename: "Activity",
-              ...activity,
+      if (this.validate()) {
+        this.$apollo
+          .mutate({
+            mutation: CreateActivity,
+            variables: activity,
+            update: (store, { data: { createActivity } }) => {
+              const data = store.readQuery({ query: ListActivities });
+              data.listActivities.items.push(createActivity);
+              store.writeQuery({ query: ListActivities, data });
+              this.$router.push({ name: "contents" });
             },
-          },
-        })
-        .then((data) => console.log(data))
-        .catch((error) => console.error("error!!!: ", error));
+            optimisticResponse: {
+              __typename: "Mutation",
+              createActivity: {
+                __typename: "Activity",
+                ...activity,
+              },
+            },
+          })
+          .then((data) => console.log(data))
+          .catch((error) => console.error("error!!!: ", error));
+      } else {
+        alert("This form is not valid!");
+      }
     },
     save(date) {
       this.$refs.menu.save(date);
+    },
+    cancel() {
+      this.$router.push({ name: "contents" });
+    },
+    validate() {
+      console.log("ContentCreator.Create ", this.$refs.form.validate());
+      this.$refs.form.validate();
+    },
+    resetValidation() {
+      this.$refs.form.reset();
     },
   },
 };

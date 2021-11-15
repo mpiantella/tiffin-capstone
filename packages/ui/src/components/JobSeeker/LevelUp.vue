@@ -2,7 +2,7 @@
   <v-container class="pt-10">
     <v-row>
       <v-col cols="8">
-        <h1>{{ activity.name }}</h1>
+        <h1>activity {{ activity.name }}</h1>
       </v-col>
       <v-col cols="4" class="text-right">
         <v-btn class="ml-2 mt-5" rounded small @click="goBack()">

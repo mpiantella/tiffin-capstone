@@ -1,8 +1,8 @@
-
-
 <template>
   <v-container>
-    <v-row class="pt-10"><h1>Job Creator</h1></v-row>
+    <v-row class="pt-10">
+      <h1>Apply For {{ job.name }}</h1>
+    </v-row>
     <v-row>
       <v-col cols="12">
         <div id="app">
@@ -93,7 +93,7 @@
 
 <script>
 /* eslint-disable no-console */
-import CreateJob from "../../apis/CreateJob";
+import UpdateJob from "../../apis/UpdateJob";
 import ListJobs from "../../apis/ListJobs";
 import { VueEditor } from "vue2-editor";
 import { validationMixin } from "vuelidate";
@@ -186,7 +186,7 @@ export default {
             const data = store.readQuery({ query: ListJobs });
             data.listActivities.items.push(createJob);
             store.writeQuery({ query: ListJobs, data });
-            this.$router.push({ name: "jobseeker" });
+            this.$router.push({ name: "jobseekers" });
           },
           optimisticResponse: {
             __typename: "Mutation",

@@ -1,6 +1,9 @@
 <template>
   <v-container class="pt-10">
-    <v-row><h1>Content Create</h1></v-row>
+    <v-row>
+      <h1>Content Create</h1>
+      <h2>isUserAuthenticated {{ isUserAuthenticated }}</h2>
+    </v-row>
     <v-row>
       <v-col cols="12">
         <!-- start of activity form -->
@@ -49,8 +52,9 @@
     </v-row>
   </v-container>
 </template>
-          
+
 <script>
+import { mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
 
@@ -77,6 +81,12 @@ export default {
   }),
 
   computed: {
+    ...mapGetters(["getIsUserAuthenticated"]),
+    isUserAuthenticated: {
+      get() {
+        return this.$store.state.isUserAuthenticated;
+      },
+    },
     checkboxErrors() {
       const errors = [];
       if (!this.$v.checkbox.$dirty) return errors;

@@ -6,14 +6,21 @@ import AWSAppSyncClient from 'aws-appsync';
 import VueApollo from 'vue-apollo';
 import '@aws-amplify/ui-vue';
 import Amplify from 'aws-amplify';
+import {
+	Auth
+} from '@aws-amplify/auth'
 
 import App from './App.vue';
 import router from './router';
+import store from './store';
 import awsconfig from "./aws-exports";
 import appSyncConfig from './AppSync';
 
 Amplify.configure(awsconfig);
+Auth.configure(awsconfig)
+//Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
+//apollo configs
 const config = {
 	url: appSyncConfig.graphqlEndpoint,
 	region: appSyncConfig.region,
@@ -29,11 +36,10 @@ const options = {
 		}
 	}
 };
-
 const client = new AWSAppSyncClient(config, options)
 const appsyncProvider = new VueApollo({
 	defaultClient: client
-})
+});
 
 Vue.config.productionTip = false
 Vue.use(VueApollo)
@@ -42,6 +48,7 @@ Vue.use(Vuelidate)
 new Vue({
 	vuetify,
 	router,
+	store,
 	provide: appsyncProvider.provide(),
 	render: h => h(App)
 }).$mount('#app')

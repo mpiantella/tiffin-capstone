@@ -1,20 +1,20 @@
 <template>
   <v-container class="pt-10">
     <v-row>
-      <v-col>
-        <h1>Job Creator</h1>
+      <v-col cols="8">
+        <h1>Jobs Created By User {{ job.title }}</h1>
+        <h4>Call getJobs filter by userId</h4>
       </v-col>
       <v-col cols="4" class="text-right">
-        <!-- This button can only be displayed if user is logged in and have a subsciption-->
-        <v-btn
-          class="redFont"
-          elevation="2"
-          depressed
-          raised
-          rounded
-          to="/jobcreate"
-          >Create a Job</v-btn
-        >
+        <v-btn class="ml-2 mt-5" rounded small @click="goBack()">
+          <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-btn class="ml-2 mt-5" rounded small @click="deleteJob(job)">
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+        <v-btn class="ml-2 mt-5" rounded small @click="updateJob(job)">
+          <v-icon>mdi-update</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
     <v-row>
@@ -48,20 +48,33 @@ import ListJobs from "../../apis/ListJobs";
 export default {
   data() {
     return {
-      listJobs: [],
+      job: {},
+      jobs: [],
     };
   },
-
   methods: {
     readJob(id) {
       const params = { id: id };
       this.$router.push({ name: "jobview", params });
     },
+    goBack() {
+      this.$router.push({ name: "jobcreator" });
+    },
   },
+
   apollo: {
     // how to store in local store
     jobs: {
+      // id should be passed through the - saved in the store or something
       query: () => ListJobs,
+      variables() {
+        // of get it from the store.state.user.userId
+        console.log("here", this.$route.params.userId);
+        return {
+          // figure out filter and pass the
+          userId: this.store.state.user.userId,
+        };
+      },
       update: (data) => data.listJobs.items,
     },
   },

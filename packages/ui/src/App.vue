@@ -56,15 +56,11 @@ export default {
       topBar: [
         {
           label: "Job Seekers",
-          url: "/jobseeker",
+          url: "/jobseekers",
         },
         {
-          label: "Login",
-          url: "/login",
-        },
-        {
-          label: "SignUp",
-          url: "/signup",
+          label: "Login/SignUp",
+          url: "/auth",
         },
       ],
       footerBar: [
@@ -74,11 +70,11 @@ export default {
         },
         {
           label: "Login",
-          url: "/login",
+          url: "/auth",
         },
         {
           label: "Job Seeker",
-          url: "/jobseeker",
+          url: "/jobseekers",
         },
         {
           label: "Level-Up",

@@ -13,7 +13,7 @@
           depressed
           raised
           rounded
-          to="/signup"
+          to="/auth"
           >Join Now</v-btn
         >
       </v-col>
@@ -78,7 +78,7 @@ export default {
       ctaList: [
         {
           label: "Job Seeker",
-          url: "/jobseeker",
+          url: "/jobseekers",
           icon: "mdi-bullhorn",
         },
         {

@@ -4,228 +4,233 @@
     <v-row>
       <v-col cols="12">
         <div id="app">
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="title"
-                :error-messages="titleErrors"
-                :counter="30"
-                label="title"
-                required
-                @input="$v.title.$touch()"
-                @blur="$v.title.$touch()"
-              ></v-text-field>
-            </v-col>
-          </v-row>
+          <v-form ref="form" v-model="valid" lazy-validation>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="title"
+                  :error-messages="titleErrors"
+                  :counter="30"
+                  label="title"
+                  required
+                  @input="$v.title.$touch()"
+                  @blur="$v.title.$touch()"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-          <v-row>
-            <v-col>
-              <v-select
-                v-model="category"
-                :error-messages="categoryErrors"
-                :items="categoriesEnum"
-                label="Category"
-                required
-                @input="$v.category.$touch()"
-                @blur="$v.category.$touch()"
-              ></v-select>
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col>
+                <v-select
+                  v-model="category"
+                  :error-messages="categoryErrors"
+                  :items="categoriesEnum"
+                  label="Category"
+                  required
+                  @input="$v.category.$touch()"
+                  @blur="$v.category.$touch()"
+                ></v-select>
+              </v-col>
+            </v-row>
 
-          <v-row>
-            <v-col>
-              <v-radio-group
-                label="Type"
-                v-model="type"
-                required
-                :error-messages="typeErrors"
-                @input="$v.type.$touch()"
-                @blur="$v.type.$touch()"
-              >
-                <v-radio label="Full-Time" value="Full-time"></v-radio>
-                <v-radio label="Part-Time" value="Part-time"></v-radio>
-              </v-radio-group>
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col>
+                <v-radio-group
+                  label="Type"
+                  v-model="type"
+                  required
+                  :error-messages="typeErrors"
+                  @input="$v.type.$touch()"
+                  @blur="$v.type.$touch()"
+                >
+                  <v-radio label="Full-Time" value="Full-time"></v-radio>
+                  <v-radio label="Part-Time" value="Part-time"></v-radio>
+                </v-radio-group>
+              </v-col>
+            </v-row>
 
-          <!-- view editor starts | TRY TO ADD :counter="1000" -->
-          <v-row>
-            <v-col>
-              <vue-editor
-                v-model="description"
-                placeholder="Add description here"
-              ></vue-editor>
-            </v-col>
-          </v-row>
-          <!-- view editor ends -->
+            <!-- view editor starts | TRY TO ADD :counter="1000" -->
+            <v-row>
+              <v-col>
+                <vue-editor
+                  v-model="description"
+                  placeholder="Add description here"
+                ></vue-editor>
+              </v-col>
+            </v-row>
+            <!-- view editor ends -->
 
-          <v-row>
-            <v-col>
-              <v-radio-group label="Is Fully Remote?" v-model="isFullyRemote">
-                <v-radio label="Yes" value="Yes"></v-radio>
-                <v-radio label="No" value="No"></v-radio>
-              </v-radio-group>
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col>
+                <v-radio-group label="Is Fully Remote?" v-model="isFullyRemote">
+                  <v-radio label="Yes" value="Yes"></v-radio>
+                  <v-radio label="No" value="No"></v-radio>
+                </v-radio-group>
+              </v-col>
+            </v-row>
 
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="howtoApply"
-                :counter="15"
-                label="How to Apply?"
-                required
-              ></v-text-field>
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="howtoApply"
+                  :counter="15"
+                  label="How to Apply?"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="companyName"
-                :counter="15"
-                label="Company Name"
-                required
-              ></v-text-field>
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="companyName"
+                  :counter="15"
+                  label="Company Name"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="companyDescription"
-                :counter="100"
-                label="Company Description"
-              ></v-text-field>
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="companyDescription"
+                  :counter="100"
+                  label="Company Description"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="companyStatement"
-                :counter="200"
-                label="Company Statement"
-              ></v-text-field>
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="companyStatement"
+                  :counter="200"
+                  label="Company Statement"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="companyHQ"
-                :counter="15"
-                label="Company HQ"
-              ></v-text-field>
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="companyHQ"
+                  :counter="15"
+                  label="Company HQ"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-          <v-row>
-            <v-col>
-              <v-text-field
-                v-model="companyWebsiteURL"
-                :counter="30"
-                label="Company Website URL"
-              ></v-text-field>
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="companyWebsiteURL"
+                  :counter="30"
+                  label="Company Website URL"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-          <v-row>
-            <v-col>
-              <!-- logo goes here -->
-            </v-col>
-          </v-row>
+            <v-row>
+              <v-col>
+                <!-- logo goes here -->
+              </v-col>
+            </v-row>
 
-          <!-- startDate -->
-          <v-row>
-            <v-col>
-              <v-menu
-                ref="menu1"
-                v-model="menu1"
-                :close-on-content-click="false"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
+            <!-- startDate -->
+            <v-row>
+              <v-col>
+                <v-menu
+                  ref="menu1"
+                  v-model="menu1"
+                  :close-on-content-click="false"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="startDate"
+                      label="Start Date"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                      :error-messages="startDateErrors"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
                     v-model="startDate"
-                    label="Start Date"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                    :error-messages="startDateErrors"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="startDate"
-                  :active-picker.sync="activePicker1"
-                  max="2025-01-01"
-                  min="1950-01-01"
-                  @change="saveMenu1"
-                ></v-date-picker>
-              </v-menu>
-            </v-col>
-          </v-row>
-          <!-- end startDate -->
+                    :active-picker.sync="activePicker1"
+                    max="2025-01-01"
+                    min="1950-01-01"
+                    @change="saveMenu1"
+                  ></v-date-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
+            <!-- end startDate -->
 
-          <!-- endDate -->
-          <v-row
-            ><v-col>
-              <v-menu
-                ref="menu2"
-                v-model="menu2"
-                :close-on-content-click="false"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
+            <!-- endDate -->
+            <v-row
+              ><v-col>
+                <v-menu
+                  ref="menu2"
+                  v-model="menu2"
+                  :close-on-content-click="false"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="endDate"
+                      label="End Date"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                      :error-messages="endDateErrors"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
                     v-model="endDate"
-                    label="End Date"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                    :error-messages="endDateErrors"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="endDate"
-                  :active-picker.sync="activePicker2"
-                  max="2025-01-01"
-                  min="1950-01-01"
-                  @change="saveMenu2"
-                ></v-date-picker>
-              </v-menu>
-            </v-col>
-          </v-row>
-          <!-- end endDate -->
+                    :active-picker.sync="activePicker2"
+                    max="2025-01-01"
+                    min="1950-01-01"
+                    @change="saveMenu2"
+                  ></v-date-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
+            <!-- end endDate -->
 
-          <v-row class="pt-2">
-            <v-col cols="12">
-              <v-btn
-                class="redFont"
-                elevation="2"
-                depressed
-                raised
-                rounded
-                @click="createJob()"
-                >Create Job</v-btn
-              >
-              <v-btn
-                class="redFont"
-                elevation="2"
-                depressed
-                raised
-                rounded
-                @click="cancel()"
-                >Cancel</v-btn
-              >
-            </v-col>
-          </v-row>
+            <v-row class="pt-2">
+              <v-col cols="12">
+                <v-btn
+                  class="redFont"
+                  elevation="2"
+                  depressed
+                  raised
+                  rounded
+                  @click="createJob()"
+                  >Create Job</v-btn
+                >
+                <v-btn color="warning" @click="resetValidation">
+                  Reset Validation
+                </v-btn>
+                <v-btn
+                  class="redFont"
+                  elevation="2"
+                  depressed
+                  raised
+                  rounded
+                  @click="cancel()"
+                  >Cancel</v-btn
+                >
+              </v-col>
+            </v-row>
+          </v-form>
         </div>
       </v-col>
     </v-row>
@@ -287,9 +292,11 @@ export default {
     ],
     // date picker fields
     menu1: false,
-    activePicker2: null,
+    activePicker1: null,
     menu2: false,
     activePicker2: null,
+    // flags
+    valid: false,
   }),
 
   watch: {
@@ -348,9 +355,6 @@ export default {
       !this.$v.endDate.required && errors.push("endDate is required.");
       return errors;
     },
-    cancel() {
-      this.$router.push({ name: "jobcreator" });
-    },
   },
 
   methods: {
@@ -372,33 +376,45 @@ export default {
         startDate: this.startDate,
         endDate: this.endDate,
       };
-
-      this.$apollo
-        .mutate({
-          mutation: CreateJob,
-          variables: job,
-          update: (store, { data: { createJob } }) => {
-            const data = store.readQuery({ query: ListJobs });
-            data.listJobs.items.push(createJob);
-            store.writeQuery({ query: ListJobs, data });
-            this.$router.push({ name: "jobcreator" });
-          },
-          optimisticResponse: {
-            __typename: "Mutation",
-            createJob: {
-              __typename: "Job",
-              ...job,
+      if (this.validate()) {
+        this.$apollo
+          .mutate({
+            mutation: CreateJob,
+            variables: job,
+            update: (store, { data: { createJob } }) => {
+              const data = store.readQuery({ query: ListJobs });
+              data.listJobs.items.push(createJob);
+              store.writeQuery({ query: ListJobs, data });
+              this.$router.push({ name: "jobcreator" });
             },
-          },
-        })
-        .then((data) => console.log(data))
-        .catch((error) => console.error("error!!!: ", error));
+            optimisticResponse: {
+              __typename: "Mutation",
+              createJob: {
+                __typename: "Job",
+                ...job,
+              },
+            },
+          })
+          .then((data) => console.log(data))
+          .catch((error) => console.error("error!!!: ", error));
+      } else {
+        alert("This form is not valid!");
+      }
     },
     saveMenu1(date) {
       this.$refs.menu1.save(date);
     },
     saveMenu2(date) {
       this.$refs.menu2.save(date);
+    },
+    cancel() {
+      this.$router.push({ name: "jobcreator" });
+    },
+    validate() {
+      this.$refs.form.validate();
+    },
+    resetValidation() {
+      this.$refs.form.reset();
     },
   },
 };

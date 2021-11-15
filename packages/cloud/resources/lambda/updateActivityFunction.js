@@ -31,7 +31,7 @@ exports.handler = async (event) => {
         params.Item.comments = input.comments;
     }
 
-    let data = await documentClient.put(params).promise()
+    let data = await documentClient.update(params).promise()
         .catch((err) => {
             throw err;
         });

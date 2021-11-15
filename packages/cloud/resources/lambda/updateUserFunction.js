@@ -50,7 +50,7 @@ exports.handler = async (event) => {
     }
 
 
-    let data = await documentClient.put(params).promise()
+    let data = await documentClient.update(params).promise()
         .catch((err) => {
             throw err;
         });
@@ -61,14 +61,3 @@ exports.handler = async (event) => {
         }
     }
 };
-
-/*
-    HashKey: 'haskey',
-    NumAttribute: 1,
-    BoolAttribute: true,
-    ListAttribute: [1, 'two', false],
-    MapAttribute: {
-        foo: 'bar'
-    },
-    NullAttribute: null
-s*/

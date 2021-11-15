@@ -33,3 +33,13 @@ Vue Application using AppSync for GraphQL backend. Some of the data sources incl
 ```
 
 This will generate the Lambdas zip, and GraphQL schemas needed by the Cloud Formation Template that is in turn deployed by the command. This creates an AppSync APi with tables and lambdas a data soources. VTL is used for straight forward mutations, and more complication mutations, like "User Profile Update" is done via a Lambda.
+
+
+TODO: 
+user pages:
+create missing fields of user 
+update activity => Activity.comments: [Comment]
+
+job.applicants: [String] # userId array
+
+User.applications: [String] # jobId array
