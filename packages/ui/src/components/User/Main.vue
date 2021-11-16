@@ -2,7 +2,7 @@
   <v-container class="pt-10">
     <v-row>
       <h1>Content Create</h1>
-      <h2>isUserAuthenticated {{ isUserAuthenticated }}</h2>
+      <h2>isUserAuth {{ isUserAuth }}</h2>
     </v-row>
     <v-row>
       <v-col cols="12">
@@ -82,9 +82,9 @@ export default {
 
   computed: {
     ...mapGetters(["getIsUserAuthenticated"]),
-    isUserAuthenticated: {
+    isUserAuth: {
       get() {
-        return this.$store.state.isUserAuthenticated;
+        return this.$store.state.isUserAuth;
       },
     },
     checkboxErrors() {

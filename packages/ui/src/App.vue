@@ -8,15 +8,15 @@
         ><img class="mr-2" :src="require('./assets/long-logo.svg')" height="60"
       /></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        color="primary"
-        v-for="link in topBar"
-        :key="`${link.label}-header-link`"
-        text
-        rounded
-        :to="link.url"
-      >
-        {{ link.label }}
+      <v-btn color="primary" text rounded to="/jobs">
+        Jobs
+      </v-btn>
+      <v-btn color="primary" text rounded to="/auth">
+        <span v-if="isUserAuth">Login</span>
+        <span v-else>Sign Out</span>
+      </v-btn>
+      <v-btn v-if="isUserAuth" to="/profile" icon>
+        <v-icon class="redFont">mdi-account</v-icon>
       </v-btn>
       <v-btn @click="toggleTheme" icon>
         <v-icon class="redFont">mdi-toggle-switch</v-icon>
@@ -48,29 +48,33 @@
   </v-app>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "App",
+  computed: {
+    ...mapGetters(["getIsUserAuthenticated"]),
+    isUserAuth: {
+      get() {
+        console.log(
+          "this.$store.state.isUserAuth",
+          this.$store.state.isUserAuth
+        );
+        return this.$store.state.isUserAuth;
+      },
+    },
+  },
   data() {
     return {
       hydrated: false,
-      topBar: [
-        {
-          label: "Job Seekers",
-          url: "/jobseekers",
-        },
-        {
-          label: "Login/SignUp",
-          url: "/auth",
-        },
-      ],
       footerBar: [
         {
           label: "About",
           url: "/about",
         },
         {
-          label: "Login",
-          url: "/auth",
+          label: "Jobs",
+          url: "/jobs",
         },
         {
           label: "Job Seeker",
@@ -89,6 +93,7 @@ export default {
   },
   async mounted() {
     await this.$apollo.provider.defaultClient.hydrated();
+
     this.hydrated = true;
   },
   methods: {

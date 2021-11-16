@@ -244,7 +244,7 @@
                 depressed
                 raised
                 rounded
-                @click="updateUser()"
+                @click="createUser()"
               >
                 Update Profile
               </v-btn>
@@ -266,7 +266,7 @@
 </template>
 
 <script>
-import UpdateUser from "../../apis/UpdateUser";
+import CreateUser from "../../apis/CreateUser";
 import { mapGetters, mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required, maxLength } from "vuelidate/lib/validators";
@@ -350,6 +350,8 @@ export default {
   created() {
     this.initialize();
   },
+  // comes from registration page - or needs to re
+  // ISREGISTER - ISUPDATE - ISREAD
   data() {
     return {
       // address
@@ -407,9 +409,8 @@ export default {
         });
       }
     },
-    updateUser() {
+    createUser() {
       const user = {
-        id: "99e6f2fb-377e-4efd-bb88-945e7efa55bc",
         email: this.user.email,
         cognitoid: this.user.cognitoid,
         username: this.user.username,
@@ -432,27 +433,27 @@ export default {
       if (this.$refs.formAddress.validate()) {
         this.$apollo
           .mutate({
-            mutation: UpdateUser,
+            mutation: CreateUser,
             variables: user,
-            update: (store, { data: { updateUser } }) => {
+            update: (store, { data: { createUser } }) => {
               // const data = store.readQuery({
               //   query: GetUser,
-              //   variables: updateUser.id,
+              //   variables: createUser.id,
               // });
-              // data.GetUser.update(updateUser);
+              // data.GetUser.update(createUser);
               // store.writeQuery({ query: GetUser,  });
               console.log(
-                "\t\t\tthis.$apollo.mutate.updateUser" +
-                  JSON.stringify(updateUser, null, 2)
+                "\t\t\tthis.$apollo.mutate.createUser" +
+                  JSON.stringify(createUser, null, 2)
               );
               // this.$router.push({
               //   name: "profile",
-              //   params: { id: updateUser.id },
+              //   params: { id: createUser.id },
               // });
             },
             optimisticResponse: {
               __typename: "Mutation",
-              updateUser: {
+              createUser: {
                 __typename: "User",
                 ...user,
               },

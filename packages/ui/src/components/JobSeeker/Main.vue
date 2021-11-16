@@ -2,7 +2,7 @@
   <v-container class="pt-10">
     <v-row>
       <v-col>
-        <h1 v-if="isUserAuthenticated">Welcome {{ user.firstName }}!</h1>
+        <h1 v-if="isUserAuth">Welcome {{ user.firstName }}!</h1>
         <h1 v-else>Welcome to the Remote Brilliance!</h1>
       </v-col>
 
@@ -67,9 +67,9 @@ export default {
   },
   computed: {
     ...mapGetters(["getIsUserAuthenticated"]),
-    isUserAuthenticated: {
+    isUserAuth: {
       get() {
-        return this.$store.state.isUserAuthenticated;
+        return this.$store.state.isUserAuth;
       },
     },
   },

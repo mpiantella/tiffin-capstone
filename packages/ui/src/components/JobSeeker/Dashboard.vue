@@ -2,8 +2,11 @@
   <v-container class="pt-10">
     <v-row>
       <v-col cols="8">
-        <h1>Job Seeker Dashboard - {{ job.title }}</h1>
-        <h2>isUserAuthenticated {{ isUserAuthenticated }}</h2>
+        <h1>
+          Job Seeker Dashboard - | jobs per user? not profile? What should this
+          display? {{ job.title }}
+        </h1>
+        <h2>isUserAuth -CLEAN UP -{{ isUserAuth }}</h2>
       </v-col>
       <v-col cols="4" class="text-right">
         <v-btn class="ml-2 mt-5" rounded small @click="goBack()">
@@ -101,9 +104,9 @@ export default {
 
   computed: {
     ...mapGetters(["getIsUserAuthenticated"]),
-    isUserAuthenticated: {
+    isUserAuth: {
       get() {
-        return this.$store.state.isUserAuthenticated;
+        return this.$store.state.isUserAuth;
       },
     },
   },

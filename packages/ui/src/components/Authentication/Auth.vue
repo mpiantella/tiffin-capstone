@@ -1,9 +1,13 @@
 <template>
   <v-container class="pt-10">
     <v-row>
-      <v-col>
+      <v-col class="mx-2">
         <h1>Authentication</h1>
         <div>
+          <div v-if="isUserAuth">
+            <p class="my-4">You are signed in. Use button below to signout</p>
+            <amplify-sign-out button-text="Sign Out"></amplify-sign-out>
+          </div>
           <amplify-authenticator username-alias="email">
             <amplify-sign-up
               slot="sign-up"
@@ -21,15 +25,29 @@
   </v-container>
 </template>
 <script>
+import { mapGetters } from "vuex";
+import { AuthState, onAuthUIStateChange } from "@aws-amplify/ui-components";
+
+onAuthUIStateChange((nextAuthState, authData) => {
+  if (nextAuthState === AuthState.SignOut) {
+    console.log("user successfully signed out!");
+    this.$store.dispath("setUser", user);
+    this.$store.dispath("setIsUserAuthenticated", false);
+  }
+  // if (!authData) {
+  //   console.log("user is not signed in...");
+  // }
+});
+
 export default {
   name: "AuthStateApp",
-  created() {
-    // this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
-    //   console.log("Auth Template: authState: ", authState);
-    //   this.authState = authState;
-    //   this.user = authData;
-    //   AmplifyStore.commit("setUser", authData);
-    // });
+  computed: {
+    ...mapGetters(["getIsUserAuthenticated"]),
+    isUserAuth: {
+      get() {
+        return this.$store.state.isUserAuth;
+      },
+    },
   },
   data() {
     return {

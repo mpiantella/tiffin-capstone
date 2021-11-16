@@ -9,14 +9,14 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: null,
-    isUserAuthenticated: false
+    isUserAuth: false
   },
   mutations: {
     setUser(state, user) {
       state.user = user;
     },
     setIsUserAuthenticated(state, flag) {
-      state.isUserAuthenticated = flag;
+      state.isUserAuth = flag;
     }
   },
   getters: {
@@ -24,7 +24,7 @@ export default new Vuex.Store({
       return state.user;
     },
     getIsUserAuthenticated(state) {
-      return state.isUserAuthenticated;
+      return state.isUserAuth;
     }
   },
   actions: {
@@ -50,7 +50,7 @@ export default new Vuex.Store({
           return user;
         })
         .catch((e) => {
-          store.commit("setUser", null);
+          commit("setUser", null);
           return null;
         });
     }

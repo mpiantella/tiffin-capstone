@@ -4,7 +4,15 @@ import Home from './views/Home.vue'
 import store from './store';
 
 Vue.use(Router)
-
+const ifAuthenticated = (to, from, next) => {
+	console.log("top", store.state.isUserAuth)
+	// if (store.state.isUserAuth) {
+	// 	next();
+	// } else {
+	// 	next('/auth');
+	// }
+	next();
+}
 // add some logic to check if user is logged in
 const router = new Router({
 	mode: 'history',
@@ -25,60 +33,45 @@ const router = new Router({
 			component: () => import('./views/About.vue')
 		},
 		{
-			path: '/profile',
+			path: '/contents',
+			name: 'contents',
+			component: () => import('./components/ContentCreator/Main.vue')
+		},
+		{
+			path: '/jobs',
+			name: 'jobs',
+			component: () => import('./views/Jobs.vue')
+		}, // 
+		{
+			path: '/profile:id',
 			name: 'profile',
-			meta: {
-				requiresAuth: true
-			},
+			beforeEnter: ifAuthenticated,
 			component: () => import('./components/User/Profile.vue'),
 		},
+		// now is where we start cleaning up
 		{
 			path: '/profileupdate',
 			name: 'profileupdate',
-			meta: {
-				requiresAuth: true
-			},
+			beforeEnter: ifAuthenticated,
 			component: () => import('./components/User/Update.vue'),
 		},
 		// clean up. See User Profile. Manage Level UP (TODO list and manage. To add, go to level up) . Apply for Jobs.
 		{
 			// do I add this and then on no id use main or what?
-			path: '/jobseeker',
+			path: '/jobseeker', // take the user to Profile.main
 			name: 'jobseeker',
 			component: () => import('./components/JobSeeker/Main.vue'),
-			meta: {
-				requiresAuth: true
-			},
+			beforeEnter: ifAuthenticated,
 			children: [{
-				path: 'update',
-				name: 'jobseekerupdate',
+				path: 'update', //user:id
+				name: 'jobseekerupdate', //Profile/Update.vue
 				component: () => import('./components/User/Update.vue') // This adds the address and other
 			}]
 		},
-		// ,
-		// {
-		// 	path: '/jobseeker/:id',
-		// 	//name: 'jobseeker',
-		// 	component: () => import('./components/JobSeeker/Dashboard.vue'),
-		// 	children: [{
-		// 			path: 'update',
-		// 			name: 'jobupdate',
-		// 			component: () => import('./components/JobCreator/Update.vue')
-		// 		},
-		// 		// read the list of todos
-		// 		// {
-		// 		// 	path: 'apply',
-		// 		// 	name: 'apply',
-		// 		// 	component: () => import('./components/JobSeeker/JobApplication.vue')
-		// 		// }
-		// 	]
-		// },
 		{
 			path: "/jobseekers", // this will need to convert in a user id page other something
 			name: "jobseekers", // protect jobseeker page by aith check
-			meta: {
-				requiresAuth: true
-			},
+			beforeEnter: ifAuthenticated,
 			component: () => import('./components/JobSeeker/Main.vue')
 		},
 		{
@@ -94,11 +87,6 @@ const router = new Router({
 		},
 		// activity
 		{
-			path: '/contents',
-			name: 'contents',
-			component: () => import('./components/ContentCreator/Main.vue')
-		},
-		{
 			path: '/contentcreate',
 			meta: {
 				requiresAuth: true
@@ -109,9 +97,7 @@ const router = new Router({
 			path: '/content/:id',
 			name: 'contentdashboard',
 			component: () => import('./components/ContentCreator/Dashboard.vue'),
-			meta: {
-				requiresAuth: true
-			},
+			beforeEnter: ifAuthenticated,
 			children: [{
 				path: 'update',
 				// this needs to be done
@@ -131,17 +117,13 @@ const router = new Router({
 		{
 			path: '/jobcreate',
 			name: 'jobcreate',
-			meta: {
-				requiresAuth: true
-			},
+			beforeEnter: ifAuthenticated,
 			component: () => import('./components/JobCreator/Create.vue')
 		},
 		{
 			path: '/job/:id',
 			name: 'jobview',
-			meta: {
-				requiresAuth: true
-			},
+			beforeEnter: ifAuthenticated,
 			component: () => import('./components/JobCreator/View.vue'),
 			children: [{
 				// reuse the create page
@@ -154,6 +136,14 @@ const router = new Router({
 });
 
 router.beforeResolve((to, from, next) => {
-	store.dispatch("fetchUser").finally(() => next());
+	// only execute if user is not set in the store
+	console.log("store.state.isUserAuth", store.state.isUserAuth)
+	if (!store.state.isUserAuth) {
+		store.dispatch("fetchUser").finally(() => next());
+	} else {
+		next();
+	}
 })
+
+
 export default router
