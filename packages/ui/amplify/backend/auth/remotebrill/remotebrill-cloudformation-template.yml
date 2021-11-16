@@ -500,7 +500,7 @@ Resources:
         !If [
           ShouldNotCreateEnvResources,
           !Ref hostedUIDomainName,
-          !Join ["-", [!Ref hostedUIDomainName, !Ref env]],
+          !Join ["-", [!Ref hostedUIDomainName]],
         ]
     DependsOn: HostedUICustomResourceLogPolicy
 
@@ -765,7 +765,7 @@ Outputs:
       !If [
         ShouldNotCreateEnvResources,
         !Ref hostedUIDomainName,
-        !Join ["-", [!Ref hostedUIDomainName, !Ref env]],
+        !Join ["-", [!Ref hostedUIDomainName]],
       ]
 
   OAuthMetadata:

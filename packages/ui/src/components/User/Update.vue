@@ -95,16 +95,6 @@
                   depressed
                   raised
                   rounded
-                  @click="resetValidation()"
-                >
-                  Reset Form
-                </v-btn>
-                <v-btn
-                  class="redFont mr-4"
-                  elevation="2"
-                  depressed
-                  raised
-                  rounded
                   @click="cancel()"
                   >Cancel</v-btn
                 >
@@ -233,9 +223,6 @@ export default {
         })
         .then((data) => console.log(data))
         .catch((error) => console.error("error!!!: ", error));
-    },
-    resetValidation() {
-      this.$refs.form.reset();
     },
     cancel() {
       this.$router.push({ name: "/" });

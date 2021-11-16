@@ -204,11 +204,11 @@
               </v-col>
             </v-row>
             <!-- end endDate -->
-
-            <v-row class="pt-2">
+            <!-- Action Buttons Bottom -->
+            <v-row class="pt-4">
               <v-col cols="12">
                 <v-btn
-                  class="redFont"
+                  class="redFont mr-4"
                   elevation="2"
                   depressed
                   raised
@@ -216,18 +216,15 @@
                   @click="createJob()"
                   >Create Job</v-btn
                 >
-                <v-btn color="warning" @click="resetValidation">
-                  Reset Validation
-                </v-btn>
                 <v-btn
-                  class="redFont"
+                  class="redFont mr-4"
                   elevation="2"
                   depressed
                   raised
                   rounded
                   @click="cancel()"
-                  >Cancel</v-btn
-                >
+                  >Cancel
+                </v-btn>
               </v-col>
             </v-row>
           </v-form>
@@ -385,7 +382,7 @@ export default {
               const data = store.readQuery({ query: ListJobs });
               data.listJobs.items.push(createJob);
               store.writeQuery({ query: ListJobs, data });
-              this.$router.push({ name: "jobcreator" });
+              this.$router.push({ name: "jobs" });
             },
             optimisticResponse: {
               __typename: "Mutation",
@@ -408,13 +405,10 @@ export default {
       this.$refs.menu2.save(date);
     },
     cancel() {
-      this.$router.push({ name: "jobcreator" });
+      this.$router.push({ name: "jobs" });
     },
     validate() {
-      this.$refs.form.validate();
-    },
-    resetValidation() {
-      this.$refs.form.reset();
+      return this.$refs.form.validate();
     },
   },
 };

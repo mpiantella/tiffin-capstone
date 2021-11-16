@@ -1,45 +1,5 @@
 import gql from 'graphql-tag'
 
-const InputAddress = `input InputAddress {
-  address1: String!
-  address2: String
-  city: String!
-  state: String!
-  zipCode: String!
-  country: String
-}`
-
-const InputActivity = `input InputActivity {
-  id: ID!
-  userId: String!
-  name: String!
-  description: String
-  content: String
-  status: String
-  date: String
-}`
-
-const InputProfile = `
-input InputProfile {
-  currentRole: String!
-  summary: String
-  experience: [InputProfileEvent]
-  education: [InputProfileEvent]
-  licenses: [InputProfileEvent]
-  certifications: [InputProfileEvent]
-  recommendations: [InputProfileEvent]
-  skills: [String]
-  endorsements: [String]
-}
-`
-
-const InputSubscription = `input InputSubscription {
-  subscriptionsId: String!
-  userId: String!
-  billing: InputBilling
-  active: Boolean
-}`
-
 export default gql `
   mutation updateUser(
     $id: ID!

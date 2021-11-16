@@ -23,11 +23,22 @@ export default new Vuex.Store({
     getUser(state) {
       return state.user;
     },
+    getCurrentActivity(state) {
+      return state.currentActivity;
+    },
+    getCurrentJob(state) {
+      return state.currentJob;
+    },
     getIsUserAuthenticated(state) {
       return state.isUserAuth;
     }
   },
   actions: {
+    triggerSetUser({
+      commit
+    }, user) {
+      commit('setUser', user);
+    },
     fetchUser({
       commit
     }) {

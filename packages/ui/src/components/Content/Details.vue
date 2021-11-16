@@ -22,7 +22,7 @@
           small
           @click="updateActivity(activity)"
         >
-          <v-icon>mdi-update</v-icon>
+          <v-icon>mdi-pencil</v-icon>
         </v-btn>
       </v-col>
     </v-row>
@@ -102,7 +102,8 @@ export default {
       }
     },
     updateActivity(activity) {
-      // TODO
+      const params = { id: activity.id };
+      this.$router.push({ name: "contentupdate", params });
     },
     goBack() {
       this.$router.push({ name: "contents" });

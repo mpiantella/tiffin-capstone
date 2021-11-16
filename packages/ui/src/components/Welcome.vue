@@ -2,6 +2,7 @@
   <v-container fluid>
     <v-row class="align-center text-center primary">
       <v-col cols="12" class="ma-6">
+        <!-- not flex enough -->
         <h1 class="titleMsg">Improve your life while working from home</h1>
       </v-col>
       <v-col cols="12" class="ma-6">
@@ -78,7 +79,7 @@ export default {
       ctaList: [
         {
           label: "Job Seeker",
-          url: "/jobseekers",
+          url: "/profile",
           icon: "mdi-bullhorn",
         },
         {
@@ -87,8 +88,8 @@ export default {
           icon: "mdi-bookshelf",
         },
         {
-          label: "Job Creator",
-          url: "/jobcreator",
+          label: "Create Jobs",
+          url: "/jobcreate",
           icon: "mdi-clippy",
         },
         {

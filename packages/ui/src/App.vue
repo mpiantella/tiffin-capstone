@@ -12,8 +12,8 @@
         Jobs
       </v-btn>
       <v-btn color="primary" text rounded to="/auth">
-        <span v-if="isUserAuth">Login</span>
-        <span v-else>Sign Out</span>
+        <span v-if="isUserAuth">Sign Out</span>
+        <span v-else>Login</span>
       </v-btn>
       <v-btn v-if="isUserAuth" to="/profile" icon>
         <v-icon class="redFont">mdi-account</v-icon>
@@ -23,8 +23,7 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <router-view />
-      <!-- </router-view> -->
+      <router-view></router-view>
     </v-main>
     <v-footer color="primary lighten-1" padless>
       <v-layout justify-center wrap>
@@ -56,10 +55,6 @@ export default {
     ...mapGetters(["getIsUserAuthenticated"]),
     isUserAuth: {
       get() {
-        console.log(
-          "this.$store.state.isUserAuth",
-          this.$store.state.isUserAuth
-        );
         return this.$store.state.isUserAuth;
       },
     },
@@ -78,15 +73,11 @@ export default {
         },
         {
           label: "Job Seeker",
-          url: "/jobseekers",
+          url: "/profile",
         },
         {
           label: "Level-Up",
           url: "/contents",
-        },
-        {
-          label: "Job Creator",
-          url: "/jobcreator",
         },
       ],
     };

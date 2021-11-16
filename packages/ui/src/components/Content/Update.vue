@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row class="pt-10"><h1>Activity Creator</h1></v-row>
+    <v-row class="pt-10"><h1>Activity Update</h1></v-row>
     <v-row>
       <v-col cols="12">
         <div id="app">
@@ -8,34 +8,36 @@
             <v-row>
               <v-col>
                 <v-text-field
-                  v-model="name"
+                  v-model="activity.name"
                   :error-messages="nameErrors"
                   :counter="30"
                   label="name"
                   required
-                  @input="$v.name.$touch()"
-                  @blur="$v.name.$touch()"
-                ></v-text-field> </v-col
-            ></v-row>
+                  @input="$v.activity.name.$touch()"
+                  @blur="$v.activity.name.$touch()"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
             <v-row>
               <v-col>
                 <v-text-field
-                  v-model="description"
+                  v-model="activity.description"
                   :error-messages="descriptionErrors"
                   :counter="50"
                   label="description"
                   required
-                  @input="$v.description.$touch()"
-                  @blur="$v.description.$touch()"
-                ></v-text-field> </v-col
-            ></v-row>
+                  @input="$v.activity.description.$touch()"
+                  @blur="$v.activity.description.$touch()"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
             <v-row>
               <v-col>
                 <v-select
                   :items="statusEnum"
-                  v-model="status"
+                  v-model="activity.status"
                   label="status"
                 ></v-select>
               </v-col>
@@ -54,7 +56,7 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                      v-model="date"
+                      v-model="activity.date"
                       label="Event Date"
                       prepend-icon="mdi-calendar"
                       readonly
@@ -64,7 +66,7 @@
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    v-model="date"
+                    v-model="activity.date"
                     :active-picker.sync="activePicker"
                     max="2025-01-01"
                     min="1950-01-01"
@@ -78,26 +80,26 @@
             <v-row>
               <v-col>
                 <vue-editor
-                  v-model="content"
+                  v-model="activity.content"
                   placeholder="Add content here"
                   :counter="1000"
                 ></vue-editor>
               </v-col>
             </v-row>
             <!-- view editor ends -->
-            <v-row class="pt-2">
-              <v-col>
+            <v-row class="pt-4">
+              <v-col cols="12">
                 <v-btn
-                  class="redFont"
+                  class="redFont mr-4"
                   elevation="2"
                   depressed
                   raised
                   rounded
-                  @click="createActivity()"
-                  >Create Content
+                  @click="updateActivity(activity)"
+                  >Update Content
                 </v-btn>
                 <v-btn
-                  class="redFont"
+                  class="redFont mr-4"
                   elevation="2"
                   depressed
                   raised
@@ -116,7 +118,8 @@
 
 <script>
 /* eslint-disable no-console */
-import CreateActivity from "../../apis/CreateActivity";
+import GetActivity from "../../apis/GetActivity";
+import UpdateActivity from "../../apis/UpdateActivity";
 import ListActivities from "../../apis/ListActivities";
 import { VueEditor } from "vue2-editor";
 import { validationMixin } from "vuelidate";
@@ -130,26 +133,24 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    name: { required, maxLength: maxLength(30) },
-    description: { required, maxLength: maxLength(50) },
-    status: { required, alpha },
-    content: { required, maxLength: maxLength(1000) },
-    date: { required },
+    activity: {
+      name: { required, maxLength: maxLength(30) },
+      description: { required, maxLength: maxLength(50) },
+      status: { required, alpha },
+      content: { required, maxLength: maxLength(1000) },
+      date: { required },
+    },
   },
 
-  data: () => ({
-    name: "",
-    description: "",
-    userId: "mpiantella", // TODO: get from cognito-state
-    content: "",
-    status: "created",
-    statusEnum: ["created", "open", "done"],
-    date: null,
-    activePicker: null,
-    menu: false,
-    // flags
-    valid: false,
-  }),
+  data() {
+    return {
+      activity: {},
+      statusEnum: ["open", "closed"],
+      activePicker: null,
+      menu: false,
+      valid: false,
+    };
+  },
 
   watch: {
     menu(val) {
@@ -160,65 +161,69 @@ export default {
   computed: {
     nameErrors() {
       const errors = [];
-      if (!this.$v.name.$dirty) return errors;
-      !this.$v.name.maxLength &&
+      if (!(this.$v.activity || {}).name.$dirty) return errors;
+      !(this.$v.activity || {}).name.maxLength &&
         errors.push("Name must be at most 20 characters long");
-      !this.$v.name.required && errors.push("Name is required.");
+      !(this.$v.activity || {}).required && errors.push("Name is required.");
       return errors;
     },
     descriptionErrors() {
       const errors = [];
-      if (!this.$v.description.$dirty) return errors;
-      !this.$v.description.maxLength &&
+      if (!this.$v.activity.description.$dirty) return errors;
+      !this.$v.activity.description.maxLength &&
         errors.push("Description must be at most 30 characters long");
-      !this.$v.description.required && errors.push("Description is required.");
+      !this.$v.activity.description.required &&
+        errors.push("Description is required.");
       return errors;
     }, //date
     dateErrors() {
       const errors = [];
-      if (!this.$v.date.$dirty) return errors;
-      !this.$v.date.maxLength &&
+      if (!this.$v.activity.date.$dirty) return errors;
+      !this.$v.activity.date.maxLength &&
         errors.push("Date must be at most 10 characters long");
-      !this.$v.date.required && errors.push("Date is required.");
+      !this.$v.activity.date.required && errors.push("Date is required.");
       return errors;
     },
     contentErrors() {
       const errors = [];
-      if (!this.$v.content.$dirty) return errors;
-      !this.$v.content.maxLength &&
+      if (!this.$v.activity.content.$dirty) return errors;
+      !this.$v.activity.content.maxLength &&
         errors.push("Content must be at most 500 characters long");
-      !this.$v.content.required && errors.push("Content is required.");
+      !this.$v.activity.content.required && errors.push("Content is required.");
       return errors;
     },
   },
 
   methods: {
-    createActivity() {
+    updateActivity(activity) {
       // TODO - validation check and prevent creation if valid not set
-      const activity = {
-        userId: this.userId,
-        name: this.name,
-        description: this.description,
-        content: this.content,
-        status: this.status,
-        date: this.date,
+      const _activity = {
+        id: activity.id,
+        userId: activity.userId,
+        name: activity.name,
+        description: activity.description,
+        content: activity.content,
+        status: activity.status,
+        date: activity.date,
       };
+      console.log(_activity);
       if (this.validate()) {
         this.$apollo
           .mutate({
-            mutation: CreateActivity,
-            variables: activity,
-            update: (store, { data: { createActivity } }) => {
+            mutation: UpdateActivity,
+            variables: _activity,
+            update: (store, { data: { updateActivity } }) => {
+              console.log("adter mutate call", updateActivity);
               const data = store.readQuery({ query: ListActivities });
-              data.listActivities.items.push(createActivity);
+              data.listActivities.items.push(updateActivity);
               store.writeQuery({ query: ListActivities, data });
-              this.$router.push({ name: "contents" });
+              this.$router.push({ name: "contents" }).catch(() => {});
             },
             optimisticResponse: {
               __typename: "Mutation",
-              createActivity: {
+              updateActivity: {
                 __typename: "Activity",
-                ...activity,
+                ..._activity,
               },
             },
           })
@@ -235,11 +240,20 @@ export default {
       this.$router.push({ name: "contents" });
     },
     validate() {
-      console.log("ContentCreator.Create ", this.$refs.form.validate());
-      this.$refs.form.validate();
+      return this.$refs.form.validate();
     },
-    resetValidation() {
-      this.$refs.form.reset();
+  },
+  apollo: {
+    // how to store in local store
+    activity: {
+      // id should be passed through the - saved in the store or something
+      query: () => GetActivity,
+      variables() {
+        return {
+          id: this.$route.params.id,
+        };
+      },
+      update: (data) => data.getActivity,
     },
   },
 };

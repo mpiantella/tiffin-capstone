@@ -6,7 +6,9 @@
         <h4>Call getJobs filter by userId</h4>
       </v-col>
       <v-col cols="4" class="text-right">
-        <v-btn class="ml-2 mt-5" rounded small @click="goBack()">
+        <v-btn>Manage Somethng from list</v-btn>
+        <!-- 
+          <v-btn class="ml-2 mt-5" rounded small @click="goBack()">
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
         <v-btn class="ml-2 mt-5" rounded small @click="deleteJob(job)">
@@ -14,7 +16,7 @@
         </v-btn>
         <v-btn class="ml-2 mt-5" rounded small @click="updateJob(job)">
           <v-icon>mdi-update</v-icon>
-        </v-btn>
+        </v-btn> -->
       </v-col>
     </v-row>
     <v-row>
@@ -55,10 +57,10 @@ export default {
   methods: {
     readJob(id) {
       const params = { id: id };
-      this.$router.push({ name: "jobview", params });
+      this.$router.push({ name: "jobdetails", params });
     },
     goBack() {
-      this.$router.push({ name: "jobcreator" });
+      this.$router.push({ name: "jobs" });
     },
   },
 

@@ -8,7 +8,7 @@ const awsmobile = {
     "aws_user_pools_id": "us-east-1_u8q4dBepc",
     "aws_user_pools_web_client_id": "299n5hmmidpnuobaeukvo4jj0i",
     "oauth": {
-        "domain": "remotebrilliance-dev.auth.us-east-1.amazoncognito.com",
+        "domain": "remotebrilliance.auth.us-east-1.amazoncognito.com",
         "scope": [
             "phone",
             "email",
@@ -16,7 +16,7 @@ const awsmobile = {
             "profile",
             "aws.cognito.signin.user.admin"
         ],
-        "redirectSignIn": "https://remotebrilliance.link/",
+        "redirectSignIn": "https://remotebrilliance.link/profile",
         "redirectSignOut": "https://remotebrilliance.link/",
         "responseType": "code"
     },

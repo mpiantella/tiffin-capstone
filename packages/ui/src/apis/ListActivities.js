@@ -10,10 +10,6 @@ export default gql `
         date
         status
         userId
-        comments {
-          content
-          title
-        }
       }
     }
   }

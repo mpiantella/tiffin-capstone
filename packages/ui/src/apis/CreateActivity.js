@@ -17,7 +17,6 @@ export default gql `
         content: $content
         status: $status
         date: $date
-        comments: []
       }
     ) {
       id

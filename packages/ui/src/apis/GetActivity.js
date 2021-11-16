@@ -10,10 +10,6 @@ query getActivity ($id: ID!){
     content
     date
     status
-    comments {
-      content
-      title
-    }
   }
 }
 `

@@ -57,7 +57,7 @@
     "hostedUIDomainName": "remotebrilliance",
     "authProvidersUserPool": [],
     "hostedUIProviderMeta": "[]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://remotebrilliance.link/\"],\"LogoutURLs\":[\"https://remotebrilliance.link/\"]}",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://remotebrilliance.link/profile\"],\"LogoutURLs\":[\"https://remotebrilliance.link/\"]}",
     "userPoolGroupList": [
         "remotebrill"
     ],

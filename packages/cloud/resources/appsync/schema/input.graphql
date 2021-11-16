@@ -37,7 +37,6 @@ input UpdateActivityInput {
   content: String
   status: String
   date: String
-  comments: [CommentInput]
 }
 
 # job

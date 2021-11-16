@@ -7,6 +7,7 @@
       <v-col cols="4" class="text-right">
         <!-- This button can only be displayed if user is logged in-->
         <v-btn
+          v-if="isUserAuth"
           class="redFont"
           elevation="2"
           depressed
@@ -47,18 +48,28 @@
 </template>
 <script>
 import ListActivities from "../../apis/ListActivities";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
-      listActivities: [],
+      activities: [],
     };
+  },
+
+  computed: {
+    ...mapGetters(["getIsUserAuthenticated"]),
+    isUserAuth: {
+      get() {
+        return this.$store.state.isUserAuth;
+      },
+    },
   },
 
   methods: {
     readActivity(id) {
       const params = { id: id };
-      this.$router.push({ name: "contentdashboard", params });
+      this.$router.push({ name: "contentdetails", params });
     },
   },
   apollo: {

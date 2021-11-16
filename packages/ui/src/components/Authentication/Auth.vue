@@ -27,20 +27,19 @@
 <script>
 import { mapGetters } from "vuex";
 import { AuthState, onAuthUIStateChange } from "@aws-amplify/ui-components";
-
-onAuthUIStateChange((nextAuthState, authData) => {
-  if (nextAuthState === AuthState.SignOut) {
-    console.log("user successfully signed out!");
-    this.$store.dispath("setUser", user);
-    this.$store.dispath("setIsUserAuthenticated", false);
-  }
-  // if (!authData) {
-  //   console.log("user is not signed in...");
-  // }
-});
-
+// TODO: on sign out it still not updating until reload
 export default {
   name: "AuthStateApp",
+  mounted() {
+    // or create or what? or watch
+    onAuthUIStateChange((nextAuthState, authData) => {
+      if (nextAuthState === AuthState.SignOut) {
+        console.log("user successfully signed out!");
+        this.$store.dispatch("setUser", user);
+        this.$store.dispatch("setIsUserAuthenticated", false);
+      }
+    });
+  },
   computed: {
     ...mapGetters(["getIsUserAuthenticated"]),
     isUserAuth: {

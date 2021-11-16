@@ -2,11 +2,7 @@
   <v-container class="pt-10">
     <v-row>
       <v-col cols="8">
-        <h1>
-          Job Seeker Dashboard - | jobs per user? not profile? What should this
-          display? {{ job.title }}
-        </h1>
-        <h2>isUserAuth -CLEAN UP -{{ isUserAuth }}</h2>
+        <h1>Job Dashboard - {{ job.title }}</h1>
       </v-col>
       <v-col cols="4" class="text-right">
         <v-btn class="ml-2 mt-5" rounded small @click="goBack()">
@@ -49,8 +45,6 @@
   </v-container>
 </template>
 <script>
-import { mapGetters } from "vuex";
-
 import GetJob from "../../apis/GetJob";
 import ListJobs from "../../apis/ListJobs";
 import DeleteJob from "../../apis/DeleteJob";
@@ -77,7 +71,7 @@ export default {
                 (job) => job.id !== deleteJob.id
               );
               store.writeQuery({ query: ListJobs, data });
-              this.$router.push({ name: "jobcreator" });
+              this.$router.push({ name: "jobs" });
             },
             optimisticResponse: {
               __typename: "Mutation",
@@ -95,28 +89,19 @@ export default {
       // TODO
     },
     goBack() {
-      this.$router.push({ name: "jobcreator" });
+      this.$router.push({ name: "jobs" });
     },
-    Apply() {
+    apply() {
       // TODO
     },
   },
 
-  computed: {
-    ...mapGetters(["getIsUserAuthenticated"]),
-    isUserAuth: {
-      get() {
-        return this.$store.state.isUserAuth;
-      },
-    },
-  },
   apollo: {
     // how to store in local store
     job: {
       // id should be passed through the - saved in the store or something
       query: () => GetJob,
       variables() {
-        console.log("here", this.$route.params.id);
         return {
           id: this.$route.params.id,
         };
