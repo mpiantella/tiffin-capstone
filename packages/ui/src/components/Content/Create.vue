@@ -211,9 +211,9 @@ export default {
             mutation: CreateActivity,
             variables: activity,
             update: (store, { data: { createActivity } }) => {
-              const data = store.readQuery({ query: ListActivities });
-              data.listActivities.items.push(createActivity);
-              store.writeQuery({ query: ListActivities, data });
+              // const data = store.readQuery({ query: ListActivities });
+              // data.listActivities.items.push(createActivity);
+              // store.writeQuery({ query: ListActivities, data });
               this.$router.push({ name: "contents" }).catch(() => {});
             },
             optimisticResponse: {

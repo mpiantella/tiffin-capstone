@@ -43,7 +43,7 @@ const router = new Router({
 		},
 		{
 			path: '/user:id',
-			name: 'userdashboard', // we do only read and updates => ideally after we register the user comes here with an id
+			name: 'userdashboard',
 			component: () => import('./components/Dashboard.vue'),
 			beforeEnter: ifAuthenticated,
 			children: [{
@@ -67,9 +67,6 @@ const router = new Router({
 			name: 'level',
 			component: () => import('./components/User/LevelUp.vue'),
 			beforeEnter: ifAuthenticated,
-			// quick viw that shows the user's todos
-			// leads to a list of todos which are activities, which can be added or removed to a list
-			// this is part of the user object
 		},
 		// activity
 		{
@@ -80,21 +77,21 @@ const router = new Router({
 		},
 		{
 			path: '/content/:id',
-			name: 'contentdashboard', // edit and delete here. maybe create can merge
-			component: () => import('./components/Dashboard.vue'), //list of items
+			name: 'contentdashboard',
+			component: () => import('./components/Dashboard.vue'),
 			beforeEnter: ifAuthenticated,
 			children: [{
 					path: 'details',
 					name: 'contentdetails',
 					props: true,
-					component: () => import('./components/Content/Details.vue'), // single item
+					component: () => import('./components/Content/Details.vue'),
 					beforeEnter: ifAuthenticated
 				},
 				{
 					path: 'udpate',
 					name: 'contentupdate',
 					props: true,
-					component: () => import('./components/Content/Update.vue'), // single item
+					component: () => import('./components/Content/Update.vue'),
 					beforeEnter: ifAuthenticated
 				}
 			]
@@ -107,7 +104,7 @@ const router = new Router({
 		},
 		{
 			path: '/job/:id',
-			name: 'jobdashboard', // edit and delete here. maybe create can merge
+			name: 'jobdashboard',
 			component: () => import('./components/Dashboard.vue'),
 			beforeEnter: ifAuthenticated,
 			children: [
@@ -120,10 +117,10 @@ const router = new Router({
 				},
 				{
 					// Users can apply for jobs here
-					path: 'apply',
-					name: 'jobapply',
-					component: () => import('./components/Job/Apply.vue')
-				}
+					path: 'update',
+					name: 'jobupdate',
+					component: () => import('./components/Job/Update.vue'),
+				},
 			]
 		},
 	]

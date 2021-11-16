@@ -16,4 +16,3 @@ query getUser($id: ID!){
   }
 }
 `
-//applications

@@ -193,10 +193,8 @@ export default {
       return errors;
     },
   },
-
   methods: {
     updateActivity(activity) {
-      // TODO - validation check and prevent creation if valid not set
       const _activity = {
         id: activity.id,
         userId: activity.userId,
@@ -206,18 +204,13 @@ export default {
         status: activity.status,
         date: activity.date,
       };
-      console.log(_activity);
       if (this.validate()) {
         this.$apollo
           .mutate({
             mutation: UpdateActivity,
             variables: _activity,
             update: (store, { data: { updateActivity } }) => {
-              console.log("adter mutate call", updateActivity);
-              const data = store.readQuery({ query: ListActivities });
-              data.listActivities.items.push(updateActivity);
-              store.writeQuery({ query: ListActivities, data });
-              this.$router.push({ name: "contents" }).catch(() => {});
+              this.$router.push({ name: "contents" }); //.catch(() => {})
             },
             optimisticResponse: {
               __typename: "Mutation",

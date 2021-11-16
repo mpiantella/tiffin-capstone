@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row class="pt-10"><h1>Create a Job</h1></v-row>
+    <v-row class="pt-10"><h1>Update this job</h1></v-row>
     <v-row>
       <v-col cols="12">
         <div id="app">
@@ -8,13 +8,13 @@
             <v-row>
               <v-col>
                 <v-text-field
-                  v-model="title"
+                  v-model="job.title"
                   :error-messages="titleErrors"
                   :counter="30"
                   label="title"
                   required
-                  @input="$v.title.$touch()"
-                  @blur="$v.title.$touch()"
+                  @input="$v.job.title.$touch()"
+                  @blur="$v.job.title.$touch()"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -22,13 +22,13 @@
             <v-row>
               <v-col>
                 <v-select
-                  v-model="category"
+                  v-model="job.category"
                   :error-messages="categoryErrors"
                   :items="categoriesEnum"
                   label="Category"
                   required
-                  @input="$v.category.$touch()"
-                  @blur="$v.category.$touch()"
+                  @input="$v.job.category.$touch()"
+                  @blur="$v.job.category.$touch()"
                 ></v-select>
               </v-col>
             </v-row>
@@ -37,11 +37,11 @@
               <v-col>
                 <v-radio-group
                   label="Type"
-                  v-model="type"
+                  v-model="job.type"
                   required
                   :error-messages="typeErrors"
-                  @input="$v.type.$touch()"
-                  @blur="$v.type.$touch()"
+                  @input="$v.job.type.$touch()"
+                  @blur="$v.job.type.$touch()"
                 >
                   <v-radio label="Full-Time" value="Full-time"></v-radio>
                   <v-radio label="Part-Time" value="Part-time"></v-radio>
@@ -53,7 +53,7 @@
             <v-row>
               <v-col>
                 <vue-editor
-                  v-model="description"
+                  v-model="job.description"
                   placeholder="Add description here"
                 ></vue-editor>
               </v-col>
@@ -62,7 +62,10 @@
 
             <v-row>
               <v-col>
-                <v-radio-group label="Is Fully Remote?" v-model="isFullyRemote">
+                <v-radio-group
+                  label="Is Fully Remote?"
+                  v-model="job.isFullyRemote"
+                >
                   <v-radio label="Yes" value="Yes"></v-radio>
                   <v-radio label="No" value="No"></v-radio>
                 </v-radio-group>
@@ -72,7 +75,7 @@
             <v-row>
               <v-col>
                 <v-text-field
-                  v-model="howtoApply"
+                  v-model="job.howtoApply"
                   :counter="15"
                   label="How to Apply?"
                   required
@@ -83,7 +86,7 @@
             <v-row>
               <v-col>
                 <v-text-field
-                  v-model="companyName"
+                  v-model="job.companyName"
                   :counter="15"
                   label="Company Name"
                   required
@@ -94,7 +97,7 @@
             <v-row>
               <v-col>
                 <v-text-field
-                  v-model="companyDescription"
+                  v-model="job.companyDescription"
                   :counter="100"
                   label="Company Description"
                 ></v-text-field>
@@ -104,7 +107,7 @@
             <v-row>
               <v-col>
                 <v-text-field
-                  v-model="companyStatement"
+                  v-model="job.companyStatement"
                   :counter="200"
                   label="Company Statement"
                 ></v-text-field>
@@ -114,7 +117,7 @@
             <v-row>
               <v-col>
                 <v-text-field
-                  v-model="companyHQ"
+                  v-model="job.companyHQ"
                   :counter="15"
                   label="Company HQ"
                 ></v-text-field>
@@ -124,7 +127,7 @@
             <v-row>
               <v-col>
                 <v-text-field
-                  v-model="companyWebsiteURL"
+                  v-model="job.companyWebsiteURL"
                   :counter="30"
                   label="Company Website URL"
                 ></v-text-field>
@@ -150,7 +153,7 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                      v-model="startDate"
+                      v-model="job.startDate"
                       label="Start Date"
                       prepend-icon="mdi-calendar"
                       readonly
@@ -160,7 +163,7 @@
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    v-model="startDate"
+                    v-model="job.startDate"
                     :active-picker.sync="activePicker1"
                     max="2025-01-01"
                     min="1950-01-01"
@@ -184,7 +187,7 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                      v-model="endDate"
+                      v-model="job.endDate"
                       label="End Date"
                       prepend-icon="mdi-calendar"
                       readonly
@@ -194,7 +197,7 @@
                     ></v-text-field>
                   </template>
                   <v-date-picker
-                    v-model="endDate"
+                    v-model="job.endDate"
                     :active-picker.sync="activePicker2"
                     max="2025-01-01"
                     min="1950-01-01"
@@ -213,7 +216,7 @@
                   depressed
                   raised
                   rounded
-                  @click="createJob()"
+                  @click="updateJob(job)"
                   >Create Job</v-btn
                 >
                 <v-btn
@@ -236,8 +239,8 @@
 
 <script>
 /* eslint-disable no-console */
-import CreateJob from "../../apis/CreateJob";
-import ListJobs from "../../apis/ListJobs";
+import UpdateJob from "../../apis/UpdateJob";
+import GetJob from "../../apis/GetJob";
 import { VueEditor } from "vue2-editor";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, alpha } from "vuelidate/lib/validators";
@@ -250,30 +253,18 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    title: { required, maxLength: maxLength(30) },
-    type: { required, maxLength: maxLength(20) },
-    description: { required, maxLength: maxLength(1000) },
-    category: { required, alpha },
-    startDate: { required, maxLength: maxLength(10) },
-    endDate: { required, maxLength: maxLength(10) },
+    job: {
+      title: { required, maxLength: maxLength(30) },
+      type: { required, maxLength: maxLength(20) },
+      description: { required, maxLength: maxLength(1000) },
+      category: { required, alpha },
+      startDate: { required, maxLength: maxLength(10) },
+      endDate: { required, maxLength: maxLength(10) },
+    },
   },
 
   data: () => ({
-    title: "",
-    category: "",
-    type: "full-time",
-    userId: "mpiantella", // TODO: get from cognito-state
-    description: "",
-    isFullyRemote: true,
-    howtoApply: "",
-    companyDescription: "",
-    companyHQ: "",
-    companyName: "",
-    companyStatement: "",
-    companyWebsiteURL: "",
-    logo: "",
-    startDate: null,
-    endDate: null,
+    job: {},
     // enumators
     categoriesEnum: [
       "Design",
@@ -308,84 +299,86 @@ export default {
   computed: {
     titleErrors() {
       const errors = [];
-      if (!this.$v.title.$dirty) return errors;
-      !this.$v.title.maxLength &&
+      if (!this.$v.job.title.$dirty) return errors;
+      !this.$v.job.title.maxLength &&
         errors.push("Title must be at most 30 characters long");
-      !this.$v.title.required && errors.push("Title is required.");
+      !this.$v.job.title.required && errors.push("Title is required.");
       return errors;
     },
     typeErrors() {
       const errors = [];
-      if (!this.$v.type.$dirty) return errors;
-      !this.$v.type.maxLength &&
-        errors.push("Title must be at most 30 characters long");
-      !this.$v.type.required && errors.push("Title is required.");
+      if (!this.$v.job.type.$dirty) return errors;
+      !this.$v.job.type.maxLength &&
+        errors.push("Type must be at most 30 characters long");
+      !this.$v.job.type.required && errors.push("Type is required.");
       return errors;
     },
     categoryErrors() {
       const errors = [];
-      if (!this.$v.category.$dirty) return errors;
-      !this.$v.category.required && errors.push("Content is required.");
+      if (!this.$v.job.category.$dirty) return errors;
+      !this.$v.job.category.required && errors.push("Content is required.");
       return errors;
     },
     descriptionErrors() {
       const errors = [];
-      if (!this.$v.description.$dirty) return errors;
-      !this.$v.description.maxLength &&
+      if (!this.$v.job.description.$dirty) return errors;
+      !this.$v.job.description.maxLength &&
         errors.push("Description must be at most 1000 characters long");
-      !this.$v.description.required && errors.push("Description is required.");
+      !this.$v.job.description.required &&
+        errors.push("Description is required.");
       return errors;
     },
     startDateErrors() {
       const errors = [];
-      if (!this.$v.startDate.$dirty) return errors;
-      !this.$v.startDate.maxLength &&
+      if (!this.$v.job.startDate.$dirty) return errors;
+      !this.$v.job.startDate.maxLength &&
         errors.push("startDate must be at most 10 characters long");
-      !this.$v.startDate.required && errors.push("startDate is required.");
+      !this.$v.job.startDate.required && errors.push("startDate is required.");
       return errors;
     },
     endDateErrors() {
       const errors = [];
-      if (!this.$v.endDate.$dirty) return errors;
-      !this.$v.endDate.maxLength &&
+      if (!this.$v.job.endDate.$dirty) return errors;
+      !this.$v.job.endDate.maxLength &&
         errors.push("endDate must be at most 10 characters long");
-      !this.$v.endDate.required && errors.push("endDate is required.");
+      !this.$v.job.endDate.required && errors.push("endDate is required.");
       return errors;
     },
   },
 
   methods: {
-    createJob() {
-      const job = {
-        title: this.title,
-        category: this.category,
-        type: this.type,
-        userId: this.userId,
-        description: this.description,
-        isFullyRemote: this.isFullyRemote,
-        howtoApply: this.howtoApply,
-        companyDescription: this.companyDescription,
-        companyHQ: this.companyHQ,
-        companyName: this.companyName,
-        companyStatement: this.companyStatement,
-        companyWebsiteURL: this.companyWebsiteURL,
-        logo: this.logo,
-        startDate: this.startDate,
-        endDate: this.endDate,
+    updateJob(job) {
+      const _job = {
+        id: job.id,
+        title: job.title,
+        category: job.category,
+        type: job.type,
+        userId: job.userId,
+        description: job.description,
+        isFullyRemote: job.isFullyRemote,
+        howtoApply: job.howtoApply,
+        companyDescription: job.companyDescription,
+        companyHQ: job.companyHQ,
+        companyName: job.companyName,
+        companyStatement: job.companyStatement,
+        companyWebsiteURL: job.companyWebsiteURL,
+        logo: job.logo,
+        startDate: job.startDate,
+        endDate: job.endDate,
       };
       if (this.validate()) {
         this.$apollo
           .mutate({
-            mutation: CreateJob,
-            variables: job,
-            update: (store, { data: { createJob } }) => {
+            mutation: UpdateJob,
+            variables: _job,
+            update: (store, { data: { updateJob } }) => {
               this.$router.push({ name: "jobs" });
             },
             optimisticResponse: {
               __typename: "Mutation",
-              createJob: {
+              updateJob: {
                 __typename: "Job",
-                ...job,
+                ..._job,
               },
             },
           })
@@ -406,6 +399,19 @@ export default {
     },
     validate() {
       return this.$refs.form.validate();
+    },
+  },
+  apollo: {
+    // how to store in local store
+    job: {
+      // id should be passed through the - saved in the store or something
+      query: () => GetJob,
+      variables() {
+        return {
+          id: this.$route.params.id,
+        };
+      },
+      update: (data) => data.getJob,
     },
   },
 };

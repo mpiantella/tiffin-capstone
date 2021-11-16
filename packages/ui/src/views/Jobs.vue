@@ -76,7 +76,7 @@ export default {
   methods: {
     readJob(id) {
       const params = { id: id };
-      this.$router.push({ name: "jobdashboard", params });
+      this.$router.push({ name: "jobdetails", params });
     },
   },
   apollo: {
