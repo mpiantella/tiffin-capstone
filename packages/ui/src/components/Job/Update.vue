@@ -217,7 +217,7 @@
                   raised
                   rounded
                   @click="updateJob(job)"
-                  >Create Job</v-btn
+                  >Update Job</v-btn
                 >
                 <v-btn
                   class="redFont mr-4"
@@ -402,9 +402,7 @@ export default {
     },
   },
   apollo: {
-    // how to store in local store
     job: {
-      // id should be passed through the - saved in the store or something
       query: () => GetJob,
       variables() {
         return {

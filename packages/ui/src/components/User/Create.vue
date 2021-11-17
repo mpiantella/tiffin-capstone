@@ -2,7 +2,7 @@
   <v-container class="pt-10">
     <v-row>
       <v-col cols="8">
-        <h1>User profile</h1>
+        <h1>Create User Profile</h1>
       </v-col>
       <v-col cols="4" class="text-right">
         <!-- Create Jobs/Create Content-->

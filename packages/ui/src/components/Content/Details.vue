@@ -9,6 +9,7 @@
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
         <v-btn
+          v-if="isUserAuth"
           class="ml-2 mt-5"
           rounded
           small
@@ -17,6 +18,7 @@
           <v-icon>mdi-delete</v-icon>
         </v-btn>
         <v-btn
+          v-if="isUserAuth"
           class="ml-2 mt-5"
           rounded
           small
@@ -49,6 +51,7 @@
         <v-dialog transition="dialog-bottom-transition" max-width="600">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
+              v-if="isUserAuth"
               class="ml-2 mt-5"
               outlined
               rounded
@@ -81,6 +84,7 @@
 import GetActivity from "../../apis/GetActivity";
 import ListActivities from "../../apis/ListActivities";
 import DeleteActivity from "../../apis/DeleteActivity";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -89,6 +93,16 @@ export default {
       activities: [],
     };
   },
+
+  computed: {
+    ...mapGetters(["getIsUserAuthenticated"]),
+    isUserAuth: {
+      get() {
+        return this.$store.state.isUserAuth;
+      },
+    },
+  },
+
   methods: {
     deleteActivity(activity) {
       if (confirm("Do you really want to delete this activity?")) {
@@ -131,7 +145,6 @@ export default {
   },
 
   apollo: {
-    // how to store in local store
     activity: {
       // id should be passed through the - saved in the store or something
       query: () => GetActivity,

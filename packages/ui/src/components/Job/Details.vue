@@ -8,10 +8,22 @@
         <v-btn class="ml-2 mt-5" rounded small @click="goBack()">
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
-        <v-btn class="ml-2 mt-5" rounded small @click="deleteJob(job)">
+        <v-btn
+          v-if="isUserAuth"
+          class="ml-2 mt-5"
+          rounded
+          small
+          @click="deleteJob(job)"
+        >
           <v-icon>mdi-delete</v-icon>
         </v-btn>
-        <v-btn class="ml-2 mt-5" rounded small @click="updateJob(job)">
+        <v-btn
+          v-if="isUserAuth"
+          class="ml-2 mt-5"
+          rounded
+          small
+          @click="updateJob(job)"
+        >
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
       </v-col>
@@ -40,6 +52,7 @@
         <v-dialog transition="dialog-bottom-transition" max-width="600">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
+              v-if="isUserAuth"
               class="ml-2 mt-5"
               outlined
               rounded
@@ -54,7 +67,7 @@
             <v-card>
               <v-toolbar color="primary" dark>Apply for a job</v-toolbar>
               <v-card-text>
-                <div class="text-h2 pa-12">
+                <div class="text-h4 pa-12">
                   You are one step closer to success!
                 </div>
               </v-card-text>
@@ -72,6 +85,7 @@
 import GetJob from "../../apis/GetJob";
 import ListJobs from "../../apis/ListJobs";
 import DeleteJob from "../../apis/DeleteJob";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -80,6 +94,15 @@ export default {
       jobs: [],
     };
   },
+  computed: {
+    ...mapGetters(["getIsUserAuthenticated"]),
+    isUserAuth: {
+      get() {
+        return this.$store.state.isUserAuth;
+      },
+    },
+  },
+
   methods: {
     deleteJob(job) {
       if (confirm("Do you really want to delete this job?")) {
@@ -110,7 +133,6 @@ export default {
       }
     },
     updateJob(job) {
-      console.log("job=> ", job);
       const params = { id: job.id };
       this.$router.push({ name: "jobupdate", params });
     },
@@ -124,9 +146,7 @@ export default {
   },
 
   apollo: {
-    // how to store in local store
     job: {
-      // id should be passed through the - saved in the store or something
       query: () => GetJob,
       variables() {
         return {

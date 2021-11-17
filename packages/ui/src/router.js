@@ -62,12 +62,12 @@ const router = new Router({
 				}
 			]
 		},
-		{
-			path: '/levelup',
-			name: 'level',
-			component: () => import('./components/User/LevelUp.vue'),
-			beforeEnter: ifAuthenticated,
-		},
+		// {
+		// 	path: '/levelup',
+		// 	name: 'level',
+		// 	component: () => import('./components/User/LevelUp.vue'),
+		// 	beforeEnter: ifAuthenticated,
+		// },
 		// activity
 		{
 			path: '/contentcreate',

@@ -119,7 +119,6 @@
 <script>
 /* eslint-disable no-console */
 import CreateActivity from "../../apis/CreateActivity";
-import ListActivities from "../../apis/ListActivities";
 import { VueEditor } from "vue2-editor";
 import { validationMixin } from "vuelidate";
 import { required, maxLength, alpha } from "vuelidate/lib/validators";

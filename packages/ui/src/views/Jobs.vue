@@ -1,4 +1,3 @@
-<!-- DONE -->
 <template>
   <v-container class="pt-10">
     <v-row>
@@ -25,22 +24,13 @@
         <v-card :color="job.title">
           <div class="d-flex flex-no-wrap justify-space-between">
             <div>
-              <v-card-title class="text-h5 mb-2" v-text="job.category">
+              <v-card-title class="text-h5" v-text="job.category">
               </v-card-title>
               <v-card-subtitle v-text="job.title"></v-card-subtitle>
               <v-card-text>
-                <div>
-                  <span class="font-weight-bold ml-4 mb-2">Type</span>
-                  {{ job.type }}
-                </div>
-                <div>
-                  <span class="font-weight-bold ml-4 mb-2">Category</span>
-                  {{ job.category }}
-                </div>
-                <div>
-                  <span class="font-weight-bold ml-4 mb-2">Fully Remote?</span>
-                  {{ job.isFullyRemote }}
-                </div>
+                <div><b>Type: </b>{{ job.type }}</div>
+                <div><b>Category: </b> {{ job.category }}</div>
+                <div><b>Fully Remote? </b> {{ job.isFullyRemote }}</div>
               </v-card-text>
             </div>
             <v-card-actions justify-space-around>
@@ -80,7 +70,6 @@ export default {
     },
   },
   apollo: {
-    // how to store in local store
     jobs: {
       query: () => ListJobs,
       update: (data) => data.listJobs.items,

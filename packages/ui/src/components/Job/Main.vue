@@ -65,7 +65,6 @@ export default {
   },
 
   apollo: {
-    // how to store in local store
     jobs: {
       // id should be passed through the - saved in the store or something
       query: () => ListJobs,

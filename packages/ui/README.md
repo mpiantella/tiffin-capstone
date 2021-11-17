@@ -49,3 +49,14 @@ www.remotebrilliance.link # public with assets
 
 Public bucket s3 location: http://www.remotebrilliance.link.s3-website-us-east-1.amazonaws.com
 
+### Invalidate Cache
+
+Get Id:
+```
+    aws cloudfront list-distributions
+```
+
+The invalidate the cache
+```
+    aws cloudfront create-invalidation --distribution-id=E3HXTLOGMAVONI --paths /
+```

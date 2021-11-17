@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row class="pt-10"><h1>Create a User</h1></v-row>
+    <v-row class="pt-10"><h1>Update User</h1></v-row>
     <v-row>
       <v-col cols="12">
         <div id="app">

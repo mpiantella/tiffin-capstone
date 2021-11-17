@@ -32,10 +32,6 @@
           <h2>
             {{ activity.description }}
           </h2>
-          <!-- <h4>Date: {{ activity.date }}</h4>
-          <h4>Status: {{ activity.status }}</h4>
-          <h4>: {{ activity.userId }}</h4> -->
-          <br />
           <div><b>Date</b>: {{ activity.date }}</div>
           <div><b>Status</b>: {{ activity.status }}</div>
           <div><b>Event Host</b>: {{ activity.userId }}</div>
@@ -64,6 +60,7 @@
 import GetActivity from "../../apis/GetActivity";
 import ListActivities from "../../apis/ListActivities";
 import DeleteActivity from "../../apis/DeleteActivity";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -72,6 +69,16 @@ export default {
       activities: [],
     };
   },
+
+  computed: {
+    ...mapGetters(["getIsUserAuthenticated"]),
+    isUserAuth: {
+      get() {
+        return this.$store.state.isUserAuth;
+      },
+    },
+  },
+
   methods: {
     deleteActivity(activity) {
       if (confirm("Do you really want to delete this activity?")) {
@@ -113,7 +120,6 @@ export default {
   },
 
   apollo: {
-    // how to store in local store
     activity: {
       // id should be passed through the - saved in the store or something
       query: () => GetActivity,
