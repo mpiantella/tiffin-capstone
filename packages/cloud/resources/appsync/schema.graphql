@@ -358,7 +358,6 @@ input CreateUserInput {
 input UpdateUserInput {
   id: ID!
   cognitoid: ID
-  address: InputAddress
   email: String
   username: String
   firstName: String
@@ -366,6 +365,7 @@ input UpdateUserInput {
   phone: String
   registered: Boolean
   subcribed: Boolean
+  address: InputAddress
   activities: [UpdateActivityInput]
   applications: [String]
   profile: InputProfile

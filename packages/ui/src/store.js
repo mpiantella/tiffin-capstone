@@ -4,7 +4,7 @@ import {
   Auth
 } from "aws-amplify";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
@@ -23,28 +23,23 @@ export default new Vuex.Store({
     getUser(state) {
       return state.user;
     },
-    getCurrentActivity(state) {
-      return state.currentActivity;
-    },
-    getCurrentJob(state) {
-      return state.currentJob;
-    },
     getIsUserAuthenticated(state) {
       return state.isUserAuth;
     }
   },
   actions: {
-    triggerSetUser({
-      commit
-    }, user) {
-      commit('setUser', user);
+    triggerIsUserAuthenticated({
+      commit,
+      state
+    }) {
+      return state.isUserAuth;
     },
     fetchUser({
       commit
     }) {
       return Auth.currentAuthenticatedUser()
         .then((data) => {
-          let user = null
+          let user = null;
           if (data && data.username) {
             user = {
               username: data.username,

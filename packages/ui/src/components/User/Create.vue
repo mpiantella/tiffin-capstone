@@ -255,8 +255,8 @@
                 raised
                 rounded
                 @click="cancel()"
-                >Cancel</v-btn
-              >
+                >Cancel
+              </v-btn>
             </v-col>
           </v-row>
         </div>

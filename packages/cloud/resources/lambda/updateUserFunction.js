@@ -14,49 +14,40 @@ exports.handler = async (event) => {
     if (!input) {
         throw new Error("Provide input in the correct format")
     }
-    let updateExpression = "";
-    let expressionAttributeValues = {};
-    /*
-    UpdateExpression: 'set Title = :t, Subtitle = :s',
-    ExpressionAttributeValues: {
-      ':t' : 'NEW_TITLE',
-      ':s' : 'NEW_SUBTITLE'
-    }*/
+    let params = {
+        TableName: userTable,
+        Item: {
+            id: input.id,
+            cognitoid: input.cognitoid,
+            email: input.email,
+            username: input.username,
+            firstName: input.firstName,
+            lastName: input.lastName,
+            phone: input.phone,
+            registered: input.registered,
+            subcribed: input.subcribed,
+        }
+    };
+
     if (input.applications) {
-        updateExpression += " set applications = :ap,";
-        expressionAttributeValues[":ap"] = input.applications;
+        params.Item.applications = input.applications;
     }
 
     if (input.address) {
-        updateExpression += " address = :ad,";
-        expressionAttributeValues[":ad"] = input.address;
+        params.Item.address = input.address;
     }
 
     if (input.activities) {
-        updateExpression += " activities = :act,";
-        expressionAttributeValues[":act"] = input.activities;
+        params.Item.activities = input.activities;
     }
 
     if (input.profile) {
-        updateExpression += " profile = :pr";
-        expressionAttributeValues[":pr"] = input.profile;
+        params.Item.profile = input.profile;
     }
 
     if (input.subscription) {
-        updateExpression += " subscription = :sub";
-        expressionAttributeValues[":sub"] = input.subscription;
+        params.Item.subscription = input.subscription;
     }
-
-    console.log("updateExpression", updateExpression)
-    let params = {
-        TableName: userTable,
-        Key: {
-            id: input.id
-        },
-        UpdateExpression: updateExpression,
-        ExpressionAttributeValues: expressionAttributeValues,
-        ReturnValues: "UPDATED_NEW"
-    };
 
     let data = await documentClient.update(params).promise()
         .catch((err) => {

@@ -56,19 +56,19 @@ export default {
       formFields: [
         {
           type: "email",
-          label: "Email Label",
+          label: "Email",
           placeholder: "Please enter valid email",
           // inputProps: { required: true, autocomplete: "username" },
         },
         {
           type: "password",
-          label: "Password Label",
+          label: "Password",
           placeholder: "Please enter valid password",
           // inputProps: { required: true, autocomplete: "new-password" },
         },
         {
           type: "phone_number",
-          label: "Phone Label",
+          label: "Phone",
           placeholder: "Please enter valid phone",
         },
         {

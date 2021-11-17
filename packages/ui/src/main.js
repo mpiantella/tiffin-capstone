@@ -1,14 +1,15 @@
 import Vue from 'vue';
-import Vuelidate from 'vuelidate'
-import './plugins/vuetify';
+import Vuelidate from 'vuelidate';
 import vuetify from './plugins/vuetify';
-import AWSAppSyncClient from 'aws-appsync';
 import VueApollo from 'vue-apollo';
+import './plugins/vuetify';
 import '@aws-amplify/ui-vue';
+
+import AWSAppSyncClient from 'aws-appsync';
 import Amplify from 'aws-amplify';
 import {
 	Auth
-} from '@aws-amplify/auth'
+} from '@aws-amplify/auth';
 
 import App from './App.vue';
 import router from './router';
@@ -18,9 +19,8 @@ import appSyncConfig from './AppSync';
 
 Amplify.configure(awsconfig);
 Auth.configure(awsconfig)
-Amplify.Logger.LOG_LEVEL = 'DEBUG';
+//Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
-//apollo configs
 const config = {
 	url: appSyncConfig.graphqlEndpoint,
 	region: appSyncConfig.region,

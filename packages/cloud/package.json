@@ -25,7 +25,10 @@
     "lambda:zip:user": "cd resources/lambda && zip updateUserFunction.zip updateUserFunction.js",
     "lambda:cp:user": "aws s3 cp resources/lambda/updateUserFunction.zip s3://remote-brilliance-cloud",
     "deploy:lambda:user": "npm run lambda:zip:user && npm run lambda:cp:user",
-    "deploy:lambdas": "npm run deploy:lambda:activity && npm run deploy:lambda:job && npm run deploy:lambda:user"
+    "lambda:zip:insertUser": "cd resources/lambda && zip InsertUserAfterRegistration.zip InsertUserAfterRegistration.js",
+    "lambda:cp:insertUser": "aws s3 cp resources/lambda/InsertUserAfterRegistration.zip s3://remote-brilliance-cloud",
+    "deploy:lambda:insertUser": "npm run lambda:zip:insertUser && npm run lambda:cp:insertUser",
+    "deploy:lambdas": "npm run deploy:lambda:activity && npm run deploy:lambda:job && npm run deploy:lambda:user && npm run deploy:lambda:insertUser"
   },
   "bugs": {
     "url": "https://github.com/mpiantella/tiffin-capstone/issues"

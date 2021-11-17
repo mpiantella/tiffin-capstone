@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import store from './store';
 
-Vue.use(Router)
+Vue.use(Router);
 
 // add some logic to check if user is logged in
 const router = new Router({
@@ -47,20 +47,12 @@ const router = new Router({
 			component: () => import('./components/Dashboard.vue'),
 			beforeEnter: ifAuthenticated,
 			children: [{
-					path: 'details',
-					name: 'userdetails',
-					props: true,
-					component: () => import('./components/Content/Details.vue'), // single item
-					beforeEnter: ifAuthenticated
-				},
-				{
-					path: 'udpate',
-					name: 'userupdate',
-					props: true,
-					component: () => import('./components/Content/Update.vue'), // single item
-					beforeEnter: ifAuthenticated
-				}
-			]
+				path: 'udpate',
+				name: 'userupdate',
+				props: true,
+				component: () => import('./components/User/Update.vue'), // single item
+				beforeEnter: ifAuthenticated
+			}]
 		},
 		// {
 		// 	path: '/levelup',
@@ -129,9 +121,11 @@ const router = new Router({
 router.beforeResolve((to, from, next) => {
 	//TODO: still not working
 	// only execute if user is not set in the store
-	console.log("to route", to)
-	console.log("beforeResolve=>store.state.isUserAuth", router.app.$store.getters.getIsUserAuthenticated)
-	if (!store.state.isUserAuth) {
+	console.log("ROUTER => beforeResolve: ",
+		router.app.$store.getters['getIsUserAuthenticated'])
+
+	// store.dispatch("triggerIsUserAuthenticated").then((r) => console.log(r));
+	if (!router.app.$store.getters['getIsUserAuthenticated']) {
 		store.dispatch("fetchUser").finally(() => next());
 	} else {
 		next();
@@ -139,9 +133,7 @@ router.beforeResolve((to, from, next) => {
 })
 
 function ifAuthenticated(to, from, next) {
-	//TODO: still not working
-	console.log("router.ifAuthenticated.isUserAuth", store.state.isUserAuth)
-	if (true) { //store.state.isUserAuth
+	if (router.app.$store.getters['getIsUserAuthenticated']) {
 		next();
 	} else {
 		next('/auth');
