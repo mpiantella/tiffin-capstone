@@ -69,7 +69,7 @@ export default {
   methods: {
     readActivity(id) {
       const params = { id: id };
-      this.$router.push({ name: "contentetails", params });
+      this.$router.push({ name: "contentdetails", params });
     },
   },
   apollo: {

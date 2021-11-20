@@ -87,7 +87,7 @@
             </v-row>
             <!-- End of Address -->
 
-            <!-- Start of Profile -->
+            <!-- Start of Profile --
             <v-expansion-panel>
               <v-expansion-panel-header>
                 Profile
@@ -226,13 +226,13 @@
 import CreateUser from "../../apis/CreateUser";
 import GetUserByUsername from "../../apis/GetUserByUsername";
 import { mapActions } from "vuex";
-import { validationMixin } from "vuelidate";
-import { required, maxLength } from "vuelidate/lib/validators";
+// import { validationMixin } from "vuelidate";
+// import { required, maxLength } from "vuelidate/lib/validators";
 
 export default {
   components: {},
 
-  mixins: [validationMixin],
+  //mixins: [validationMixin],
 
   // validations: {
   //   user: {
@@ -350,7 +350,6 @@ export default {
         subscription: user.subscription,
       };
 
-      console.log(JSON.stringify(_user));
       this.$apollo
         .mutate({
           mutation: CreateUser,
@@ -383,7 +382,10 @@ export default {
           username: this.$route.params.username,
         };
       },
-      update: (data) => data.listUsers.items[0],
+      update: (data) => {
+        console.log("data.listUsers.items[0] ====> ", data.listUsers.items[0]);
+        return data.listUsers.items[0];
+      },
     },
   },
 };

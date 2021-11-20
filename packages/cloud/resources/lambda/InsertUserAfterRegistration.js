@@ -23,7 +23,11 @@ exports.handler = async (event) => {
             phone: input.request.userAttributes.phone_number,
             email: input.request.userAttributes.email,
             firstName: input.request.userAttributes.name,
-            lastName: input.request.userAttributes.family_name
+            lastName: input.request.userAttributes.family_name,
+            address: {},
+            activities: [],
+            applications: [],
+            subscription: {}
         }
     };
 

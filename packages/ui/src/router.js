@@ -42,7 +42,7 @@ const router = new Router({
 			beforeEnter: ifAuthenticated,
 		},
 		{
-			path: '/user:id',
+			path: '/user:username',
 			name: 'userdashboard',
 			component: () => import('./components/Dashboard.vue'),
 			beforeEnter: ifAuthenticated,
@@ -50,7 +50,7 @@ const router = new Router({
 				path: 'udpate',
 				name: 'userupdate',
 				props: true,
-				component: () => import('./components/User/Update.vue'), // single item
+				component: () => import('./components/User/Update.vue'),
 				beforeEnter: ifAuthenticated
 			}]
 		},

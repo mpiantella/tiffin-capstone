@@ -5,7 +5,7 @@
         <h1>User profile</h1>
       </v-col>
       <v-col cols="6" class="text-right">
-        <v-btn
+        <!-- <v-btn
           class="ml-2 redFont"
           elevation="2"
           depressed
@@ -14,7 +14,7 @@
           @click="updateUser()"
         >
           Update Profile
-        </v-btn>
+        </v-btn> -->
         <v-btn
           class="ml-2 redFont"
           elevation="2"
@@ -82,7 +82,6 @@ export default {
       }
     },
     updateUser() {
-      console.log(this.user);
       const params = { username: this.user.username };
       this.$router.push({ name: "userupdate", params });
     },
