@@ -70,7 +70,6 @@ export default {
       query: () => ListJobs,
       variables() {
         // of get it from the store.state.user.userId
-        console.log("here", this.$route.params.userId);
         return {
           // figure out filter and pass the
           userId: this.store.state.user.userId,

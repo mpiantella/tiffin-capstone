@@ -428,8 +428,6 @@ export default {
         subscription: this.subscription,
       };
 
-      console.log(JSON.stringify(user));
-      console.log("formAddress: ", this.$refs.formAddress.validate());
       if (this.$refs.formAddress.validate()) {
         this.$apollo
           .mutate({

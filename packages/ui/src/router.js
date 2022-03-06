@@ -119,12 +119,8 @@ const router = new Router({
 });
 
 router.beforeResolve((to, from, next) => {
-	//TODO: still not working
-	// only execute if user is not set in the store
-	console.log("ROUTER => beforeResolve: ",
-		router.app.$store.getters['getIsUserAuthenticated'])
-
-	// store.dispatch("triggerIsUserAuthenticated").then((r) => console.log(r));
+	// eslint-disable-next-line 
+	console.log('getIsUserAuthenticated')
 	if (!router.app.$store.getters['getIsUserAuthenticated']) {
 		store.dispatch("fetchUser").finally(() => next());
 	} else {

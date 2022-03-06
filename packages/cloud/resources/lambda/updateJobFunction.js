@@ -10,7 +10,6 @@ const jobTable = process.env.JOB_TABLE_NAME || "Remote-Brilliance-Tiffin-Job-9OG
 
 exports.handler = async (event) => {
     const input = (event.arguments || {}).input;
-    console.log('input', input)
     if (!input) {
         throw new Error("Provide input in the correct format")
     }

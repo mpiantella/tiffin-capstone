@@ -29,7 +29,6 @@ export default new Vuex.Store({
   },
   actions: {
     triggerIsUserAuthenticated({
-      commit,
       state
     }) {
       return state.isUserAuth;
@@ -57,6 +56,8 @@ export default new Vuex.Store({
         })
         .catch((e) => {
           commit("setUser", null);
+          // eslint-disable-next-line
+          console.log('error in store', e.name)
           return null;
         });
     }

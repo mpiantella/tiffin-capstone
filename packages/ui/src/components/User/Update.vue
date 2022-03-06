@@ -383,7 +383,6 @@ export default {
         };
       },
       update: (data) => {
-        console.log("data.listUsers.items[0] ====> ", data.listUsers.items[0]);
         return data.listUsers.items[0];
       },
     },

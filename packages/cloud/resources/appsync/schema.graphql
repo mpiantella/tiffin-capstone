@@ -25,7 +25,6 @@ type Query {
   # user
   getUser(id: ID!): User
   listUsers(
-    username: String
     filter: TableUserFilterInput
     limit: Int
     nextToken: String

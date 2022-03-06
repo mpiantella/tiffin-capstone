@@ -33,7 +33,6 @@ export default {
   mounted() {
     // or create or what? or watch
     onAuthUIStateChange((nextAuthState, authData) => {
-      console.log("Auth.onAuthUIStateChange!");
       if (nextAuthState === AuthState.SignOut) {
         console.log("user successfully signed out!");
         this.$store.dispatch("setUser", null);
